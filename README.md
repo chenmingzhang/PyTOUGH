@@ -30,3 +30,8 @@ as well as various bug fixes and other minor enhancements.
 
 Since PyTOUGH version 1.3.6, the PyTOUGH user guide (PyTOUGH-guide.pdf) is now included in the 'doc' directory of your PyTOUGH install.  Previously this was available separately from the 'Downloads' section on the website, but GitHub decided to phase out this 'Downloads' section.
 
+# Some note from cm
+
+
+## TO190618 itough will change the output format of the ".out" file, making t2listing not able to read the result. the way to solve this in so far is to put i file just as a plain title. 
+
