@@ -20,6 +20,7 @@ from mulgrids import fix_blockname, valid_blockname
 from fixed_format_file import fortran_float, fortran_int
 import io
 from sys import version_info
+import pdb
 
 class listingtable(object):
 
@@ -294,6 +295,7 @@ class t2listing(object):
         """Detects whether the listing has been produced by AUTOUGH2,
         TOUGH2/TOUGH2_MP or TOUGH+, and sets some internal methods
         according to the simulator type."""
+        pdb.set_trace()
         self._file.seek(0)
         simulator = {'EEEEE':'AUTOUGH2','ESHORT':'AUTOUGH2','BBBBB':'AUTOUGH2',
                      '@@@@@':'TOUGH2','=====':'TOUGH+'}
