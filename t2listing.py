@@ -172,6 +172,7 @@ class t2listing(object):
         self.filename = filename
         self.skip_tables = skip_tables
         self.encoding = encoding
+        pdb.set_trace()
         self._file = io.open(filename, 'rb', newline = None)
         self.detect_simulator()
         if self.simulator is None:
@@ -302,7 +303,7 @@ class t2listing(object):
         MP = self.filename.endswith('OUTPUT_DATA') and self.readline().startswith('\f') \
              and not ('@@@@@' in self.readline())
         line = ' '
-        while not ('output data after' in line or 'output after' in line or line == ''):
+        while not ('output data after' in line or 'output after' in line or line == '' or 'OUTPUT DATA AFTER' in line):
             line = self.readline().lower()
         if line == '': self.simulator = None
         else:
