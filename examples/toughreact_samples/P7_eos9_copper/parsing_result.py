@@ -10,10 +10,10 @@ print(os.environ['pytough'])
 
 current_path=os.getcwd()
 
-sys.path.append(pytough_path)
+sys.path.append(os.path.join(pytough_path,'python'))
 
-py_compile.compile(os.path.join(pytough_path,'t2listing.py'))
-py_compile.compile(os.path.join(pytough_path,'t2data.py'))
+py_compile.compile(os.path.join(pytough_path,'python','t2listing.py'))
+py_compile.compile(os.path.join(pytough_path,'python','t2data.py'))
 
 import t2listing
 import t2data
@@ -25,22 +25,22 @@ reload(t2data)
 name = 'flow.inp'
 inp  = t2data.t2data(name)
 
-print dat.grid.rocktype
+print inp.grid.rocktype
 
-dat.parameter   # list all the control parameters
+inp.parameter   # list all the control parameters
 
-rock_type=[i for i in dat.grid.rocktype]
+rock_type=[i for i in inp.grid.rocktype]
 
 
 
-#porosity_DRIFT=dat.grid.rocktype['DRIFT'].porosity # porosity
+#porosity_DRIFT=inp.grid.rocktype['DRIFT'].porosity # porosity
 #
-#capillarity_parameter_array_DRIFT=dat.grid.rocktype['DRIFT'].capillarity['parameters']    # capillary parameters
-#capillarity_type_DRIFT=dat.grid.rocktype['DRIFT'].capillarity['type']     # 
+#capillarity_parameter_array_DRIFT=inp.grid.rocktype['DRIFT'].capillarity['parameters']    # capillary parameters
+#capillarity_type_DRIFT=inp.grid.rocktype['DRIFT'].capillarity['type']     # 
 #
-#relative_permeability_parameter_array_DRIFT=dat.grid.rocktype['DRIFT'].relative_permeability['parameters']
+#relative_permeability_parameter_array_DRIFT=inp.grid.rocktype['DRIFT'].relative_permeability['parameters']
 #
-#relative_permeability_type_DRIFT=dat.grid.rocktype['DRIFT'].relative_permeability['type']
+#relative_permeability_type_DRIFT=inp.grid.rocktype['DRIFT'].relative_permeability['type']
 
 #fig=plt.figure()
 #ax3=plt.subplot(211)
@@ -53,7 +53,7 @@ opt=t2listing.t2listing(name_output)
 
 
 #
-element_coordinate_m=np.array([j.centre for j in dat.grid.blocklist])
+element_coordinate_m=np.array([j.centre for j in inp.grid.blocklist])
 
 
 

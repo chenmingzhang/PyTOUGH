@@ -35,3 +35,9 @@ Since PyTOUGH version 1.3.6, the PyTOUGH user guide (PyTOUGH-guide.pdf) is now i
 
 ## TO190618 itough will change the output format of the ".out" file, making t2listing not able to read the result. the way to solve this in so far is to put i file just as a plain title. 
 
+## TO190618 the current pytough has been modified in a way to allow running without install, this makes development easier. to the examples, it is important to creat a enviroment variables by
+
+```
+export pytough=/home/${USER}/Projects/PyTOUGH/
+```
+
