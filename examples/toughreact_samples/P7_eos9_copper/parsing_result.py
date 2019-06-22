@@ -55,6 +55,11 @@ name_output='chemical.out'
 chem_opt=t2listing.t2listing(name_output)
 
 
+solute_inp_name='solute.inp' # seems not working
+solute_inp = t2data.t2data(solute_inp_name)
+
+solute_opt_name='solute.out'
+solute_opt=t2listing.t2listing(solute_opt_name)
 
 #
 element_coordinate_m=np.array([j.centre for j in inp.grid.blocklist])
