@@ -4,6 +4,7 @@ import py_compile
 import sys
 import os
 import numpy as np
+import matplotlib.pyplot as plt
 
 pytough_path=os.environ['pytough']
 print(os.environ['pytough'])
@@ -50,6 +51,9 @@ opt=t2listing.t2listing(name_output)
 
 #inp.grid.blocklist[2].centre  # this is to check the xyz location 
 
+name_output='chemical.out'
+chem_opt=t2listing.t2listing(name_output)
+
 
 
 #
@@ -57,19 +61,19 @@ element_coordinate_m=np.array([j.centre for j in inp.grid.blocklist])
 
 
 
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-ax.scatter(element_coordinate_m[:,0], element_coordinate_m[:,1], element_coordinate_m[:,2], s=60, c='r', marker='s')
-#ax.scatter(element_coordinate_m[0,0], element_coordinate_m[0,1], element_coordinate_m[0,2], s=10, c='b', marker='v')
-#ax.scatter(element_coordinate_m[-1,0], element_coordinate_m[-1,1], element_coordinate_m[-1,2], s=10, c='b', marker='^')
-ax.set_xlabel('X Label')
-ax.set_ylabel('Y Label')
-ax.set_zlabel('Z Label')
-fig.suptitle('mesh_element')
-plt.rcParams.update({'font.size': 10})
-#fig.tight_layout()
-plt.savefig("generated_mesh_grid.png",dpi=300) 
-
+##fig = plt.figure()
+##ax = fig.add_subplot(111, projection='3d')
+##ax.scatter(element_coordinate_m[:,0], element_coordinate_m[:,1], element_coordinate_m[:,2], s=60, c='r', marker='s')
+###ax.scatter(element_coordinate_m[0,0], element_coordinate_m[0,1], element_coordinate_m[0,2], s=10, c='b', marker='v')
+###ax.scatter(element_coordinate_m[-1,0], element_coordinate_m[-1,1], element_coordinate_m[-1,2], s=10, c='b', marker='^')
+##ax.set_xlabel('X Label')
+##ax.set_ylabel('Y Label')
+##ax.set_zlabel('Z Label')
+##fig.suptitle('mesh_element')
+##plt.rcParams.update({'font.size': 10})
+###fig.tight_layout()
+##plt.savefig("generated_mesh_grid.png",dpi=300) 
+##
 
 
 
