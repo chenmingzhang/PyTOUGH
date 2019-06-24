@@ -51,15 +51,19 @@ opt=t2listing.t2listing(name_output)
 
 #inp.grid.blocklist[2].centre  # this is to check the xyz location 
 
-name_output='chemical.out'
-chem_opt=t2listing.t2listing(name_output)
+## below not successful
+#name_output='chemical.out'
+#chem_opt=t2listing.t2listing(name_output)
 
 
-solute_inp_name='solute.inp' # seems not working
-solute_inp = t2data.t2data(solute_inp_name)
+### below not successful
+#solute_inp_name='solute.inp' # seems not working
+#solute_inp = t2data.t2data(solute_inp_name)
 
-solute_opt_name='solute.out'
-solute_opt=t2listing.t2listing(solute_opt_name)
+
+### below not succesful
+#solute_opt_name='solute.out'
+#solute_opt=t2listing.t2listing(solute_opt_name)
 
 #
 element_coordinate_m=np.array([j.centre for j in inp.grid.blocklist])
