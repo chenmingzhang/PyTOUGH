@@ -34,6 +34,29 @@ rock_type=[i for i in inp.grid.rocktype]
 
 
 
+
+## this is to get result from toughreact tecplot results
+Amic_aqu=t2listing.toughreact_tecplot('Amic_aqu.dat',inp.grid.block)
+# TO190624 how to check a change of a point over time? A: Amic_gas.times Amic_gas.time could do something. Amic_gas.num_times
+# TO190624 Amic_gas.index the current result out of all the Amic_gas.num_times .
+# Amic_gas.element.num_rows the same as inp.grid.block
+# Amic_gas.element.column_name get all the names of the columns
+#inp.grid.block is been considered as block file, what is exactly considered as 'geo' file?
+# 
+# from example of 3d in pytough, geom.dat has keyword VERTICES and GRID
+
+
+
+
+
+Amic_sod=t2listing.toughreact_tecplot('Amic_sod.dat',inp.grid.block)
+Amic_gas=t2listing.toughreact_tecplot('Amic_gas.dat',inp.grid.block)
+
+# this is failed
+Amic_tim=t2listing.toughreact_tecplot('Amic_tim.dat',inp.grid.block)
+
+#  Amic_aqu.element.get_DataFrame  
+
 #porosity_DRIFT=inp.grid.rocktype['DRIFT'].porosity # porosity
 #
 #capillarity_parameter_array_DRIFT=inp.grid.rocktype['DRIFT'].capillarity['parameters']    # capillary parameters
@@ -48,6 +71,9 @@ rock_type=[i for i in inp.grid.rocktype]
 
 name_output='flow.out'
 opt=t2listing.t2listing(name_output)
+
+
+# the S(liq) in 'flow.out' is the same as 'Amic_aqu.dat'
 
 #inp.grid.blocklist[2].centre  # this is to check the xyz location 
 

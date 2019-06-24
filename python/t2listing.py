@@ -1701,6 +1701,7 @@ class toughreact_tecplot(object):
         import t2grids as t2g
         if isinstance(blocks, mg.mulgrid): blocks = blocks.block_name_list
         elif isinstance(blocks, t2g.t2grid): blocks = [blk.name for blk in  blocks.blocklist]
+        #pdb.set_trace()
         if len(blocks) != self._num_blocks:
             raise Exception("Specified block name list is the wrong length for " +
                             "TOUGHREACT Tecplot file "+ self.filename)
