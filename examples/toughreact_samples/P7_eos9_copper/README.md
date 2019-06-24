@@ -13,5 +13,21 @@
   ...done! Toughreact v2.0 simulation finished
 
 
-Note: The following floating-point exceptions are signalling: IEEE_DENORMAL
 
+
+
+### required files
+therakin10.dat
+chemical.inp
+flow.inp 
+solute.inp
+
+
+
+### produced files
+GENER 
+INCON 
+LINEQ 
+MESH 
+TABLE 
+VERS
