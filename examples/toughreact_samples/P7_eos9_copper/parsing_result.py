@@ -36,7 +36,7 @@ rock_type=[i for i in inp.grid.rocktype]
 
 
 ## this is to get result from toughreact tecplot results
-Amic_aqu=t2listing.toughreact_tecplot('Amic_aqu.dat',inp.grid.block)
+#Amic_aqu=t2listing.toughreact_tecplot('Amic_aqu.dat',inp.grid.block)
 # TO190624 how to check a change of a point over time? A: Amic_gas.times Amic_gas.time could do something. Amic_gas.num_times
 # TO190624 Amic_gas.index the current result out of all the Amic_gas.num_times .
 # Amic_gas.element.num_rows the same as inp.grid.block
@@ -45,15 +45,21 @@ Amic_aqu=t2listing.toughreact_tecplot('Amic_aqu.dat',inp.grid.block)
 # 
 # from example of 3d in pytough, geom.dat has keyword VERTICES and GRID
 
+Amic_aqu=t2listing.toughreact_tecplot('Amic_aqu.dat',inp.grid.blocklist)
+#cc=Amic_aqu.history((inp.grid.block['TOP 0'],'Sg'))
+#cc=Amic_aqu.history([(inp.grid.block['TOP 0'],'Sg'),    (inp.grid.block['    1'],'Sg')])
 
+# both of them working.
+#Amic_aqu.element.get_DataFrame
+#Amic_aqu.element.DataFrame
 
+# below are successful
+Amic_sod=t2listing.toughreact_tecplot('Amic_sod.dat',inp.grid.blocklist)
+Amic_gas=t2listing.toughreact_tecplot('Amic_gas.dat',inp.grid.blocklist)
 
-
-Amic_sod=t2listing.toughreact_tecplot('Amic_sod.dat',inp.grid.block)
-Amic_gas=t2listing.toughreact_tecplot('Amic_gas.dat',inp.grid.block)
 
 # this is failed
-Amic_tim=t2listing.toughreact_tecplot('Amic_tim.dat',inp.grid.block)
+#Amic_tim=t2listing.toughreact_tecplot('Amic_tim.dat',inp.grid.block)
 
 #  Amic_aqu.element.get_DataFrame  
 
@@ -71,6 +77,12 @@ Amic_tim=t2listing.toughreact_tecplot('Amic_tim.dat',inp.grid.block)
 
 name_output='flow.out'
 opt=t2listing.t2listing(name_output)
+
+#opt.history([(inp.grid.block['TOP 0'],'Sg'),    (inp.grid.block['    1'],'Sg')]) #not working
+
+opt.history(('e',inp.grid.block['TOP 0'],'PCAP'))  # not working
+
+opt.history(('e','TOP 0','PCAP'))   # THIS IS WORKING!!!
 
 
 # the S(liq) in 'flow.out' is the same as 'Amic_aqu.dat'

@@ -988,6 +988,7 @@ class t2listing(object):
             table selection each for full and short output, to account
             for possible differences in ordering between them."""
             converted_selection = []
+            pdb.set_trace()  #TO190625
             for sel_index,(tspec, key, h) in enumerate(selection):
                 # convert keys to indices as necessary, and expand table names:
                 tablename = tablename_from_specification(tspec)
@@ -1730,6 +1731,7 @@ class toughreact_tecplot(object):
         index) and column names."""
 
         def ordered_selection(selection):
+        #pdb.set_trace()
             osel = []
             for sel_index,(key,h) in enumerate(selection):  # convert keys to indices as necessary
                 if isinstance(key, int): index = key
@@ -1739,6 +1741,8 @@ class toughreact_tecplot(object):
                 if index is not None: osel.append((index,h,sel_index))
             osel.sort()
             return osel
+        #pdb.set_trace()
+
 
         old_index = self.index
         if isinstance(selection, tuple): selection = [selection]
