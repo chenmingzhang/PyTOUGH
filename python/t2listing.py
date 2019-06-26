@@ -988,7 +988,7 @@ class t2listing(object):
             table selection each for full and short output, to account
             for possible differences in ordering between them."""
             converted_selection = []
-            pdb.set_trace()  #TO190625
+            #pdb.set_trace()  #TO190625
             for sel_index,(tspec, key, h) in enumerate(selection):
                 # convert keys to indices as necessary, and expand table names:
                 tablename = tablename_from_specification(tspec)

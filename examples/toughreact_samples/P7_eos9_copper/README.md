@@ -38,7 +38,21 @@ LINEQ
 MESH 
 TABLE 
 VERS
+solute.out    
+chemcal.out    -> simulation summary for chemical results
 
 
 
 TO190624 compared this with the original output in TOUGHREACT samples
+
+
+
+
+### useful commands
+t2listing.fulltimes  -> the time (persumablly in seconds) of the output has been done
+t2listing.times      -> same as t2listing.fulltimes
+t2listing.fullsteps  -> the time steps that output has been done
+t2listing.time       -> current time
+t2listing.element.column_name  -> list of all output title elemental wise # ['PRES', 'S(liq)', 'PCAP', 'K(rel)', 'DIFFUS.']
+
+

@@ -80,7 +80,7 @@ opt=t2listing.t2listing(name_output)
 
 #opt.history([(inp.grid.block['TOP 0'],'Sg'),    (inp.grid.block['    1'],'Sg')]) #not working
 
-opt.history(('e',inp.grid.block['TOP 0'],'PCAP'))  # not working
+#opt.history(('e',inp.grid.block['TOP 0'],'PCAP'))  # not working
 
 opt.history(('e','TOP 0','PCAP'))   # THIS IS WORKING!!!
 
