@@ -46,6 +46,33 @@ chemcal.out    -> simulation summary for chemical results
 TO190624 compared this with the original output in TOUGHREACT samples
 
 
+### result from Amic_sod.element.column_name
+'X',
+'Y',
+'Z',
+'T(C)',
+'Porosity',
+'Poros_Chg',
+'Permx(m^2)',
+'Kx/Kx0',
+'Permz(m^2)',
+'Kz/Kz0',
+'pyrite', 辉铜矿[编辑]  你好吗？
+
+'chalcopyrit',
+'magnetite',
+'k-feldspar',
+'albite',
+'anorthite',
+'annite',
+'muscovite',
+'anhydrite',
+'goethite',
+'chalcocite',
+'covellite', 
+'kaolinite',
+'sio2(am)',
+'alunite']     
 
 
 ### useful commands
