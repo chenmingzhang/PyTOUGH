@@ -6,7 +6,9 @@ reshape_format=[11,7]
 y_mtx=Amic_aqu.element.DataFrame['Y'][1:].values.reshape(reshape_format)
 x_mtx=Amic_aqu.element.DataFrame['X'][1:].values.reshape(reshape_format)
 opt.first()
-for ii in opt.times:
+Amic_gas.first()
+Amic_sod.first()
+for ii in opt.times[4::5]:
 
     fig = plt.figure(figsize=(16,10))
     ax = [[] for i in range(30)]
@@ -181,6 +183,19 @@ for ii in opt.times:
     output_name = 'figure/'+str(ii)+'.jpg'
     fig.savefig(output_name, format='jpg', dpi=100)
     opt.next()
+    opt.next()
+    opt.next()
+    opt.next()
+
+    Amic_gas.next()
+    Amic_gas.next()
+    Amic_gas.next()
+    Amic_gas.next()
+
+    Amic_sod.next()
+    Amic_sod.next()
+    Amic_sod.next()
+    Amic_sod.next()
 
 
 
