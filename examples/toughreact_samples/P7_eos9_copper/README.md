@@ -40,6 +40,7 @@ TABLE
 VERS
 solute.out    
 chemcal.out    -> simulation summary for chemical results
+flow.out       -> results from the flow
 
 
 
@@ -57,7 +58,7 @@ TO190624 compared this with the original output in TOUGHREACT samples
 'Kx/Kx0',
 'Permz(m^2)',
 'Kz/Kz0',
-'pyrite', 辉铜矿[编辑]  你好吗？
+'pyrite', 辉铜矿？
 
 'chalcopyrit',
 'magnetite',

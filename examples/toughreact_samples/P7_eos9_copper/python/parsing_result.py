@@ -5,6 +5,8 @@ import sys
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+import importlib
+
 
 pytough_path=os.environ['pytough']
 print(os.environ['pytough'])
@@ -18,19 +20,78 @@ py_compile.compile(os.path.join(pytough_path,'python','t2data.py'))
 
 import t2listing
 import t2data
-reload(t2listing)
-reload(t2data)
+importlib.reload(t2listing)
+importlib.reload(t2data)
 
 #saturation=np.linspace(0,1,100)
 
 name = 'flow.inp'
 inp  = t2data.t2data(name)
 
-print inp.grid.rocktype
+# print (inp.grid.rocktype)
 
-inp.parameter   # list all the control parameters
+# inp.parameter   # list all the control parameters
 
-rock_type=[i for i in inp.grid.rocktype]
+# rock_type=[i for i in inp.grid.rocktype]
+
+
+# density=np.array([j.density for j in inp.grid.rocktypelist])
+# porosity=np.array([j.porosity for j in inp.grid.rocktypelist])
+
+# tortuosity=np.array([j.tortuosity for j in inp.grid.rocktypelist])
+# compressibility=np.array([j.compressibility for j in inp.grid.rocktypelist])
+# #see page 69 of pytough user t2block object
+# #
+# element_coordinate_m=np.array([j.centre for j in inp.grid.blocklist])
+# #element_coordinate_m[1:,0]
+
+# volume=np.array([j.volume for j in inp.grid.blocklist])
+# rock_type=np.array([j.rocktype for j in inp.grid.blocklist])
+# Amic_aqureshape_format=[11,7]
+# volume[1:].reshape(reshape_format)  # first is removed because
+# rock_type[1:].reshape(reshape_format)
+# num_connections=np.array([j.num_connections for j in inp.grid.blocklist])
+# num_connections[1:].reshape(reshape_format)
+# # array([[3, 4, 4, 4, 4, 4, 3],
+# #        [3, 4, 4, 4, 4, 4, 3],
+# #        [3, 4, 4, 4, 4, 4, 3],
+# #        [3, 4, 4, 4, 4, 4, 3],
+# #        [3, 4, 4, 4, 4, 4, 3],
+# #        [3, 4, 4, 4, 4, 4, 3],
+# #        [3, 4, 4, 4, 4, 4, 3],
+# #        [3, 4, 4, 4, 4, 4, 3],
+# #        [3, 4, 4, 4, 4, 4, 3],
+# #        [3, 4, 4, 4, 4, 4, 3],
+# #        [1, 1, 1, 1, 1, 1, 1]])
+
+# name=np.array([j.name for j in inp.grid.blocklist])
+# name[1:].reshape(reshape_format)
+# # array([['    1', '2   1', '3   1', '4   1', '5   1', '6   1', '7   1'],
+# #        ['    2', '2   2', '3   2', '4   2', '5   2', '6   2', '7   2'],
+# #        ['    3', '2   3', '3   3', '4   3', '5   3', '6   3', '7   3'],
+# #        ['    4', '2   4', '3   4', '4   4', '5   4', '6   4', '7   4'],
+# #        ['    5', '2   5', '3   5', '4   5', '5   5', '6   5', '7   5'],
+# #        ['    6', '2   6', '3   6', '4   6', '5   6', '6   6', '7   6'],
+# #        ['    7', '2   7', '3   7', '4   7', '5   7', '6   7', '7   7'],
+# #        ['    8', '2   8', '3   8', '4   8', '5   8', '6   8', '7   8'],
+# #        ['    9', '2   9', '3   9', '4   9', '5   9', '6   9', '7   9'],
+# #        ['   10', '2  10', '3  10', '4  10', '5  10', '6  10', '7  10'],
+# #        ['wta 1', 'wta 2', 'wta 3', 'wta 4', 'wta 5', 'wta 6', 'wta 7']],
+# #       dtype='<U5')
+
+# neighbour_name=np.array([j.neighbour_name for j in inp.grid.blocklist])
+# neighbour_name[1:].reshape(reshape_format)
+
+
+# ahtx=np.array([j.ahtx for j in inp.grid.blocklist])
+# ahtx[1:].reshape(reshape_format)
+
+
+# num_connections=np.array([j.permeability for j in inp.grid.connectionlist])
+
+# area=np.array([j.area for j in inp.grid.connectionlist])
+# dircos=np.array([j.dircos for j in inp.grid.connectionlist])
+# distance=np.array([j.distance for j in inp.grid.connectionlist])
 
 
 
@@ -103,8 +164,6 @@ opt.history(('e','TOP 0','PCAP'))   # THIS IS WORKING!!!
 #solute_opt_name='solute.out'
 #solute_opt=t2listing.t2listing(solute_opt_name)
 
-#
-element_coordinate_m=np.array([j.centre for j in inp.grid.blocklist])
 
 
 

@@ -1,3 +1,4 @@
+import os
 # this script plots the output times. 
 #for ii in opt.times[-1]:
 if not os.path.exists('figure'):
@@ -10,7 +11,10 @@ Amic_gas.first()
 Amic_sod.first()
 for ii in opt.times[4::5]:
 
-    fig = plt.figure(figsize=(16,10))
+    fig = plt.figure(figsize=(16,12))
+   
+
+    fig.suptitle('Time='  "%0.2f" % (ii/86400/365)   +' years', fontsize=16,fontweight="bold")
     ax = [[] for i in range(30)]
     ax[0  ] = plt.subplot2grid((5, 6), (0, 0), colspan=1)
     ax[1  ] = plt.subplot2grid((5, 6), (0, 1), colspan=1)
@@ -44,7 +48,7 @@ for ii in opt.times[4::5]:
     ax[29 ] = plt.subplot2grid((5, 6), (4, 5), colspan=1)
 
     fig.subplots_adjust(hspace=.50,wspace=.5)
-    fig.subplots_adjust(left=0.05, right=0.95, top=0.97, bottom=0.05)
+    fig.subplots_adjust(left=0.05, right=0.95, top=0.92, bottom=0.05)
 
     ax[0].scatter(Amic_aqu.element.DataFrame['X'],Amic_aqu.element.DataFrame['Y'])
 
@@ -174,9 +178,9 @@ for ii in opt.times[4::5]:
     ax[24].set_title('kaolinite'   , fontweight='bold')
     ax[25].set_title('sio2(am)'    , fontweight='bold')
     ax[26].set_title('alunite'     , fontweight='bold')
-    ax[27].set_title('', fontweight='bold')
-    ax[28].set_title('', fontweight='bold')
-    ax[29].set_title('', fontweight='bold')
+    ax[27].set_title('alunite'     , fontweight='bold')
+    ax[28].set_title('alunite'     , fontweight='bold')
+    ax[29].set_title('alunite'     , fontweight='bold')
 
 
     plt.show(block=False)
