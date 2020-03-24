@@ -57,6 +57,7 @@ for ii in opt.times[4::5]:
     sat_liquid_mtx = opt.element.DataFrame['S(liq)'  ] [1: ] .values.reshape(reshape_format)
     diffus_mtx     = opt.element.DataFrame['DIFFUS.' ] [1: ] .values.reshape(reshape_format)
     pcap_mtx       = opt.element.DataFrame['PCAP'    ] [1: ] .values.reshape(reshape_format)
+    flow_first_column_ay=opt.connection.DataFrame.loc[mask_first_column_index_ay]
 
 
     # Amic_gas.element.column_name
@@ -116,9 +117,16 @@ for ii in opt.times[4::5]:
     im24= ax[24].contourf(x_mtx , y_mtx , kaolinite_mtx  )
     im25= ax[25].contourf(x_mtx , y_mtx , sio2_am_mtx    )
     im26= ax[26].contourf(x_mtx , y_mtx , alunite_mtx    )
-    im27= ax[27].contourf(x_mtx , y_mtx , alunite_mtx )
-    im28= ax[28].contourf(x_mtx , y_mtx , alunite_mtx )
-    im29= ax[29].contourf(x_mtx , y_mtx , alunite_mtx )
+    im27= ax[27].plot(flow_first_column_ay['FLO(LIQ.)'],y_mtx[1:,0]  )
+    im28= ax[28].plot(flow_first_column_ay['VEL(LIQ.)'],y_mtx[1:,0] )
+    im29= ax[29].plot(sat_liquid_mtx[:,0], y_mtx[:,0]  )
+
+    #  a confirmation flow_first_column_ay['FLO(LIQ.)']/sat_liquid_mtx[:-1,0]/flow_first_column_ay['VEL(LIQ.)'] 
+    # essentially 
+    # FLO(LIQ.) [kg/s] = por * sat * VEL(LIQ.) [m3/s]  * density   [kg/m3]  
+    # the unit of FLO(LIQ.) can be confirmated by the lower value as -5e-7 [kg/s], same as the input in GENER.
+        
+
 
     fig.colorbar(im1 , ax=ax[1 ])
     fig.colorbar(im2 , ax=ax[2 ])
@@ -146,9 +154,9 @@ for ii in opt.times[4::5]:
     fig.colorbar(im24, ax=ax[24])
     fig.colorbar(im25, ax=ax[25])
     fig.colorbar(im26, ax=ax[26])
-    fig.colorbar(im27, ax=ax[27])
-    fig.colorbar(im28, ax=ax[28])
-    fig.colorbar(im29, ax=ax[29])
+    #fig.colorbar(im27, ax=ax[27])
+    #fig.colorbar(im28, ax=ax[28])
+    #fig.colorbar(im29, ax=ax[29])
 
 
     #ax[1].set_title('Saturation',x=0.04,y=0.8,fontweight='bold')
@@ -178,9 +186,9 @@ for ii in opt.times[4::5]:
     ax[24].set_title('kaolinite'   , fontweight='bold')
     ax[25].set_title('sio2(am)'    , fontweight='bold')
     ax[26].set_title('alunite'     , fontweight='bold')
-    ax[27].set_title('alunite'     , fontweight='bold')
-    ax[28].set_title('alunite'     , fontweight='bold')
-    ax[29].set_title('alunite'     , fontweight='bold')
+    ax[27].set_title('FLO(LIQ.)_fra'     , fontweight='bold')
+    ax[28].set_title('VEL(LIQ.)_fra'     , fontweight='bold')
+    ax[29].set_title('sat_liq_fra'     , fontweight='bold')
 
 
     plt.show(block=False)
@@ -202,6 +210,23 @@ for ii in opt.times[4::5]:
     Amic_sod.next()
 
 
+['2  10', '3  10']
+
+
+inp.grid.connection['2  10', '3  10']   #how to return index?
+
+
+# [('    1', '2   1'),
+#  ('2   1', '3   1'), 
+#  ('3   1', '4   1'),
+#  ('4   1', '5   1'),
+#  ('5   1', '6   1'),
+#  ('6   1', '7   1'),
+#  ('7   1', '8   1'),  
+#  ('7   1', '8   1'),
+#  ('7   1', '8   1'), 
+#  ('7   1', '8   1'),
+#  ]
 
 #1
 #2

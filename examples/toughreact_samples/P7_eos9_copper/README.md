@@ -19,7 +19,7 @@
 ### required files
 therakin10.dat
 chemical.inp
-flow.inp 
+flow.inp   # the x y and z are not 
 solute.inp
 
 
@@ -84,3 +84,5 @@ t2listing.time       -> current time
 t2listing.element.column_name  -> list of all output title elemental wise # ['PRES', 'S(liq)', 'PCAP', 'K(rel)', 'DIFFUS.']
 
 
+issues:
+1. although https://github.com/acroucher/PyTOUGH/issues/21 we have to make a dummy geo file to plot existing file.

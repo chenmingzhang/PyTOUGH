@@ -42,14 +42,64 @@ inp  = t2data.t2data(name)
 # compressibility=np.array([j.compressibility for j in inp.grid.rocktypelist])
 # #see page 69 of pytough user t2block object
 # #
-# element_coordinate_m=np.array([j.centre for j in inp.grid.blocklist])
+element_coordinate_m=np.array([j.centre for j in inp.grid.blocklist])
+
+### way to get the x and y as matrix
+Amic_aqureshape_format=[11,7]
+element_coordinate_m=np.array([j.centre for j in inp.grid.blocklist])
+x_ay_all=np.array([i[0] for i in element_coordinate_m[1:]] )
+x_mtx=x_ay_all.reshape(Amic_aqureshape_format)
+y_ay_all=np.array([i[1] for i in element_coordinate_m[1:]] )
+y_mtx=y_ay_all.reshape(Amic_aqureshape_format)
+z_ay_all=np.array([i[2] for i in element_coordinate_m[1:]] )
+z_mtx=z_ay_all.reshape(Amic_aqureshape_format)
+# x_mtx here is the centre of each element
+
+
+# obtaining dx dy and dz from coordinate.
+x_ay=x_mtx[0]
+y_ay=[i[0] for i in   y_mtx]
+dy=[-2]*11
+dz=[10]
+
+
+
+
+
+
+
+
+
+# TO200324 the attempt to export from inp to vtz is failed because:
+#1. the current grid is not regular given the first cell 'TOP 0'
+## connects to the first row
+#2. it requires geo file 'dat.grid = t2grid().fromgeo(geo)' wile geo
+# is not available.
+
+
+
 # #element_coordinate_m[1:,0]
 
 # volume=np.array([j.volume for j in inp.grid.blocklist])
 # rock_type=np.array([j.rocktype for j in inp.grid.blocklist])
-# Amic_aqureshape_format=[11,7]
+
 # volume[1:].reshape(reshape_format)  # first is removed because
+
 # rock_type[1:].reshape(reshape_format)
+# array([[FRACT, MATRX, MATRX, MATRX, MATRX, MATRX, MATRX],
+#        [FRACT, MATRX, MATRX, MATRX, MATRX, MATRX, MATRX],
+#        [FRACT, MATRX, MATRX, MATRX, MATRX, MATRX, MATRX],
+#        [FRACT, MATRX, MATRX, MATRX, MATRX, MATRX, MATRX],
+#        [FRACT, MATRX, MATRX, MATRX, MATRX, MATRX, MATRX],
+#        [FRACT, MATRX, MATRX, MATRX, MATRX, MATRX, MATRX],
+#        [FRACT, MATRX, MATRX, MATRX, MATRX, MATRX, MATRX],
+#        [FRACT, MATRX, MATRX, MATRX, MATRX, MATRX, MATRX],
+#        [FRACT, MATRX, MATRX, MATRX, MATRX, MATRX, MATRX],
+#        [FRACT, MATRX, MATRX, MATRX, MATRX, MATRX, MATRX],
+#        [FRACB, MATRB, MATRB, MATRB, MATRB, MATRB, MATRB]], dtype=object)
+
+
+
 # num_connections=np.array([j.num_connections for j in inp.grid.blocklist])
 # num_connections[1:].reshape(reshape_format)
 # # array([[3, 4, 4, 4, 4, 4, 3],
@@ -64,8 +114,8 @@ inp  = t2data.t2data(name)
 # #        [3, 4, 4, 4, 4, 4, 3],
 # #        [1, 1, 1, 1, 1, 1, 1]])
 
-# name=np.array([j.name for j in inp.grid.blocklist])
-# name[1:].reshape(reshape_format)
+name=np.array([j.name for j in inp.grid.blocklist])
+name_mtx=name[1:].reshape(Amic_aqureshape_format)
 # # array([['    1', '2   1', '3   1', '4   1', '5   1', '6   1', '7   1'],
 # #        ['    2', '2   2', '3   2', '4   2', '5   2', '6   2', '7   2'],
 # #        ['    3', '2   3', '3   3', '4   3', '5   3', '6   3', '7   3'],
@@ -199,6 +249,24 @@ opt.history(('e','TOP 0','PCAP'))   # THIS IS WORKING!!!
 #opt.connection.column_name
 #opt.element.column_name
 
+
+
+
+##   TO200324 one way to figure out connection
+## it is not possible to get mullgrid from input file because information is 
+## insurfficient https://github.com/acroucher/PyTOUGH/issues/21
+#mask_vertical_flow_direction=[not(i.dircos) for i in inp.grid.connectionlist]
+# name_mtx[:-1,0]
+# name_mtx[1:,0]
+first_column_tuple=list(zip(name_mtx[:-1,0],name_mtx[1:,0]))
+#connection_ay=opt.connection.DataFrame.row
+#opt.connectionlist.DataFrame.row
+#indices = np.where(np.in1d(first_column_tuple, opt.connection.DataFrame.row))[0]
+#indx = [items.index(tupl) for tupl in items if tupl[0] == s]
+#indx = [items.index(tupl) for tupl in items if tupl[0] == s]
+#Output = [i for i, item in   enumerate(opt.connection.DataFrame.row)    if item == first_column_tuple[0] ]  #working  
+mask_first_column_index_ay =  [  [i for i, item in   enumerate(opt.connection.DataFrame.row)    if item == j ] for j in   first_column_tuple   ]
+mask_first_column_index_ay=np.array([i[0] for i in mask_first_column_index_ay])  # for flow output
 
 
 
