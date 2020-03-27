@@ -169,7 +169,8 @@ Amic_sod=t2listing.toughreact_tecplot('Amic_sod.dat',inp.grid.blocklist)
 Amic_gas=t2listing.toughreact_tecplot('Amic_gas.dat',inp.grid.blocklist)
 
 
-# this is failed
+# this is failed, because this is not in tecplot format
+# Time evolution at specified elements
 #Amic_tim=t2listing.toughreact_tecplot('Amic_tim.dat',inp.grid.block)
 
 #  Amic_aqu.element.get_DataFrame  
