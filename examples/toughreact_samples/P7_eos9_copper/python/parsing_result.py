@@ -197,6 +197,8 @@ opt=t2listing.t2listing(name_output)
 opt.history(('e','TOP 0','PCAP'))   # THIS IS WORKING!!!
 
 
+Amic_aqu.history(('e','TOP 0','Sg')   )
+
 # the S(liq) in 'flow.out' is the same as 'Amic_aqu.dat'
 
 #inp.grid.blocklist[2].centre  # this is to check the xyz location 

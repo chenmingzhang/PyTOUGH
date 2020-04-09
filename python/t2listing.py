@@ -1667,7 +1667,10 @@ class toughreact_tecplot(object):
 
     def find_next_time(self):
         """Advances to set of results at next time, and returns the time value."""
+        
         line, num_lines = self.skipto('ZONE', count = True)
+        #if num_lines != 79:
+        #    pdb.set_trace()
         if line is None: return None, num_lines
         quotepos = line.find('"')
         if quotepos >= 0:
@@ -1692,6 +1695,7 @@ class toughreact_tecplot(object):
             else: endfile = True
             if num_lines: num_blocks = num_lines - 1
         self.times = np.array(t)
+        #pdb.set_trace()
         self._num_blocks = num_blocks
 
     def setup_table(self, blocks):
@@ -1704,6 +1708,7 @@ class toughreact_tecplot(object):
         elif isinstance(blocks, t2g.t2grid): blocks = [blk.name for blk in  blocks.blocklist]
         #pdb.set_trace()
         if len(blocks) != self._num_blocks:
+            #pdb.set_trace()
             raise Exception("Specified block name list is the wrong length for " +
                             "TOUGHREACT Tecplot file "+ self.filename)
         self._file.seek(0)
