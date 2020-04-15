@@ -16,11 +16,11 @@ aqui_tim.dat                   ! concentrations at specific elements over time
 # data to convergence criteria:
     1 0.100E-03  200 0.100E-03   30 0.100E-05  0.00E-05  0.00E-05    !  ........ TOLDC,TOLDR 
 # writing control variables: NWTI NWNOD NWCOM NWMIN NWAQ NWADS NWEXC iconflag(=1:mol/l) minflag(=1:Vf)
-    5    1    7    1    0    0    5    1    1   
+    5    1    9    1    0    0    5    1    1   
 # pointer of nodes for writing in time:
 F  11
 # pointer of components for writing:
-    3    4    5    6    7    8    9
+    1    2    3    4    5    6    7    8    9
 # pointer of minerals for writing:
     1
 # Individual aqueous species for which to output concentrations in time and plot files:
