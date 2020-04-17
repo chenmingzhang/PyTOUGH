@@ -22,9 +22,11 @@ import t2listing
 import t2data
 importlib.reload(t2listing)
 importlib.reload(t2data)
+import tr2data
+importlib.reload(tr2data)
 
 #saturation=np.linspace(0,1,100)
-
+cinp  = tr2data.t2data('chemical.inp')
 name = 'flow.inp'
 inp  = t2data.t2data(name)
 
@@ -194,10 +196,10 @@ opt=t2listing.t2listing(name_output)
 
 #opt.history(('e',inp.grid.block['TOP 0'],'PCAP'))  # not working
 
-opt.history(('e','TOP 0','PCAP'))   # THIS IS WORKING!!!
+#opt.history(('e','TOP 0','PCAP'))   # THIS IS WORKING!!!
 
 
-Amic_aqu.history(('e','TOP 0','Sg')   )
+#Amic_aqu.history(('e','TOP 0','Sg')   )
 
 # the S(liq) in 'flow.out' is the same as 'Amic_aqu.dat'
 

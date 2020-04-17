@@ -62,14 +62,31 @@ plot_every=5
 array_length=16
 
 
-# opt matrix
-opt.tx_mtx={}
+# opt element matrix
+opt.tx_ele_mtx={}
 for j in opt.element.column_name:
-    opt.tx_mtx[j] =np.empty((0,array_length), float) 
+    opt.tx_ele_mtx[j] =np.empty((0,array_length), float) 
 for i in opt.times:
     for j in opt.element.column_name:
-        opt.tx_mtx[j] =  np.append(opt.tx_mtx[j] , np.array([opt.element.DataFrame[j]]), axis=0)
+        opt.tx_ele_mtx[j] =  np.append(opt.tx_ele_mtx[j] , np.array([opt.element.DataFrame[j]]), axis=0)
     opt.next()
+
+# opt connection matrix
+opt.tx_con_mtx={}
+opt.first();
+for j in opt.connection.column_name:
+    opt.tx_con_mtx[j] =np.empty((0,array_length-1), float) 
+for i in opt.times:
+    for j in opt.connection.column_name:
+        opt.tx_con_mtx[j] =  np.append(opt.tx_con_mtx[j] , np.array([opt.connection.DataFrame[j]]), axis=0)
+    opt.next()
+
+
+
+
+
+
+
 
 # aquifer condition time x axis matrix  (useful when drawing contours)
 aqui_con.first()
@@ -102,6 +119,7 @@ for i in aqui_gas.times:
     aqui_gas.next()
 
 
+connection_x_location= np.vstack([aqui_min.tx_mtx['X'][0][1:], aqui_min.tx_mtx['X'][0][:-1]]).mean(axis=0)
 
 aqui_gas.first(); aqui_min.first(); aqui_con.first()
 #for ii in opt.times[0::plot_every]:
@@ -114,7 +132,7 @@ tlt =('opt.time='  "%0.2f" % (opt.time/86400/365)   +' years'
     ', aqu.time='  "%0.2f" % (aqui_gas.time   ) +' years')
 #fig.suptitle(   tlt     , fontsize=16,fontweight="bold")
 print(tlt)
-no_row=4
+no_row=5
 no_col=4
 ax = [[] for i in range(no_row*no_col)]
 
@@ -257,7 +275,19 @@ im15 = ax[15].plot(aqui_min.tx_mtx['X'][4],aqui_min.tx_mtx['calcite'][4])
 im15 = ax[15].plot(aqui_min.tx_mtx['X'][5],aqui_min.tx_mtx['calcite'][5])
 
 
+im16 = ax[16].plot(connection_x_location,opt.tx_con_mtx['FLO(LIQ.)'][0])
+im16 = ax[16].plot(connection_x_location,opt.tx_con_mtx['FLO(LIQ.)'][1])
+im16 = ax[16].plot(connection_x_location,opt.tx_con_mtx['FLO(LIQ.)'][2])
+im16 = ax[16].plot(connection_x_location,opt.tx_con_mtx['FLO(LIQ.)'][3])
+im16 = ax[16].plot(connection_x_location,opt.tx_con_mtx['FLO(LIQ.)'][4])
+#im16 = ax[16].plot(connection_x_location,opt.tx_con_mtx['FLO(LIQ.)'][5])
 
+im17 = ax[17].plot(connection_x_location,opt.tx_con_mtx['VEL(LIQ.)'][0])
+im17 = ax[17].plot(connection_x_location,opt.tx_con_mtx['VEL(LIQ.)'][1])
+im17 = ax[17].plot(connection_x_location,opt.tx_con_mtx['VEL(LIQ.)'][2])
+im17 = ax[17].plot(connection_x_location,opt.tx_con_mtx['VEL(LIQ.)'][3])
+im17 = ax[17].plot(connection_x_location,opt.tx_con_mtx['VEL(LIQ.)'][4])
+#im17 = ax[17].plot(connection_x_location,opt.tx_con_mtx['VEL(LIQ.)'][5])
 
 
 plt.show(block=False)

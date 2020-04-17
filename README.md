@@ -41,3 +41,8 @@ Since PyTOUGH version 1.3.6, the PyTOUGH user guide (PyTOUGH-guide.pdf) is now i
 export pytough=/home/${USER}/Projects/PyTOUGH/
 ```
 
+
+known issues:
+1. can not parse t2listing when kddata is more than 2. 
+2. does not include parsing nesq nad1 and nad2
+
