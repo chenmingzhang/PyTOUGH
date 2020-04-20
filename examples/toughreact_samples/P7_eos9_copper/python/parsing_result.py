@@ -25,9 +25,9 @@ importlib.reload(t2data)
 import tr2data
 importlib.reload(tr2data)
 
-#saturation=np.linspace(0,1,100)
+saturation=np.linspace(0,1,100)
 cinp  = tr2data.t2data('chemical.inp')
-name = 'flow.inp'
+#name = 'flow.inp'
 inp  = t2data.t2data(name)
 
 # print (inp.grid.rocktype)

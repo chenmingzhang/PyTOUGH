@@ -11,6 +11,11 @@ PyTOUGH is distributed in the hope that it will be useful, but WITHOUT ANY WARRA
 You should have received a copy of the GNU Lesser General Public License along with PyTOUGH.  If not, see <http://www.gnu.org/licenses/>."""
 
 from numpy import nan
+import pdb
+
+#def return_none_to_nonspecified_values(s):
+#    try: return 
+
 
 def fortran_float(s, blank_value = 0.0):
     """Returns float of a string written by Fortran.
@@ -82,7 +87,7 @@ def read_function_dict(floatfn = default_read_float, intfn = default_read_int,
 default_read_function = read_function_dict()
 fortran_read_function = read_function_dict(fortran_read_float, fortran_read_int)
 
-class fixed_format_file(object):
+class free_format_file(object):
     """Class for fixed format text file.  Values from the file may be
     parsed into variables, according to a specification dictionary.
     The keys of the specification dictionary are arbitrary and may be
@@ -125,17 +130,22 @@ class fixed_format_file(object):
 
     def preprocess_specification(self):
         """Pre-process specifications to speed up parsing."""
-        self.line_spec, self.spec_width={}, {}
+        #self.line_spec, self.spec_width={}, {}
+        self.line_spec={}
         for section, [names,specs] in self.specification.items():
             self.line_spec[section] = []
             pos = 0
             for spec in specs:
-                fmt, typ=spec[:-1], spec[-1]
-                w = int(fmt.partition('.')[0])
-                nextpos = pos + w
-                self.line_spec[section].append(((pos, nextpos), typ))
-                pos = nextpos
-                self.spec_width[fmt] = w
+                #fmt, typ=spec[:-1], spec[-1]
+                #fmt='8'
+                #pdb.set_trace()
+                #typ=spec
+                #w = int(fmt.partition('.')[0])
+                #nextpos = pos + w
+                #self.line_spec[section].append(((pos, nextpos), typ))
+                self.line_spec[section].append( spec)
+                #pos = nextpos
+                #self.spec_width[fmt] = w
         
     def parse_string(self, line, linetype):
         """Parses a string into values according to specified input format
@@ -143,8 +153,15 @@ class fixed_format_file(object):
         converted to None.
         %TO200418 the line below is the magic to parse fix format
         """
-        return [self.read_function[typ](line[i1:i2]) for
-                (i1, i2) , typ in self.line_spec[linetype]]
+        line=line.strip()
+        
+        line1=line.split()
+        return [self.read_function[typ](  line1[i] if i < len(line1) else ' ' ) for i,typ in enumerate (self.line_spec[linetype])]
+        #return [self.read_function[typ](line1[i]) for i,typ in enumerate (self.line_spec[linetype])]
+        
+        
+        #return [self.read_function[typ](line[i1:i2]) for
+        #        (i1, i2) , typ in self.line_spec[linetype]]
 
     def write_values_to_string(self, vals, linetype):
         """Inverse of parse_string()."""
@@ -199,3 +216,5 @@ class fixed_format_file(object):
             else: val = None
             vals.append(val)
         self.write_values(vals, linetype)
+        
+

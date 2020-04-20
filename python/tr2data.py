@@ -13,7 +13,7 @@ You should have received a copy of the GNU Lesser General Public License along w
 
 from __future__ import print_function
 
-from fixed_format_file import *
+from free_format_file import *
 from t2grids import *
 from t2incons import *
 from math import ceil
@@ -90,7 +90,8 @@ t2data_format_specification = {
     'minc'  : [['part', 'type', '', 'dual'], ['5s'] * 2 + ['5x', '5s']],
     'part1' : [['num_continua', 'nvol', 'where'] + ['spacing'] * 7,
                ['3d'] * 2 + ['-4s'] + ['10.4e'] * 7],
-    'part2' : [['vol'] * 8, ['10.4e'] * 8]
+    'part2' : [['vol'] * 8, ['10.4e'] * 8] ,
+    'prim':[['napri','notrans','naads_min','naads_min','sdens','imod,capac'],['5s','100d']]
     }
 
 t2data_extra_precision_format_specification = {
@@ -116,13 +117,21 @@ t2data_extra_precision_format_specification = {
     'generation_rates': [['rate'] * 4, ['15.8e'] * 4], 
     'generation_enthalpy': [['enthalpy'] * 4, ['15.8e'] * 4]}
 
-class t2data_parser(fixed_format_file):
+
+t2data_free_format_specification = {
+    'title': [['title'], ['s']],
+    'prim':  [[['napri','notrans','naads_min','sdens','imod','capac']],['s','d','s','e','d','e']]
+    }
+
+
+class t2data_parser(free_format_file):
     """Class for parsing TOUGH2 data file."""
     def __init__(self, filename, mode, read_function = default_read_function):
+        #https://stackoverflow.com/questions/222877/what-does-super-do-in-python
         super(t2data_parser,self).__init__(filename, mode,
-                                           t2data_format_specification, read_function)
+                                           t2data_free_format_specification, read_function)
 
-class t2_extra_precision_data_parser(fixed_format_file):
+class t2_extra_precision_data_parser(free_format_file):
     """Class for parsing AUTOUGH2 extra-precision auxiliary data file."""
     def __init__(self, filename, mode, read_function = default_read_function):
         super(t2_extra_precision_data_parser,
@@ -210,11 +219,14 @@ default_parameters = {
     'derivative_increment': None,
     'default_incons': []}
 
+#t2data_sections = [
+#    'SIMUL', 'ROCKS', 'PARAM', 'MOMOP', 'START', 'NOVER', 'RPCAP',
+#    'LINEQ', 'SOLVR', 'MULTI', 'TIMES', 'SELEC', 'DIFFU',
+#    'ELEME', 'CONNE', 'MESHM', 'GENER', 'SHORT', 'FOFT',
+#    'COFT', 'GOFT', 'INCON', 'INDOM']
 t2data_sections = [
-    'SIMUL', 'ROCKS', 'PARAM', 'MOMOP', 'START', 'NOVER', 'RPCAP',
-    'LINEQ', 'SOLVR', 'MULTI', 'TIMES', 'SELEC', 'DIFFU',
-    'ELEME', 'CONNE', 'MESHM', 'GENER', 'SHORT', 'FOFT',
-    'COFT', 'GOFT', 'INCON', 'INDOM']
+    'TITLE','PRIM', 'AKIN', 'MINER', 'GAS'
+    ]
 
 t2_extra_precision_sections = ['ROCKS', 'ELEME', 'CONNE', 'RPCAP', 'GENER']
 
@@ -255,6 +267,7 @@ class t2data(object):
         self._extra_precision, self._echo_extra_precision = [], True
         self.update_read_write_functions()
         self.read_function = read_function
+        self.prim   = {}
         if self.filename: self.read(filename, meshfilename)
 
     def get_extra_precision(self): return self._extra_precision
@@ -287,30 +300,36 @@ class t2data(object):
 
         self.read_fn = dict(zip(
                 t2data_sections,
-                [self.read_simulator,
-                 self.read_rocktypes,
-                 self.read_parameters,
-                 self.read_more_options,
-                 self.read_start,
-                 self.read_noversion,
-                 self.read_rpcap,
-                 self.read_lineq,
-                 self.read_solver,
-                 self.read_multi,
-                 self.read_times,
-                 self.read_selection,
-                 self.read_diffusion,
-                 self.read_blocks,
-                 self.read_connections,
-                 self.read_meshmaker,
-                 self.read_generators,
-                 self.read_short_output,
-                 self.read_history_blocks,
-                 self.read_history_connections,
-                 self.read_history_generators,
-                 self.read_incons,
-                 self.read_indom]))
-
+                [
+                self.read_title, 
+                self.read_prim,
+                self.read_akin]))
+#        self.read_fn = dict(zip(
+#                t2data_sections,
+#                [self.read_simulator,
+#                 self.read_rocktypes,
+#                 self.read_parameters,
+#                 self.read_more_options,
+#                 self.read_start,
+#                 self.read_noversion,
+#                 self.read_rpcap,
+#                 self.read_lineq,
+#                 self.read_solver,
+#                 self.read_multi,
+#                 self.read_times,
+#                 self.read_selection,
+#                 self.read_diffusion,
+#                 self.read_blocks,
+#                 self.read_connections,
+#                 self.read_meshmaker,
+#                 self.read_generators,
+#                 self.read_short_output,
+#                 self.read_history_blocks,
+#                 self.read_history_connections,
+#                 self.read_history_generators,
+#                 self.read_incons,
+#                 self.read_indom,
+#                 self.read_prim]))
         self.write_fn = dict(zip(
                 t2data_sections,
                 [self.write_simulator,
@@ -531,7 +550,7 @@ class t2data(object):
 
     def read_title(self, infile):
         """Reads simulation title"""
-        infile.read_value_line(self.__dict__, 'title')
+        infile.read_value_line_passing_hash(self.__dict__, 'title')
 
     def write_title(self, outfile):
         outfile.write(self.title.strip() + '\n')
@@ -572,7 +591,35 @@ class t2data(object):
                     self.grid.rocktype[name].capillarity['type'] = vals[0]
                     self.grid.rocktype[name].capillarity['parameters'] = vals[2: -1]
             line = padstring(infile.readline())
+            
+    def read_prim(self, infile):
+        self.prim['list']={}
+        line = infile.readline_passing_hash()
+        while line[:3]!="'*'":
+            [napri,notrans,naads_min,sdens,imod,capac] = infile.parse_string(line.strip(), 'prim')
+            self.prim['list'][napri]={}
+            self.prim['list'][napri]['notrans']  =notrans
+            self.prim['list'][napri]['naads_min']=naads_min
+            self.prim['list'][napri]['sdens']    =sdens
+            self.prim['list'][napri]['imod']     =imod
+            self.prim['list'][napri]['capac']    =capac
+            line = infile.readline_passing_hash()
+    def read_akin(self, infile):
+        self.akin['list']={}
+        line = infile.readline_passing_hash()
+        while line[:3]!="'*'":
+            [napri,notrans,naads_min,sdens,imod,capac] = infile.parse_string(line.strip(), 'prim')
+            self.prim['list'][napri]={}
+            self.prim['list'][napri]['notrans']  =notrans
+            self.prim['list'][napri]['naads_min']=naads_min
+            self.prim['list'][napri]['sdens']    =sdens
+            self.prim['list'][napri]['imod']     =imod
+            self.prim['list'][napri]['capac']    =capac
+            line = infile.readline_passing_hash()            
+        
+        
 
+        
     def skip_rocktypes(self, infile):
         """Skips rock type section"""
         while infile.readline().strip(): pass
@@ -1544,26 +1591,51 @@ class t2data(object):
         """
         if filename: self.filename = filename
         infile = t2data_parser(self.filename, 'rU', read_function = self.read_function)
-        self.read_title(infile)
+        #self.read_title(infile)
+        section_idx=0
+        #line = infile.readline_passing_hash()
+        #while line[0]=='#':
         self._sections = []
         more = True
-        next_line = None
+        
         while more:
-            if next_line: line = next_line
-            else: line = infile.readline()
-            if line:
-                keyword = line[0: 5].strip()
-                if keyword in ['ENDCY', 'ENDFI']:
-                    more = False
-                    self.end_keyword = keyword
-                elif keyword in t2data_sections:
-                    fn = self.read_fn[keyword]
-                    next_line = None
-                    if keyword == 'SHORT': fn(infile, line)
-                    elif keyword == 'PARAM': next_line = fn(infile)
-                    else: fn(infile)
-                    self._sections.append(keyword)
-            else: more = False
+            fn = self.read_fn[t2data_sections[section_idx]]
+            fn(infile)
+            section_idx += 1   #move to the next section
+            
+                
+        #next_line = None
+        
+        #while more:
+        #line = infile.readline()
+#        section_idx=0
+#           while line[0] :
+#              while line[0]=='#':
+#                  line = infile.readline()
+#              if  line[0] == '*':  
+#                  section_idx + = 1
+#              else:
+                  
+                
+
+             
+            
+#        while more:
+#            if next_line: line = next_line
+#            else: line = infile.readline()
+#            if line:
+#                keyword = line[0: 5].strip()
+#                if keyword in ['ENDCY', 'ENDFI']:
+#                    more = False
+#                    self.end_keyword = keyword
+#                elif keyword in t2data_sections:
+#                    fn = self.read_fn[keyword]
+#                    next_line = None
+#                    if keyword == 'SHORT': fn(infile, line)
+#                    elif keyword == 'PARAM': next_line = fn(infile)
+#                    else: fn(infile)
+#                    self._sections.append(keyword)
+#            else: more = False
         infile.close()
         if meshfilename and (self.grid.num_blocks == 0):
             self.meshfilename = meshfilename
