@@ -3,7 +3,7 @@
 Copyright 2011 University of Auckland.
 
 This file is part of PyTOUGH.
-TO200325 t2data can not parse numbers like 1.00+3
+TO200325 tr2data can not parse numbers like 1.00+3
 
 PyTOUGH is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
@@ -18,8 +18,9 @@ from t2grids import *
 from t2incons import *
 from math import ceil
 import struct
+import numpy as np
 
-t2data_format_specification = {
+tr2data_format_specification = {
     'title': [['title'], ['80s']],
     'simulator': [['simulator'], ['80s']],
     'rocks1': [['name', 'nad', 'density', 'porosity',
@@ -90,11 +91,11 @@ t2data_format_specification = {
     'minc'  : [['part', 'type', '', 'dual'], ['5s'] * 2 + ['5x', '5s']],
     'part1' : [['num_continua', 'nvol', 'where'] + ['spacing'] * 7,
                ['3d'] * 2 + ['-4s'] + ['10.4e'] * 7],
-    'part2' : [['vol'] * 8, ['10.4e'] * 8] ,
-    'prim':[['napri','notrans','naads_min','naads_min','sdens','imod,capac'],['5s','100d']]
+    'part2' : [['vol'] * 8, ['10.4e'] * 8] 
+
     }
 
-t2data_extra_precision_format_specification = {
+tr2data_extra_precision_format_specification = {
     'rocks1': [['name', 'nad', 'density', 'porosity', 'k1', 'k2', 'k3',
                'conductivity', 'specific_heat'], 
               ['5s', '5d'] + ['15.8e'] * 7], 
@@ -118,25 +119,26 @@ t2data_extra_precision_format_specification = {
     'generation_enthalpy': [['enthalpy'] * 4, ['15.8e'] * 4]}
 
 
-t2data_free_format_specification = {
+tr2data_free_format_specification = {
     'title': [['title'], ['s']],
-    'prim':  [[['napri','notrans','naads_min','sdens','imod','capac']],['s','d','s','e','d','e']]
+    'prim' : [[['napri','notrans','naads_min','sdens','imod','capac']],['s','d','s','e','d','e']],
+    'aque':  [['naaqx'], ['s']]
     }
 
 
-class t2data_parser(free_format_file):
+class tr2data_parser(free_format_file):
     """Class for parsing TOUGH2 data file."""
-    def __init__(self, filename, mode, read_function = default_read_function):
+    def __init__(self, filename, mode, read_function = default_read_function_free_format):
         #https://stackoverflow.com/questions/222877/what-does-super-do-in-python
-        super(t2data_parser,self).__init__(filename, mode,
-                                           t2data_free_format_specification, read_function)
+        super(tr2data_parser,self).__init__(filename, mode,
+                                           tr2data_free_format_specification, read_function)
 
 class t2_extra_precision_data_parser(free_format_file):
     """Class for parsing AUTOUGH2 extra-precision auxiliary data file."""
-    def __init__(self, filename, mode, read_function = default_read_function):
+    def __init__(self, filename, mode, read_function = default_read_function_free_format):
         super(t2_extra_precision_data_parser,
               self).__init__(filename, mode,
-                             t2data_extra_precision_format_specification,
+                             tr2data_extra_precision_format_specification,
                              read_function)
 
 class fortran_unformatted_file(object):
@@ -199,7 +201,8 @@ default_parameters = {
     'max_duration': None,
     'print_interval': None, 
     '_option_str': '0' * 24,
-    'option': np.zeros(25, int8),
+    #'option': np.zeros(25, int8),
+    'option': np.zeros(25, int),
     'diff0': None,
     'texp': None,
     'tstart': 0.0,
@@ -219,21 +222,21 @@ default_parameters = {
     'derivative_increment': None,
     'default_incons': []}
 
-#t2data_sections = [
+#tr2data_sections = [
 #    'SIMUL', 'ROCKS', 'PARAM', 'MOMOP', 'START', 'NOVER', 'RPCAP',
 #    'LINEQ', 'SOLVR', 'MULTI', 'TIMES', 'SELEC', 'DIFFU',
 #    'ELEME', 'CONNE', 'MESHM', 'GENER', 'SHORT', 'FOFT',
 #    'COFT', 'GOFT', 'INCON', 'INDOM']
-t2data_sections = [
-    'TITLE','PRIM', 'AKIN', 'MINER', 'GAS'
+tr2data_sections = [
+    'TITLE','PRIM', 'AKIN', 'AQUE','MINER', 'GAS'
     ]
 
 t2_extra_precision_sections = ['ROCKS', 'ELEME', 'CONNE', 'RPCAP', 'GENER']
 
-class t2data(object):
+class tr2data(object):
     """Class for TOUGH2 data."""
     def __init__(self, filename = '', meshfilename = '',
-                 read_function = default_read_function):
+                 read_function = default_read_function_free_format):
         from copy import deepcopy
         self.filename = filename
         self.meshfilename = meshfilename
@@ -241,14 +244,15 @@ class t2data(object):
         self.simulator = ''
         self.parameter = deepcopy(default_parameters)
         self._more_option_str = '0' * 21,
-        self.more_option = np.zeros(22, int8)
+        #self.more_option = np.zeros(22, int8)
+        self.more_option = np.zeros(22, int)
         self.multi = {}
         self.start = False
         self.relative_permeability = {}
         self.capillarity = {}
         self.lineq = {}
         self.output_times = {}
-        self.grid = t2grid()
+        #self.grid = t2grid()
         self.generatorlist = []
         self.generator = {}
         self.short_output = {}
@@ -268,6 +272,9 @@ class t2data(object):
         self.update_read_write_functions()
         self.read_function = read_function
         self.prim   = {}
+        self.akin   = {}
+        self.aque   = {}
+        self.miner  = {}
         if self.filename: self.read(filename, meshfilename)
 
     def get_extra_precision(self): return self._extra_precision
@@ -299,13 +306,16 @@ class t2data(object):
         """Updates functions for reading and writing sections of data file."""
 
         self.read_fn = dict(zip(
-                t2data_sections,
+                tr2data_sections,
                 [
                 self.read_title, 
                 self.read_prim,
-                self.read_akin]))
+                self.read_akin,
+                self.read_aque,
+                self.read_miner
+                ]))
 #        self.read_fn = dict(zip(
-#                t2data_sections,
+#                tr2data_sections,
 #                [self.read_simulator,
 #                 self.read_rocktypes,
 #                 self.read_parameters,
@@ -328,10 +338,9 @@ class t2data(object):
 #                 self.read_history_connections,
 #                 self.read_history_generators,
 #                 self.read_incons,
-#                 self.read_indom,
-#                 self.read_prim]))
+#                 self.read_indom]))
         self.write_fn = dict(zip(
-                t2data_sections,
+                tr2data_sections,
                 [self.write_simulator,
                  self.write_rocktypes,
                  self.write_parameters,
@@ -369,9 +378,9 @@ class t2data(object):
 
     def get_present_sections(self):
         """Returns a list of TOUGH2 section keywords for which there are
-        corresponding data in the t2data object."""
+        corresponding data in the tr2data object."""
         data_present = dict(zip(
-            t2data_sections,
+            tr2data_sections,
             [self.simulator,
              self.grid and self.grid.rocktypelist,
              self.parameter,
@@ -395,7 +404,7 @@ class t2data(object):
              self.history_generator,
              self.incon,
              self.indom]))
-        return [keyword for keyword in t2data_sections if data_present[keyword]]
+        return [keyword for keyword in tr2data_sections if data_present[keyword]]
     present_sections = property(get_present_sections)
 
     def insert_section(self, section):
@@ -415,21 +424,21 @@ class t2data(object):
         in the internal list of data file sections.
         """
         try:
-            listindex = t2data_sections.index(section)
+            listindex = tr2data_sections.index(section)
             if listindex == 0: return 0  # SIMUL section
             else:
                 # first look for sections above the one specified,
                 # and put new one just after the last found:
                 for i in reversed(range(listindex)):
                     try:
-                        section_index = self._sections.index(t2data_sections[i])
+                        section_index = self._sections.index(tr2data_sections[i])
                         return section_index + 1
                     except ValueError: pass
                 # look for sections below the one specified,
                 # and put new one just before the first found:
-                for i in range(listindex, len(t2data_sections)):
+                for i in range(listindex, len(tr2data_sections)):
                     try:
-                        section_index = self._sections.index(t2data_sections[i])
+                        section_index = self._sections.index(tr2data_sections[i])
                         return section_index
                     except ValueError: pass
                 return len(self._sections)
@@ -604,8 +613,21 @@ class t2data(object):
             self.prim['list'][napri]['imod']     =imod
             self.prim['list'][napri]['capac']    =capac
             line = infile.readline_passing_hash()
+            
     def read_akin(self, infile):
         self.akin['list']={}
+        line = infile.readline_passing_hash()
+        while line[:3]!="'*'":
+            line = infile.readline_passing_hash()     
+    def read_aque(self, infile):
+        self.aque['list']={}
+        line = infile.readline_passing_hash()
+        while line[:3]!="'*'":
+            naaqx = infile.parse_string(line.strip(), 'aque')
+            self.aque['list'][naaqx[0]]={}
+            line = infile.readline_passing_hash()                 
+    def read_miner(self, infile):
+        self.miner['list']={}
         line = infile.readline_passing_hash()
         while line[:3]!="'*'":
             [napri,notrans,naads_min,sdens,imod,capac] = infile.parse_string(line.strip(), 'prim')
@@ -615,8 +637,7 @@ class t2data(object):
             self.prim['list'][napri]['sdens']    =sdens
             self.prim['list'][napri]['imod']     =imod
             self.prim['list'][napri]['capac']    =capac
-            line = infile.readline_passing_hash()            
-        
+            line = infile.readline_passing_hash()        
         
 
         
@@ -660,7 +681,7 @@ class t2data(object):
         while more:
             line = padstring(infile.readline())
             if line.strip():
-                section = any([line.startswith(keyword) for keyword in t2data_sections])
+                section = any([line.startswith(keyword) for keyword in tr2data_sections])
                 if section: more = False
                 else:
                     more_incons = infile.parse_string(line, 'default_incons')
@@ -1590,7 +1611,7 @@ class t2data(object):
         an associated '.pdat' file, if it exists.
         """
         if filename: self.filename = filename
-        infile = t2data_parser(self.filename, 'rU', read_function = self.read_function)
+        infile = tr2data_parser(self.filename, 'rU', read_function = self.read_function)
         #self.read_title(infile)
         section_idx=0
         #line = infile.readline_passing_hash()
@@ -1599,8 +1620,8 @@ class t2data(object):
         more = True
         
         while more:
-            fn = self.read_fn[t2data_sections[section_idx]]
-            fn(infile)
+            fn_ = self.read_fn[tr2data_sections[section_idx]]
+            fn_(infile)
             section_idx += 1   #move to the next section
             
                 
@@ -1628,7 +1649,7 @@ class t2data(object):
 #                if keyword in ['ENDCY', 'ENDFI']:
 #                    more = False
 #                    self.end_keyword = keyword
-#                elif keyword in t2data_sections:
+#                elif keyword in tr2data_sections:
 #                    fn = self.read_fn[keyword]
 #                    next_line = None
 #                    if keyword == 'SHORT': fn(infile, line)
@@ -1640,7 +1661,7 @@ class t2data(object):
         if meshfilename and (self.grid.num_blocks == 0):
             self.meshfilename = meshfilename
             if isinstance(meshfilename, str):
-                meshfile = t2data_parser(self.meshfilename, 'rU', read_function = self.read_function)
+                meshfile = tr2data_parser(self.meshfilename, 'rU', read_function = self.read_function)
                 self.read_meshfile(meshfile)
                 meshfile.close()
             elif isinstance(meshfilename, (list, tuple)):
@@ -1660,13 +1681,13 @@ class t2data(object):
         will also be written to the main data file.
         """
         if filename: self.filename = filename
-        if self.filename =='': self.filename = 't2data.dat'
+        if self.filename =='': self.filename = 'tr2data.dat'
         self.update_sections()
         mesh_sections = []
         if meshfilename: self.meshfilename = meshfilename
         if self.meshfilename:
             if isinstance(self.meshfilename, str):
-                meshfile = t2data_parser(self.meshfilename, 'w')
+                meshfile = tr2data_parser(self.meshfilename, 'w')
                 self.write_blocks(meshfile)
                 self.write_connections(meshfile)
                 meshfile.close()
@@ -1677,7 +1698,7 @@ class t2data(object):
                     mesh_sections = ['ELEME', 'CONNE']
         if self.type == 'AUTOUGH2':
             self.write_extra_precision(extra_precision,  echo_extra_precision)
-        outfile = t2data_parser(self.filename, 'w')
+        outfile = tr2data_parser(self.filename, 'w')
         self.write_title(outfile)
         for keyword in self._sections:
             if (keyword not in mesh_sections) and \
@@ -1689,7 +1710,7 @@ class t2data(object):
 
     def transfer_rocktypes_from(self, source, mapping):
         """Transfers rock types (definitions and assignments) from another
-        t2data object, using the specified block mapping."""
+        tr2data object, using the specified block mapping."""
         from copy import deepcopy
         self.grid.rocktypelist = deepcopy(source.grid.rocktypelist)
         self.grid.rocktype = deepcopy(source.grid.rocktype)
@@ -1700,7 +1721,7 @@ class t2data(object):
                                  top_generator = [], bottom_generator = [],
                                  mapping = {}, colmapping = {},
                                  rename = False, preserve_totals = False):
-        """Transfers generators from another t2data object, using the
+        """Transfers generators from another tr2data object, using the
         specified top and bottom generator lists and optional block
         and column mappings.  If the rename parameter is False,
         generators other than those at the top or bottom of the model
@@ -1775,7 +1796,7 @@ class t2data(object):
                       sourceinconfilename = '', inconfilename = '',
                       rename_generators = False, preserve_generation_totals = False):
         """Copies parameters, rock types and assignments, generators and
-        initial conditions from another t2data object (without
+        initial conditions from another tr2data object (without
         altering the grid structure).  The top_generator and
         bottom_generator lists specify the generators which are to be
         kept at the top or bottom of the model, respectively.  They

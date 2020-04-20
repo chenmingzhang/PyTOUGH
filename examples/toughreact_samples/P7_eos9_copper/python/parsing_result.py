@@ -18,15 +18,15 @@ sys.path.append(os.path.join(pytough_path,'python'))
 py_compile.compile(os.path.join(pytough_path,'python','t2listing.py'))
 py_compile.compile(os.path.join(pytough_path,'python','t2data.py'))
 
-import t2listing
-import t2data
-importlib.reload(t2listing)
-importlib.reload(t2data)
+#import t2listing
+#import t2data
+#importlib.reload(t2listing)
+#importlib.reload(t2data)
 import tr2data
 importlib.reload(tr2data)
 
 saturation=np.linspace(0,1,100)
-cinp  = tr2data.t2data('chemical.inp')
+cinp  = tr2data.tr2data('chemical.inp')
 #name = 'flow.inp'
 inp  = t2data.t2data(name)
 

@@ -69,23 +69,23 @@ def value_error_none(f):
 
 default_read_float = value_error_none(float)
 default_read_int = value_error_none(int)
-default_read_str = value_error_none(lambda x: x.rstrip('\n'))
+default_read_str_ = value_error_none(lambda x: x.rstrip('\n').replace("'",""))
 default_read_space = lambda x: None
 
 from functools import partial
 fortran_read_float = partial(fortran_float, blank_value = None)
 fortran_read_int = partial(fortran_int, blank_value = None)
 
-def read_function_dict(floatfn = default_read_float, intfn = default_read_int,
-                             strfn = default_read_str, spacefn = default_read_space):
+def read_function_dict_free_format(floatfn = default_read_float, intfn = default_read_int,
+                             strfn = default_read_str_, spacefn = default_read_space):
     """Returns a conversion function dictionary using the specified functions for float,
     int, string and space."""
     result = {'s': strfn, 'x': spacefn, 'd': intfn}
     for typ in ['f','e','g']: result[typ] = floatfn
     return result
 
-default_read_function = read_function_dict()
-fortran_read_function = read_function_dict(fortran_read_float, fortran_read_int)
+default_read_function_free_format = read_function_dict_free_format()
+fortran_read_function_free_format = read_function_dict_free_format(fortran_read_float, fortran_read_int)
 
 class free_format_file(object):
     """Class for fixed format text file.  Values from the file may be
@@ -103,9 +103,9 @@ class free_format_file(object):
     """
 
     def __init__(self, filename, mode, specification,
-                 read_function = default_read_function):
+                 read_function = default_read_function_free_format):
         self.specification = specification
-        self.read_function = read_function
+        self.read_function_ = read_function
         self.preprocess_specification()
         self.file = open(filename, mode)
 
@@ -156,8 +156,9 @@ class free_format_file(object):
         line=line.strip()
         
         line1=line.split()
-        return [self.read_function[typ](  line1[i] if i < len(line1) else ' ' ) for i,typ in enumerate (self.line_spec[linetype])]
-        #return [self.read_function[typ](line1[i]) for i,typ in enumerate (self.line_spec[linetype])]
+        # dont understand why the below function always goes to fix_format
+        return [self.read_function_[typ](  line1[i] if i < len(line1) else ' ' ) for i,typ in enumerate (self.line_spec[linetype])]
+        #return [self.read_function_[typ](line1[i]) for i,typ in enumerate (self.line_spec[linetype])]
         
         
         #return [self.read_function[typ](line[i1:i2]) for
