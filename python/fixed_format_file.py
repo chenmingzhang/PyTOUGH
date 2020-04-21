@@ -145,6 +145,15 @@ class fixed_format_file(object):
         """
         return [self.read_function[typ](line[i1:i2]) for
                 (i1, i2) , typ in self.line_spec[linetype]]
+        
+    def parse_string_free_format(self, line, linetype):
+        """Parses a string into values according to specified input format
+        (d,f,s, or x for integer, float, string or skip).  Blanks are
+        converted to None.
+        %TO200418 the line below is the magic to parse fix format
+        """
+        return [self.read_function[typ](line[i1:i2]) for
+                (i1, i2) , typ in self.line_spec[linetype]]
 
     def write_values_to_string(self, vals, linetype):
         """Inverse of parse_string()."""

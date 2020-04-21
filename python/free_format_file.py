@@ -76,7 +76,8 @@ from functools import partial
 fortran_read_float = partial(fortran_float, blank_value = None)
 fortran_read_int = partial(fortran_int, blank_value = None)
 
-def read_function_dict_free_format(floatfn = default_read_float, intfn = default_read_int,
+#def read_function_dict_free_format(floatfn = default_read_float, intfn = default_read_int,
+def read_function_dict_free_format(floatfn = fortran_read_float, intfn = default_read_int,
                              strfn = default_read_str_, spacefn = default_read_space):
     """Returns a conversion function dictionary using the specified functions for float,
     int, string and space."""

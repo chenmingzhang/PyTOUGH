@@ -20,109 +20,15 @@ from math import ceil
 import struct
 import numpy as np
 
-tr2data_format_specification = {
-    'title': [['title'], ['80s']],
-    'simulator': [['simulator'], ['80s']],
-    'rocks1': [['name', 'nad', 'density', 'porosity',
-               'k1', 'k2', 'k3', 'conductivity', 'specific_heat'], 
-              ['5s', '5d'] + ['10.4e'] * 7],
-    'rocks1.1': [['compressibility', 'expansivity', 'dry_conductivity',
-                 'tortuosity', 'klinkenberg', 'xkd3', 'xkd4'],
-                ['10.4e'] * 7],
-    'rocks1.2': [['type', ''] + ['parameter'] * 7, ['5d', '5x'] + ['10.3e'] * 7],
-    'rocks1.3': [['type', ''] + ['parameter'] * 7, ['5d', '5x'] + ['10.3e'] * 7],
-    'param1_autough2': [['max_iterations', 'print_level', 'max_timesteps',
-                        'max_duration', 'print_interval',
-                        '_option_str', 'diff0', 'texp', 'be'],
-                       ['2d'] * 2 + ['4d'] * 3 + ['24s'] + ['10.3e'] * 3],
-    'param1': [['max_iterations', 'print_level', 'max_timesteps',
-               'max_duration', 'print_interval', '_option_str', 'texp', 'be'],
-              ['2d'] * 2 + ['4d'] * 3 + ['24s'] + ['10.3e'] * 2],
-    'param2': [['tstart', 'tstop', 'const_timestep', 'max_timestep',
-               'print_block', '', 'gravity', 'timestep_reduction', 'scale'],
-              ['10.3e'] * 4 + ['5s', '5x'] + ['10.4e'] * 3],
-    'param3': [['relative_error', 'absolute_error', 'pivot', 'upstream_weight',
-               'newton_weight', 'derivative_increment'],
-              ['10.4e'] * 6],
-    '_more_option_str': [['_more_option_str'], ['21s']],
-    'timestep': [['timestep'] * 8, ['10.4e'] * 8],
-    'multi': [['num_components', 'num_equations', 'num_phases',
-               'num_secondary_parameters', 'num_inc'],  ['5d'] * 5],
-    'multi_autough2': [['num_components', 'num_equations', 'num_phases',
-                        'num_secondary_parameters', 'eos'],  ['5d'] * 4 + ['4s']],
-    'lineq': [['type', 'epsilon', 'max_iterations', 'gauss', 'num_orthog'],
-             ['2d', '10.4e', '4d', '1d', '4d']],
-    'default_incons': [['incon'] * 4, ['20.14e'] * 4],
-    'output_times1': [['num_times_specified', 'num_times', 'max_timestep', 'time_increment'],
-                     ['5d'] * 2 + ['10.4e'] * 2],
-    'output_times2': [['time'] * 8, ['10.4e'] * 8],
-    'relative_permeability': [['type', ''] + ['parameter'] * 7, ['5d', '5x'] + ['10.3e'] * 7],
-    'capillarity': [['type', ''] + ['parameter'] * 7, ['5d', '5x'] + ['10.3e'] * 7], 
-    'blocks': [['name', 'nseq', 'nadd', 'rocktype', 'volume',
-               'ahtx', 'pmx', 'x', 'y', 'z'],
-              ['5s', '5d', '5d', '5s'] + ['10.4e'] * 3 + ['10.3e'] * 3], 
-    'connections': [['block1', 'block2', 'nseq', 'nad1', 'nad2',
-                    'direction', 'distance1', 'distance2', 'area', 'dircos', 'sigma'],
-                   ['5s'] * 2 + ['5d'] * 4 + ['10.4e'] * 3 + ['10.7f', '10.3e']],
-    'generator': [['block', 'name', 'nseq', 'nadd', 'nads', 'ltab',
-                  '', 'type', 'itab', 'gx', 'ex', 'hg', 'fg'],
-                 ['5s'] * 2 + ['5d'] * 3 + ['5d', '5x', '4s', '1s'] + ['10.3e'] * 4], 
-    'generation_times': [['time'] * 4, ['14.7e'] * 4], 
-    'generation_rates': [['rate'] * 4, ['14.7e'] * 4], 
-    'generation_enthalpy': [['enthalpy'] * 4, ['14.7e'] * 4],
-    'short': [['', 'frequency'], ['5x', '2d']],
-    'incon1': [['block', 'nseq', 'nadd', 'porosity'], ['5s'] + ['5d'] * 2 + ['15.9e']], 
-    'incon2': [['incon'] * 4, ['20.14e'] * 4], 
-    'solver': [['type', '', 'z_precond', '', 'o_precond', 'relative_max_iterations', 'closure'],
-              ['1d', '2x', '2s', '3x', '2s'] + ['10.4e'] * 2], 
-    'indom2': [['indom'] * 4, ['20.13e'] * 4], 
-    'diffusion':  [['diff'] * 8, ['10.3e'] * 8],
-    'selec1': [['int_selec'] * 16, ['5d'] * 16],
-    'selec2': [['float_selec'] * 8, ['10.3e'] * 8], 
-    'radii1': [['nrad'], ['5d']],
-    'radii2': [['radius'] * 8, ['10.4e'] * 8],
-    'equid' : [['nequ', '', 'dr'], ['5d', '5x', '10.4e']],
-    'logar' : [['nlog', '', 'rlog', 'dr'], ['5d', '5x'] + ['10.4e'] * 2],
-    'layer1': [['nlay'], ['5d']],
-    'layer2': [['layer'] * 8, ['10.4e'] * 8],
-    'xyz1'  : [['deg'], ['10.4e']],
-    'xyz2'  : [['ntype', '', 'no', 'del'], ['2s', '3x', '5d', '10.4e']],
-    'xyz3'  : [['deli'] * 8, ['10.4e'] * 8], 
-    'minc'  : [['part', 'type', '', 'dual'], ['5s'] * 2 + ['5x', '5s']],
-    'part1' : [['num_continua', 'nvol', 'where'] + ['spacing'] * 7,
-               ['3d'] * 2 + ['-4s'] + ['10.4e'] * 7],
-    'part2' : [['vol'] * 8, ['10.4e'] * 8] 
-
-    }
-
-tr2data_extra_precision_format_specification = {
-    'rocks1': [['name', 'nad', 'density', 'porosity', 'k1', 'k2', 'k3',
-               'conductivity', 'specific_heat'], 
-              ['5s', '5d'] + ['15.8e'] * 7], 
-    'rocks1.1': [['compressibility', 'expansivity', 'dry_conductivity',
-                 'tortuosity', 'klinkenberg', 'xkd3', 'xkd4'],  ['15.8e'] * 7],
-    'rocks1.2': [['type', ''] + ['parameter'] * 7, ['5d', '5x'] + ['15.8e'] * 7],
-    'rocks1.3': [['type', ''] + ['parameter'] * 7, ['5d', '5x'] + ['15.8e'] * 7],
-    'blocks': [['name', 'nseq', 'nadd', 'rocktype', 'volume',
-               'ahtx', 'pmx', 'x', 'y', 'z'],
-              ['5s', '5d', '5d', '5s'] + ['15.8e'] * 3 + ['15.8e'] * 3],
-    'connections': [['block1', 'block2', 'nseq', 'nad1', 'nad2',
-                    'direction', 'distance1', 'distance2', 'area', 'dircos', 'sigma'],
-                   ['5s'] * 2 + ['5d'] * 4 + ['15.8e'] * 3 + ['15.8f', '15.8e']],
-    'relative_permeability': [['type', ''] + ['parameter'] * 7, ['5d', '5x'] + ['15.8e'] * 7], 
-    'capillarity': [['type', ''] + ['parameter'] * 7, ['5d', '5x'] + ['15.8e'] * 7],
-    'generator': [['block', 'name', 'nseq', 'nadd', 'nads', 'ltab',
-                  '', 'type', 'itab', 'gx', 'ex', 'hg', 'fg'],
-                 ['5s'] * 2 + ['5d'] * 3 + ['5d', '5x', '4s', '1s'] + ['15.8e'] * 4], 
-    'generation_times': [['time'] * 4, ['15.8e'] * 4], 
-    'generation_rates': [['rate'] * 4, ['15.8e'] * 4], 
-    'generation_enthalpy': [['enthalpy'] * 4, ['15.8e'] * 4]}
-
 
 tr2data_free_format_specification = {
     'title': [['title'], ['s']],
     'prim' : [[['napri','notrans','naads_min','sdens','imod','capac']],['s','d','s','e','d','e']],
-    'aque':  [['naaqx'], ['s']]
+    'aque':  [['naaqx'], ['s']],
+    'water-3': [['niwtype','nbwtype'], ['d','d']],
+    'water-4': [['iwtype','tc2','pt'], ['s','e','e']],
+    'water-6': [['napri','icon','cguess','ctot'], ['s','d','e','e']]
+    
     }
 
 
@@ -228,10 +134,19 @@ default_parameters = {
 #    'ELEME', 'CONNE', 'MESHM', 'GENER', 'SHORT', 'FOFT',
 #    'COFT', 'GOFT', 'INCON', 'INDOM']
 tr2data_sections = [
-    'TITLE','PRIM', 'AKIN', 'AQUE','MINER', 'GAS'
+    'TITLE','PRIM', 'AKIN', 'AQUE','MINER', 'GAS', 'SURX', 'KDDE', 'EXCH',
+    'WATER'
     ]
 
 t2_extra_precision_sections = ['ROCKS', 'ELEME', 'CONNE', 'RPCAP', 'GENER']
+
+#class water(object):
+#    """Class for water"""
+#    def __init__(self, filename = '', meshfilename = '',
+#                 read_function = default_read_function_free_format):
+#        self.niwtype
+#        self.niwtype
+
 
 class tr2data(object):
     """Class for TOUGH2 data."""
@@ -275,6 +190,17 @@ class tr2data(object):
         self.akin   = {}
         self.aque   = {}
         self.miner  = {}
+        self.gas    = {}
+        self.surx   = {}
+        self.kdde   = {}
+        self.exch   = {}
+        self.water  = {}
+        self.imin   = {}
+        self.igas   = {}
+        self.zppr   = {}
+        self.zads   = {}
+        self.zlkd   = {}
+        self.zexc   = {}
         if self.filename: self.read(filename, meshfilename)
 
     def get_extra_precision(self): return self._extra_precision
@@ -312,33 +238,21 @@ class tr2data(object):
                 self.read_prim,
                 self.read_akin,
                 self.read_aque,
-                self.read_miner
+                self.read_miner,
+                self.read_gas,
+                self.read_surx,
+                self.read_kdde,
+                self.read_exch,
+                self.read_water,
+                self.read_imin,
+                self.read_igas,
+                self.read_zppr,
+                self.read_zads,
+                self.read_zlkd,
+                self.read_zexc
+                
                 ]))
-#        self.read_fn = dict(zip(
-#                tr2data_sections,
-#                [self.read_simulator,
-#                 self.read_rocktypes,
-#                 self.read_parameters,
-#                 self.read_more_options,
-#                 self.read_start,
-#                 self.read_noversion,
-#                 self.read_rpcap,
-#                 self.read_lineq,
-#                 self.read_solver,
-#                 self.read_multi,
-#                 self.read_times,
-#                 self.read_selection,
-#                 self.read_diffusion,
-#                 self.read_blocks,
-#                 self.read_connections,
-#                 self.read_meshmaker,
-#                 self.read_generators,
-#                 self.read_short_output,
-#                 self.read_history_blocks,
-#                 self.read_history_connections,
-#                 self.read_history_generators,
-#                 self.read_incons,
-#                 self.read_indom]))
+
         self.write_fn = dict(zip(
                 tr2data_sections,
                 [self.write_simulator,
@@ -618,29 +532,126 @@ class tr2data(object):
         self.akin['list']={}
         line = infile.readline_passing_hash()
         while line[:3]!="'*'":
-            line = infile.readline_passing_hash()     
+            line = infile.readline_passing_hash()   
+            
     def read_aque(self, infile):
         self.aque['list']={}
         line = infile.readline_passing_hash()
         while line[:3]!="'*'":
             naaqx = infile.parse_string(line.strip(), 'aque')
             self.aque['list'][naaqx[0]]={}
-            line = infile.readline_passing_hash()                 
+            line = infile.readline_passing_hash()    
+             
     def read_miner(self, infile):
         self.miner['list']={}
         line = infile.readline_passing_hash()
         while line[:3]!="'*'":
-            [napri,notrans,naads_min,sdens,imod,capac] = infile.parse_string(line.strip(), 'prim')
-            self.prim['list'][napri]={}
-            self.prim['list'][napri]['notrans']  =notrans
-            self.prim['list'][napri]['naads_min']=naads_min
-            self.prim['list'][napri]['sdens']    =sdens
-            self.prim['list'][napri]['imod']     =imod
-            self.prim['list'][napri]['capac']    =capac
             line = infile.readline_passing_hash()        
-        
+            
+    def read_gas(self, infile):
+        self.gas['list']={}
+        line = infile.readline_passing_hash()
+        while line[:3]!="'*'":
+            line = infile.readline_passing_hash()    
 
-        
+    def read_surx(self, infile):
+        self.surx['list']={}
+        line = infile.readline_passing_hash()
+        while line[:3]!="'*'":
+            line = infile.readline_passing_hash()              
+
+    def read_kdde(self, infile):
+        self.kdde['list']={}
+        line = infile.readline_passing_hash()
+        while line[:3]!="'*'":
+            line = infile.readline_passing_hash()     
+            
+    def read_exch(self, infile):
+        self.exch['list']={}
+        line = infile.readline_passing_hash()
+        while line[:3]!="'*'":
+            line = infile.readline_passing_hash()              
+
+    def read_water(self, infile):
+        self.water['list']={}
+        line = infile.readline_passing_hash()
+        #while line[:3]!="'*'":
+        [niwtype,nbwtype] = infile.parse_string(line.strip(), 'water-3')
+        self.water['list']['water-3']={}
+        self.water['list']['water-3']['niwtype']=niwtype
+        self.water['list']['water-3']['nbwtype']=nbwtype
+        self.water['list']['initial']={}
+        for i in np.arange(niwtype)+1:
+            line = infile.readline_passing_hash() 
+            [iwtype,tc2,pt] = infile.parse_string(line.strip(), 'water-4')
+            self.water['list']['initial'][iwtype]={}
+            self.water['list']['initial'][iwtype]['tc2']=tc2
+            self.water['list']['initial'][iwtype]['pt'] =pt
+            line = infile.readline_passing_hash() 
+            while line[:3]!="'*'":
+                [napri,icon,cguess,ctot] = infile.parse_string(line.strip(), 'water-6')
+                self.water['list']['initial'][iwtype][napri]={}
+                self.water['list']['initial'][iwtype][napri]['icon']=icon
+                self.water['list']['initial'][iwtype][napri]['cguess']=cguess
+                self.water['list']['initial'][iwtype][napri]['ctot']=ctot
+                line = infile.readline_passing_hash()
+            #
+        # note, the above parsing ends up with one line that has yet parsed
+        # below are for Boundary waters
+        self.water['list']['boundary']={}
+        for i in np.arange(nbwtype)+1:
+            line = infile.readline_passing_hash()
+            [iwtype,tc2,pt] = infile.parse_string(line.strip(), 'water-4')
+            self.water['list']['boundary'][iwtype]={}
+            self.water['list']['boundary'][iwtype]['tc2']=tc2
+            self.water['list']['boundary'][iwtype]['pt'] =pt
+            line = infile.readline_passing_hash() 
+            while line[:3]!="'*'":
+                [napri,icon,cguess,ctot] = infile.parse_string(line.strip(), 'water-6')
+                self.water['list']['boundary'][iwtype][napri]={}
+                self.water['list']['boundary'][iwtype][napri]['icon']=icon
+                self.water['list']['boundary'][iwtype][napri]['cguess']=cguess
+                self.water['list']['boundary'][iwtype][napri]['ctot']=ctot
+                line = infile.readline_passing_hash()
+            #line = infile.readline_passing_hash()                   
+            
+            
+            
+    def read_imin(self, infile):
+        self.imin['list']={}
+        line = infile.readline_passing_hash()
+        while line[:3]!="'*'":
+            
+            self.imin['list']
+            line = infile.readline_passing_hash()    
+    def read_igas(self, infile):
+        self.igas['list']={}
+        line = infile.readline_passing_hash()
+        while line[:3]!="'*'":
+            line = infile.readline_passing_hash() 
+    def read_zppr(self, infile):
+        self.imin['list']={}
+        line = infile.readline_passing_hash()
+        while line[:3]!="'*'":
+            line = infile.readline_passing_hash() 
+    def read_zads(self, infile):
+        self.zads['list']={}
+        line = infile.readline_passing_hash()
+        while line[:3]!="'*'":
+            line = infile.readline_passing_hash()
+    def read_zlkd(self, infile):
+        self.imin['list']={}
+        line = infile.readline_passing_hash()
+        while line[:3]!="'*'":
+            line = infile.readline_passing_hash()     
+    def read_zexc(self, infile):
+        self.imin['list']={}
+        line = infile.readline_passing_hash()
+        while line[:3]!="'*'":
+            line = infile.readline_passing_hash()     
+
+
+
     def skip_rocktypes(self, infile):
         """Skips rock type section"""
         while infile.readline().strip(): pass
@@ -1623,6 +1634,10 @@ class tr2data(object):
             fn_ = self.read_fn[tr2data_sections[section_idx]]
             fn_(infile)
             section_idx += 1   #move to the next section
+            if len(tr2data_sections) <= section_idx : 
+                more = False
+
+
             
                 
         #next_line = None
@@ -1658,15 +1673,15 @@ class tr2data(object):
 #                    self._sections.append(keyword)
 #            else: more = False
         infile.close()
-        if meshfilename and (self.grid.num_blocks == 0):
-            self.meshfilename = meshfilename
-            if isinstance(meshfilename, str):
-                meshfile = tr2data_parser(self.meshfilename, 'rU', read_function = self.read_function)
-                self.read_meshfile(meshfile)
-                meshfile.close()
-            elif isinstance(meshfilename, (list, tuple)):
-                if len(meshfilename) == 2: self.read_binary_meshfiles()
-            else: print('Mesh filename must be either a string or a two-element tuple or list.')
+#        if meshfilename and (self.grid.num_blocks == 0):
+#            self.meshfilename = meshfilename
+#            if isinstance(meshfilename, str):
+#                meshfile = tr2data_parser(self.meshfilename, 'rU', read_function = self.read_function)
+#                self.read_meshfile(meshfile)
+#                meshfile.close()
+#            elif isinstance(meshfilename, (list, tuple)):
+#                if len(meshfilename) == 2: self.read_binary_meshfiles()
+#            else: print('Mesh filename must be either a string or a two-element tuple or list.')
         return self
 
     def write(self, filename = '', meshfilename = '',
