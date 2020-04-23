@@ -13,22 +13,25 @@ print(os.environ['pytough'])
 
 current_path=os.getcwd()
 
+current_folder_name=os.path.basename(current_path)
+
 sys.path.append(os.path.join(pytough_path,'python'))
 
 py_compile.compile(os.path.join(pytough_path,'python','t2listing.py'))
 py_compile.compile(os.path.join(pytough_path,'python','t2data.py'))
 
-#import t2listing
-#import t2data
-#importlib.reload(t2listing)
-#importlib.reload(t2data)
+import t2listing
+import t2data
+importlib.reload(t2listing)
+importlib.reload(t2data)
 import tr2data
 importlib.reload(tr2data)
 
 saturation=np.linspace(0,1,100)
-cinp  = tr2data.tr2data('chemical.inp')
-#name = 'flow.inp'
+name = 'flow.inp'
 inp  = t2data.t2data(name)
+cinp  = tr2data.tr2data('chemical.inp')
+
 
 # print (inp.grid.rocktype)
 
@@ -37,11 +40,19 @@ inp  = t2data.t2data(name)
 # rock_type=[i for i in inp.grid.rocktype]
 
 
-# density=np.array([j.density for j in inp.grid.rocktypelist])
-# porosity=np.array([j.porosity for j in inp.grid.rocktypelist])
+density=np.array([j.density for j in inp.grid.rocktypelist])
+porosity=np.array([j.porosity for j in inp.grid.rocktypelist])
 
-# tortuosity=np.array([j.tortuosity for j in inp.grid.rocktypelist])
-# compressibility=np.array([j.compressibility for j in inp.grid.rocktypelist])
+tortuosity=np.array([j.tortuosity for j in inp.grid.rocktypelist])
+compressibility=np.array([j.compressibility for j in inp.grid.rocktypelist])
+vol_ay_all=np.array([j.volume for j in inp.grid.blocklist])
+vol_mtx=vol_ay_all[1:].reshape(Amic_aqureshape_format)
+
+
+# dx from matrix 
+dx_mtx= (x_mtx[:,:-1]+x_mtx[:,1:])/2
+
+
 # #see page 69 of pytough user t2block object
 # #
 element_coordinate_m=np.array([j.centre for j in inp.grid.blocklist])
@@ -63,14 +74,6 @@ x_ay=x_mtx[0]
 y_ay=[i[0] for i in   y_mtx]
 dy=[-2]*11
 dz=[10]
-
-
-
-
-
-
-
-
 
 # TO200324 the attempt to export from inp to vtz is failed because:
 #1. the current grid is not regular given the first cell 'TOP 0'
@@ -260,7 +263,16 @@ opt=t2listing.t2listing(name_output)
 ##   TO200324 one way to figure out connection
 ## it is not possible to get mullgrid from input file because information is 
 ## insurfficient https://github.com/acroucher/PyTOUGH/issues/21
-#mask_vertical_flow_direction=[not(i.dircos) for i in inp.grid.connectionlist]
+bool_mask_vertical_flow_direction=[not(i.dircos) for i in inp.grid.connectionlist]
+
+mask_vertical_flow_direction = np.where(bool_mask_vertical_flow_direction)[0]
+
+
+
+distance_ay_all=[i.distance for i in inp.grid.connectionlist]
+
+# inp.grid.connectionlist[2].dircos 
+
 # name_mtx[:-1,0]
 # name_mtx[1:,0]
 first_column_tuple=list(zip(name_mtx[:-1,0],name_mtx[1:,0]))

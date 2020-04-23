@@ -146,7 +146,7 @@ for i in np.arange(no_row):
         
 
 fig.subplots_adjust(hspace=.50,wspace=.5)
-fig.subplots_adjust(left=0.05, right=0.95, top=0.92, bottom=0.05)
+fig.subplots_adjust(left=0.05, right=0.90, top=0.92, bottom=0.05)
 
 ##aqui_con.get_index() --> get the current index number
 ## aqui_gas.element.column_name
@@ -159,7 +159,7 @@ im0 = ax[0].plot(aqui_con.tx_mtx['X'][3],aqui_con.tx_mtx['pH'][3],label="%.1e" %
 im0 = ax[0].plot(aqui_con.tx_mtx['X'][4],aqui_con.tx_mtx['pH'][4],label="%.1e" % aqui_con.times[4]+'yrs')
 im0 = ax[0].plot(aqui_con.tx_mtx['X'][5],aqui_con.tx_mtx['pH'][5],label="%.1e" % aqui_con.times[5]+'yrs')
 
-ax[0].legend(bbox_to_anchor=(1.01, 0.65), loc=2, borderaxespad=0.)
+
 
 im1 = ax[1].plot(aqui_con.tx_mtx['X'][0],aqui_con.tx_mtx['t_h2o'][0])
 im1 = ax[1].plot(aqui_con.tx_mtx['X'][1],aqui_con.tx_mtx['t_h2o'][1])
@@ -167,6 +167,7 @@ im1 = ax[1].plot(aqui_con.tx_mtx['X'][2],aqui_con.tx_mtx['t_h2o'][2])
 im1 = ax[1].plot(aqui_con.tx_mtx['X'][3],aqui_con.tx_mtx['t_h2o'][3])
 im1 = ax[1].plot(aqui_con.tx_mtx['X'][4],aqui_con.tx_mtx['t_h2o'][4])
 im1 = ax[1].plot(aqui_con.tx_mtx['X'][5],aqui_con.tx_mtx['t_h2o'][5])
+
 
 
 im2 = ax[2].plot(aqui_con.tx_mtx['X'][0],aqui_con.tx_mtx['t_h+'][0])
@@ -177,13 +178,17 @@ im2 = ax[2].plot(aqui_con.tx_mtx['X'][4],aqui_con.tx_mtx['t_h+'][4])
 im2 = ax[2].plot(aqui_con.tx_mtx['X'][5],aqui_con.tx_mtx['t_h+'][5])
 
 
-im3 = ax[3].plot(aqui_con.tx_mtx['X'][0],aqui_con.tx_mtx['t_ca+2'][0])
-im3 = ax[3].plot(aqui_con.tx_mtx['X'][1],aqui_con.tx_mtx['t_ca+2'][1])
-im3 = ax[3].plot(aqui_con.tx_mtx['X'][2],aqui_con.tx_mtx['t_ca+2'][2])
-im3 = ax[3].plot(aqui_con.tx_mtx['X'][3],aqui_con.tx_mtx['t_ca+2'][3])
-im3 = ax[3].plot(aqui_con.tx_mtx['X'][4],aqui_con.tx_mtx['t_ca+2'][4])
-im3 = ax[3].plot(aqui_con.tx_mtx['X'][5],aqui_con.tx_mtx['t_ca+2'][5])
 
+im3 = ax[3].plot(aqui_con.tx_mtx['X'][0],aqui_con.tx_mtx['t_ca+2'][0],label="%.1e" % aqui_con.times[0]+'yrs')
+im3 = ax[3].plot(aqui_con.tx_mtx['X'][1],aqui_con.tx_mtx['t_ca+2'][1],label="%.1e" % aqui_con.times[1]+'yrs')
+im3 = ax[3].plot(aqui_con.tx_mtx['X'][2],aqui_con.tx_mtx['t_ca+2'][2],label="%.1e" % aqui_con.times[2]+'yrs')
+im3 = ax[3].plot(aqui_con.tx_mtx['X'][3],aqui_con.tx_mtx['t_ca+2'][3],label="%.1e" % aqui_con.times[3]+'yrs')
+im3 = ax[3].plot(aqui_con.tx_mtx['X'][4],aqui_con.tx_mtx['t_ca+2'][4],label="%.1e" % aqui_con.times[4]+'yrs')
+im3 = ax[3].plot(aqui_con.tx_mtx['X'][5],aqui_con.tx_mtx['t_ca+2'][5],label="%.1e" % aqui_con.times[5]+'yrs')
+im3 = ax[3].scatter(aqui_con.tx_mtx['X'][0][0],
+        chem_inp.water['list']['boundary']['1']['ca+2']['ctot'] )
+
+ax[3].legend(bbox_to_anchor=(1.02, 0.9), loc=2, borderaxespad=0.)
 
 im4 = ax[4].plot(aqui_con.tx_mtx['X'][0],aqui_con.tx_mtx['t_mg+2'][0])
 im4 = ax[4].plot(aqui_con.tx_mtx['X'][1],aqui_con.tx_mtx['t_mg+2'][1])
@@ -191,6 +196,8 @@ im4 = ax[4].plot(aqui_con.tx_mtx['X'][2],aqui_con.tx_mtx['t_mg+2'][2])
 im4 = ax[4].plot(aqui_con.tx_mtx['X'][3],aqui_con.tx_mtx['t_mg+2'][3])
 im4 = ax[4].plot(aqui_con.tx_mtx['X'][4],aqui_con.tx_mtx['t_mg+2'][4])
 im4 = ax[4].plot(aqui_con.tx_mtx['X'][5],aqui_con.tx_mtx['t_mg+2'][5])
+im4 = ax[4].scatter(aqui_con.tx_mtx['X'][0][0],
+        chem_inp.water['list']['boundary']['1']['mg+2']['ctot'] )
 
 im5 = ax[5].plot(aqui_con.tx_mtx['X'][0],aqui_con.tx_mtx['t_na+'][0])
 im5 = ax[5].plot(aqui_con.tx_mtx['X'][1],aqui_con.tx_mtx['t_na+'][1])
@@ -198,6 +205,8 @@ im5 = ax[5].plot(aqui_con.tx_mtx['X'][2],aqui_con.tx_mtx['t_na+'][2])
 im5 = ax[5].plot(aqui_con.tx_mtx['X'][3],aqui_con.tx_mtx['t_na+'][3])
 im5 = ax[5].plot(aqui_con.tx_mtx['X'][4],aqui_con.tx_mtx['t_na+'][4])
 im5 = ax[5].plot(aqui_con.tx_mtx['X'][5],aqui_con.tx_mtx['t_na+'][5])
+im5 = ax[5].scatter(aqui_con.tx_mtx['X'][0][0],
+        chem_inp.water['list']['boundary']['1']['na+']['ctot'] )
 
 im6 = ax[6].plot(aqui_con.tx_mtx['X'][0],aqui_con.tx_mtx['t_k+'][0])
 im6 = ax[6].plot(aqui_con.tx_mtx['X'][1],aqui_con.tx_mtx['t_k+'][1])
@@ -205,6 +214,8 @@ im6 = ax[6].plot(aqui_con.tx_mtx['X'][2],aqui_con.tx_mtx['t_k+'][2])
 im6 = ax[6].plot(aqui_con.tx_mtx['X'][3],aqui_con.tx_mtx['t_k+'][3])
 im6 = ax[6].plot(aqui_con.tx_mtx['X'][4],aqui_con.tx_mtx['t_k+'][4])
 im6 = ax[6].plot(aqui_con.tx_mtx['X'][5],aqui_con.tx_mtx['t_k+'][5])
+im6 = ax[6].scatter(aqui_con.tx_mtx['X'][0][0],
+        chem_inp.water['list']['boundary']['1']['k+']['ctot'] )
 
 im7 = ax[7].plot(aqui_con.tx_mtx['X'][0],aqui_con.tx_mtx['t_hco3-'][0])
 im7 = ax[7].plot(aqui_con.tx_mtx['X'][1],aqui_con.tx_mtx['t_hco3-'][1])
@@ -212,7 +223,8 @@ im7 = ax[7].plot(aqui_con.tx_mtx['X'][2],aqui_con.tx_mtx['t_hco3-'][2])
 im7 = ax[7].plot(aqui_con.tx_mtx['X'][3],aqui_con.tx_mtx['t_hco3-'][3])
 im7 = ax[7].plot(aqui_con.tx_mtx['X'][4],aqui_con.tx_mtx['t_hco3-'][4])
 im7 = ax[7].plot(aqui_con.tx_mtx['X'][5],aqui_con.tx_mtx['t_hco3-'][5])
-
+im7 = ax[7].scatter(aqui_con.tx_mtx['X'][0][0],
+        chem_inp.water['list']['boundary']['1']['hco3-']['ctot'] )
 
 im8 = ax[8].plot(aqui_con.tx_mtx['X'][0],aqui_con.tx_mtx['t_so4-2'][0])
 im8 = ax[8].plot(aqui_con.tx_mtx['X'][1],aqui_con.tx_mtx['t_so4-2'][1])
@@ -220,7 +232,8 @@ im8 = ax[8].plot(aqui_con.tx_mtx['X'][2],aqui_con.tx_mtx['t_so4-2'][2])
 im8 = ax[8].plot(aqui_con.tx_mtx['X'][3],aqui_con.tx_mtx['t_so4-2'][3])
 im8 = ax[8].plot(aqui_con.tx_mtx['X'][4],aqui_con.tx_mtx['t_so4-2'][4])
 im8 = ax[8].plot(aqui_con.tx_mtx['X'][5],aqui_con.tx_mtx['t_so4-2'][5])
-
+im8 = ax[8].scatter(aqui_con.tx_mtx['X'][0][0],
+        chem_inp.water['list']['boundary']['1']['so4-2']['ctot'] )
 
 im9 = ax[9].plot(aqui_con.tx_mtx['X'][0],aqui_con.tx_mtx['t_cl-'][0])
 im9 = ax[9].plot(aqui_con.tx_mtx['X'][1],aqui_con.tx_mtx['t_cl-'][1])
@@ -228,6 +241,8 @@ im9 = ax[9].plot(aqui_con.tx_mtx['X'][2],aqui_con.tx_mtx['t_cl-'][2])
 im9 = ax[9].plot(aqui_con.tx_mtx['X'][3],aqui_con.tx_mtx['t_cl-'][3])
 im9 = ax[9].plot(aqui_con.tx_mtx['X'][4],aqui_con.tx_mtx['t_cl-'][4])
 im9 = ax[9].plot(aqui_con.tx_mtx['X'][5],aqui_con.tx_mtx['t_cl-'][5])
+im9 = ax[9].scatter(aqui_con.tx_mtx['X'][0][0],
+        chem_inp.water['list']['boundary']['1']['cl-']['ctot'] )
 
 im10 = ax[10].plot(aqui_con.tx_mtx['X'][0],aqui_con.tx_mtx['X_na+'][0])
 im10 = ax[10].plot(aqui_con.tx_mtx['X'][1],aqui_con.tx_mtx['X_na+'][1])
@@ -309,100 +324,6 @@ plt.show(block=False)
 ##['X', 'Y', 'Z', 'P(bar)', 'Sg', 'Sl', 'T(C)', 'aH2O', 'pH', 't_h2o', 't_h+', 't_ca+2', 't_mg+2', 't_na+', 't_k+', 't_hco3-', 't_so4-2', 't_cl-', 'X_na+', 'X_k+', 'X_ca+2', 'X_mg+2', 'X_h+']
 
 
-#freq=10
-
-#m1 =np.linspace(opt_min_ay[  'S(liq)'     ], opt_max_ay['S(liq)'      ],freq)
-#m2 =np.linspace(opt_min_ay[  'DIFFUS.'    ], opt_max_ay['DIFFUS.'     ],freq)
-#m3 =np.linspace(opt_min_ay[  'PCAP'       ], opt_max_ay['PCAP'        ],freq)
-#m4 =np.linspace(gas_min_ay[  'Sg'         ], gas_max_ay[ 'Sg'         ],freq)
-#m5 =np.linspace(gas_min_ay[  'o2(g)'      ], gas_max_ay[ 'o2(g)'      ],freq)
-#m6 =np.linspace(sod_min_ay[ 'Porosity'    ], sod_max_ay['Porosity'    ],freq)
-#m7 =np.linspace(sod_min_ay[ 'Poros_Chg'   ], sod_max_ay['Poros_Chg'   ],freq)
-#m8 =np.linspace(sod_min_ay[ 'Permx(m^2)'  ], sod_max_ay['Permx(m^2)'  ],freq)
-#m9 =np.linspace(sod_min_ay[ 'Kx/Kx0'      ], sod_max_ay['Kx/Kx0'      ],freq)
-#m10=np.linspace(sod_min_ay[ 'Permz(m^2)'  ], sod_max_ay['Permz(m^2)'  ],freq)
-#m11=np.linspace(sod_min_ay[ 'Kz/Kz0'      ], sod_max_ay['Kz/Kz0'      ],freq)
-#m12=np.linspace(sod_min_ay[ 'pyrite'      ], sod_max_ay['pyrite'      ],freq)
-#m13=np.linspace(sod_min_ay[ 'chalcopyrit' ], sod_max_ay['chalcopyrit' ],freq)
-#m14=np.linspace(sod_min_ay[ 'magnetite'   ], sod_max_ay['magnetite'   ],freq)
-#m15=np.linspace(sod_min_ay[ 'k-feldspar'  ], sod_max_ay['k-feldspar'  ],freq)
-#m16=np.linspace(sod_min_ay[ 'albite'      ], sod_max_ay['albite'      ],freq)
-#m17=np.linspace(sod_min_ay[ 'anorthite'   ], sod_max_ay['anorthite'   ],freq)
-#m18=np.linspace(sod_min_ay[ 'annite'      ], sod_max_ay['annite'      ],freq)
-#m19=np.linspace(sod_min_ay[ 'muscovite'   ], sod_max_ay['muscovite'   ],freq)
-#m20=np.linspace(sod_min_ay[ 'anhydrite'   ], sod_max_ay['anhydrite'   ],freq)
-#m21=np.linspace(sod_min_ay[ 'goethite'    ], sod_max_ay['goethite'    ],freq)
-#m22=np.linspace(sod_min_ay[ 'chalcocite'  ], sod_max_ay['chalcocite'  ],freq)
-#m23=np.linspace(sod_min_ay[ 'covellite'   ], sod_max_ay['covellite'   ],freq)
-#m24=np.linspace(sod_min_ay[ 'kaolinite'   ], sod_max_ay['kaolinite'   ],freq)
-#m25=np.linspace(sod_min_ay[ 'sio2(am)'    ], sod_max_ay['sio2(am)'    ],freq)
-#m26=np.linspace(sod_min_ay[ 'alunite'     ], sod_max_ay['alunite'     ],freq)
-#m30=np.linspace(aqu_min_ay['t_so4-2'      ], aqu_max_ay['t_so4-2'     ],freq)
-#m31=np.linspace(aqu_min_ay['t_fe+2'       ], aqu_max_ay['t_fe+2'      ],freq)
-#m32=np.linspace(aqu_min_ay['t_cu+2'       ], aqu_max_ay['t_cu+2'      ],freq)
-#m33=np.linspace(aqu_min_ay['t_na+'        ], aqu_max_ay['t_na+'       ],freq)
-#m34=np.linspace(aqu_min_ay['t_k+'         ], aqu_max_ay['t_k+'        ],freq)
-#m35=np.linspace(aqu_min_ay['t_ca+2'       ], aqu_max_ay['t_ca+2'      ],freq)
-#m36=np.linspace(aqu_min_ay['t_alo2-'      ], aqu_max_ay['t_alo2-'     ],freq)
-#m37=np.linspace(aqu_min_ay['t_sio2(aq)'   ], aqu_max_ay['t_sio2(aq)'  ],freq)
-#m38=np.linspace(aqu_min_ay['P(bar)'       ], aqu_max_ay['P(bar)'      ],freq)
-#m39=np.linspace(aqu_min_ay['Sg'           ], aqu_max_ay['Sg'          ],freq)
-#m40=np.linspace(aqu_min_ay['Sl'           ], aqu_max_ay['Sl'          ],freq)
-#m41=np.linspace(aqu_min_ay['T(C)'         ], aqu_max_ay['T(C)'        ],freq)
-#m42=np.linspace(aqu_min_ay['aH2O'         ], aqu_max_ay['aH2O'        ],freq)
-#m43=np.linspace(aqu_min_ay['pH'           ], aqu_max_ay['pH'          ],freq)
-#m45=np.linspace(aqu_min_ay['t_cl-'        ], aqu_max_ay['t_cl-'       ],freq)
-
-
-
-#im1 = ax[1 ].contourf(x_ay , y_mtx , sat_liquid_mtx     ,m1 )
-#im2 = ax[2 ].contourf(x_ay , y_mtx , diffus_mtx         ,m2 )
-#im3 = ax[3 ].contourf(x_ay , y_mtx , pcap_mtx           ,m3 )
-#im4 = ax[4 ].contourf(x_ay , y_mtx , sg_mtx             ,m4 )
-#im5 = ax[5 ].contourf(x_ay , y_mtx , o2_mtx             ,m5 )
-#im6 = ax[6 ].contourf(x_ay , y_mtx , por_mtx            ,m6 )
-#im7 = ax[7 ].contourf(x_ay , y_mtx , poros_chg_mtx      ,m7 )
-#im8 = ax[8 ].contourf(x_ay , y_mtx , permx_m2_mtx       ,m8 )
-#im9 = ax[9 ].contourf(x_ay , y_mtx , KxPKx0_mtx             )
-#im10= ax[10].contourf(x_ay , y_mtx , Permz_m2_mtx       ,m10)
-#im11= ax[11].contourf(x_ay , y_mtx , KzPKz0_mtx         )
-#im12= ax[12].contourf(x_ay , y_mtx , pyrite_mtx         ,m12)
-#im13= ax[13].contourf(x_ay , y_mtx , chalcopyrit_mtx    ,m13)
-#im14= ax[14].contourf(x_ay , y_mtx , magnetite_mtx      ,m14)
-#im15= ax[15].contourf(x_ay , y_mtx , k_feldspar_mtx     ,m15)
-#im16= ax[16].contourf(x_ay , y_mtx , albite_mtx         ,m16)
-#im17= ax[17].contourf(x_ay , y_mtx , anorthite_mtx      ,m17)
-#im18= ax[18].contourf(x_ay , y_mtx , annite_mtx         ,m18)
-#im19= ax[19].contourf(x_ay , y_mtx , muscovite_mtx      ,m19)
-#im20= ax[20].contourf(x_ay , y_mtx , anhydrite_mtx      ,m20)
-#im21= ax[21].contourf(x_ay , y_mtx , goethite_mtx       ,m21)
-#im22= ax[22].contourf(x_ay , y_mtx , chalcocite_mtx     ,m22)
-#im23= ax[23].contourf(x_ay , y_mtx , covellite_mtx      ,m23)
-#im24= ax[24].contourf(x_ay , y_mtx , kaolinite_mtx      ,m24)
-#im25= ax[25].contourf(x_ay , y_mtx , sio2_am_mtx        ,m25)
-#im26= ax[26].contourf(x_ay , y_mtx , alunite_mtx        ,m26)
-#im30= ax[30].contourf(x_ay , y_mtx , aqu_t_so4_n2_mtx   ,m30) 
-#im31= ax[31].contourf(x_ay , y_mtx , aqu_t_fe_p2_mtx    ,m31)
-#im32= ax[32].contourf(x_ay , y_mtx , aqu_t_cu_p2_mtx    ,m32)
-#im33= ax[33].contourf(x_ay , y_mtx , aqu_t_na_p1_mtx    ,m33)
-#im34= ax[34].contourf(x_ay , y_mtx , aqu_t_k_p1_mtx     ,m34)
-#im35= ax[35].contourf(x_ay , y_mtx , aqu_t_ca_p2_mtx    ,m35)
-#im36= ax[36].contourf(x_ay , y_mtx , aqu_t_alo2_n1_mtx  ,m36)
-#im37= ax[37].contourf(x_ay , y_mtx , aqu_t_sio2_aq_mtx  ,m37)
-#im38= ax[38].contourf(x_ay , y_mtx , aqu_p_bar_mtx      ,m38)
-#im39= ax[39].contourf(x_ay , y_mtx , aqu_sg_mtx         ,m39)
-#im40= ax[40].contourf(x_ay , y_mtx , aqu_sl_mtx         ,m40)
-#im41= ax[41].contourf(x_ay , y_mtx , aqu_t_c_mtx        )
-#im42= ax[42].contourf(x_ay , y_mtx , aqu_ah2o_mtx       ,m42)
-#im43= ax[43].contourf(x_ay , y_mtx , aqu_ph_mtx         ,m43)
-#im45= ax[45].contourf(x_ay , y_mtx , aqu_t_cl_n1        ,m45)
-#im27= ax[27].plot(flow_first_column_ay['FLO(LIQ.)'],y_mtx[1:,0]  )
-#im28= ax[28].plot(flow_first_column_ay['VEL(LIQ.)'],y_mtx[1:,0] )
-#im29= ax[29].plot(sat_liquid_mtx[:,0], y_mtx[:,0]  )
-
-
-
-
 ##  a confirmation flow_first_column_ay['FLO(LIQ.)']/sat_liquid_mtx[:-1,0]/flow_first_column_ay['VEL(LIQ.)'] 
 ## essentially 
 ## FLO(LIQ.) [kg/s] = por * sat * VEL(LIQ.) [m3/s]  * density   [kg/m3]  
@@ -432,33 +353,25 @@ ax[13].set_title('aqui_con_\n X_mg+2' ,fontweight='bold')
 ax[14].set_title('aqui_con_\n X_h+'   ,fontweight='bold')
 ax[15].set_title('aqui_min_\n calcite',fontweight='bold')
 
-##ax[1].set_title('Saturation',x=0.04,y=0.8,fontweight='bold')
-#ax[1 ].set_title('flow.out \n Liquid Saturation' , fontweight='bold')
-#ax[2 ].set_title('flow.out \n Diffus'            , fontweight='bold')
-#ax[3 ].set_title('flow.out \n Cap. Pre.'         , fontweight='bold')
-#ax[4 ].set_title('aqui_gas \n Gas Saturation'    , fontweight='bold')
-#ax[5 ].set_title('aqui_gas \n Oxygen'            , fontweight='bold')
-#ax[6 ].set_title('aqui_min \n Porosity'          , fontweight='bold')
-#ax[7 ].set_title('aqui_min \n Porosity change'   , fontweight='bold')
-#ax[8 ].set_title('aqui_min \n Permeability (m2)' , fontweight='bold')
-#ax[9 ].set_title('aqui_min \n Kx/Kx0'      , fontweight='bold')
-#ax[10].set_title('aqui_min \n Permz(m^2)'  , fontweight='bold')
-#ax[11].set_title('aqui_min \n Kz/Kz0'      , fontweight='bold')
-#ax[12].set_title('aqui_min \n pyrite'      , fontweight='bold')
-#ax[13].set_title('aqui_min \n chalcopyrit' , fontweight='bold')
-#ax[14].set_title('aqui_min \n magnetite'   , fontweight='bold')
-#ax[15].set_title('aqui_min \n k-feldspar'  , fontweight='bold')
-#ax[16].set_title('aqui_min \n albite'      , fontweight='bold')
-#ax[17].set_title('aqui_min \n anorthite'   , fontweight='bold')
-#ax[18].set_title('aqui_min \n annite'      , fontweight='bold')
-#ax[19].set_title('aqui_min \n muscovite'   , fontweight='bold')
-#ax[20].set_title('aqui_min \n anhydrite'   , fontweight='bold')
-#ax[21].set_title('aqui_min \n goethite'    , fontweight='bold')
-#ax[22].set_title('aqui_min \n chalcocite'  , fontweight='bold')
-#ax[23].set_title('aqui_min \n covellite'   , fontweight='bold')
-#ax[24].set_title('aqui_min \n kaolinite'   , fontweight='bold')
-#ax[25].set_title('aqui_min \n sio2(am)'    , fontweight='bold')
-#ax[26].set_title('aqui_min \n alunite'     , fontweight='bold')
+
+# unit is given from aqui_con.dat header
+ax[0 ].set_ylabel('pH     \n mol/L'     ,fontweight='bold')
+ax[1 ].set_ylabel('t_h20  \n mol/L'  ,fontweight='bold')
+ax[2 ].set_ylabel('t_h+   \n mol/L'   ,fontweight='bold')
+ax[3 ].set_ylabel('t_ca+2 \n mol/L' ,fontweight='bold')
+ax[4 ].set_ylabel('t_mg+2 \n mol/L' ,fontweight='bold')
+ax[5 ].set_ylabel('t_na+  \n mol/L'  ,fontweight='bold')
+ax[6 ].set_ylabel('t_k+   \n mol/L'   ,fontweight='bold')
+ax[7 ].set_ylabel('t_hco3-\n mol/L',fontweight='bold')
+ax[8 ].set_ylabel('t_so4-2\n mol/L',fontweight='bold')
+ax[9 ].set_ylabel('t_cl-  \n mol/L'  ,fontweight='bold')
+ax[10].set_ylabel('aqui_con_\n X_na+'  ,fontweight='bold')
+ax[11].set_ylabel('aqui_con_\n X_k+'   ,fontweight='bold')
+ax[12].set_ylabel('aqui_con_\n X_ca+2' ,fontweight='bold')
+ax[13].set_ylabel('aqui_con_\n X_mg+2' ,fontweight='bold')
+ax[14].set_ylabel('aqui_con_\n X_h+'   ,fontweight='bold')
+ax[15].set_ylabel('aqui_min_\n calcite',fontweight='bold')
+
 #
 #ax[27].set_title('flow.out \n FLO(LIQ.)_fra(kg/s)'     , fontweight='bold')
 #ax[28].set_title('flow.out \n VEL(LIQ.)_fra(m3/s)'     , fontweight='bold')
@@ -481,7 +394,7 @@ ax[15].set_title('aqui_min_\n calcite',fontweight='bold')
 ##ax[44].set_title('aqui_con \n ',  fontweight='bold') 
 #ax[45].set_title('aqui_con \n t_cl-'      ,  fontweight='bold') 
 
-output_name = 'figure/'+'all'+'.jpg'
+output_name = 'figure/'+current_folder_name+'.jpg'
 fig.savefig(output_name, format='jpg', dpi=100)
 
 #for i in np.arange(plot_every):

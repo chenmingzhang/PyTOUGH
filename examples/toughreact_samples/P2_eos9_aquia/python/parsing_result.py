@@ -13,7 +13,7 @@ pytough_path=os.environ['pytough']
 print(os.environ['pytough'])
 
 current_path=os.getcwd()
-
+current_folder_name=os.path.basename(current_path)
 sys.path.append(os.path.join(pytough_path,'python'))
 
 py_compile.compile(os.path.join(pytough_path,'python','t2listing.py'))
@@ -28,6 +28,12 @@ importlib.reload(t2data)
 
 name = 'flow.inp'
 inp  = t2data.t2data(name)
+
+import tr2data
+importlib.reload(tr2data)
+
+
+chem_inp  = tr2data.tr2data('chemical.inp')
 
 # print (inp.grid.rocktype)
 
