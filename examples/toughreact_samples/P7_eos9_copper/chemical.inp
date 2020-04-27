@@ -3,7 +3,7 @@
 #'-----------------------------------------------------------------------------'
 #'DEFINITION OF THE GEOCHEMICAL SYSTEM'
 #'PRIMARY AQUEOUS SPECIES'
-'h+'           0    'a'         2.34    12  -33
+'h+'           0    
 'h2o'          0
 'o2(aq)'       0
 'so4-2'        0

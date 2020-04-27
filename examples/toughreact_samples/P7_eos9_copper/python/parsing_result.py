@@ -45,12 +45,11 @@ porosity=np.array([j.porosity for j in inp.grid.rocktypelist])
 
 tortuosity=np.array([j.tortuosity for j in inp.grid.rocktypelist])
 compressibility=np.array([j.compressibility for j in inp.grid.rocktypelist])
-vol_ay_all=np.array([j.volume for j in inp.grid.blocklist])
-vol_mtx=vol_ay_all[1:].reshape(Amic_aqureshape_format)
+
 
 
 # dx from matrix 
-dx_mtx= (x_mtx[:,:-1]+x_mtx[:,1:])/2
+#dx_mtx= (x_mtx[:,:-1]+x_mtx[:,1:])/2
 
 
 # #see page 69 of pytough user t2block object
@@ -59,6 +58,8 @@ element_coordinate_m=np.array([j.centre for j in inp.grid.blocklist])
 
 ### way to get the x and y as matrix
 Amic_aqureshape_format=[11,7]
+vol_ay_all=np.array([j.volume for j in inp.grid.blocklist])
+vol_mtx=vol_ay_all[1:].reshape(Amic_aqureshape_format)
 element_coordinate_m=np.array([j.centre for j in inp.grid.blocklist])
 x_ay_all=np.array([i[0] for i in element_coordinate_m[1:]] )
 x_mtx=x_ay_all.reshape(Amic_aqureshape_format)
