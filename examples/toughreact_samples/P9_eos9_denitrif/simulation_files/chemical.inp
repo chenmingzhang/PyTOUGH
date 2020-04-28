@@ -1,0 +1,101 @@
+# Title 
+'Column a of Nitrate problem in Doussan et al., 1997, in Contam. Hydrology'
+# '-----------------------------------------------------------------------------'
+# 'DEFINITION OF THE GEOCHEMICAL SYSTEM'
+# 'PRIMARY AQUEOUS SPECIES'  NoTransport
+'h2o'                      0                    
+'h+'                       0  
+'no3-'                     0      
+'DOC'                      0     ! Dissolved organic matter    
+'biomass'                  1     ! Biomass,         not subject to transport
+'*'                        0
+# 'AQUEOUS KINETICS'   
+  2                        ! Total number of kinetic aqueous reactions
+  1                        ! Denitration, NO3-
+       4   -6.195 'no3-' -2.5 'DOC'  1.0 'biomass'   -1.665e-5 'h+'  ! Consumption: negative; production positive     
+       1      1            ! rate model index, No.mechanism
+          1.6667E-5        ! rate constant (mass/L/s, maximum specific growth rate  
+          1   'biomass' 2  1.0                          ! Product    term,   2 means concentration
+          2   'DOC'   2  3.0    'no3-' 2  7.0           ! Monod      terms     
+          0                                             ! Inhibition terms
+  2                           ! Biomass decay
+       1     1.0 'biomass'    ! Consumption: negative; production positive     
+       1     1                ! rate model index; No.mechanism
+         -5.787d-07           ! rate constant (decay constant, -b here)  
+          1   'biomass' 2  1.0                          ! Product    term,   
+          0                                             ! Monod      terms
+          0                                             ! Inhibition terms
+'*'      
+# 'AQUEOUS COMPLEXES'
+'oh-'
+'*'
+# 'MINERALS'
+'*'
+# 'GASES'
+'*'  
+# 'SURFACE COMPLEXES'
+'*'
+# 'species with Kd and decay    decay constant(1/s)'
+'*'              
+# 'EXCHANGEABLE CATIONS'
+'*'
+# '----------------------------------------------------------------------------'
+# 'INITIAL AND BOUNDARY WATER TYPES'
+3   1       ! niwtype, nbwtype = number of initial and boundary waters
+# Index  Speciation T(C)  P(bar)
+1          20.0            1.0                       
+# '        icon        guess         ctot         '
+'h2o'        1        1.000d+00      1.000d+00  '  '  0.     
+'h+'         3        1.0d-7         1.0d-7     '  '  0.         ! mol/l
+'no3-'       1        1.0d-10        1.0d-10    '  '  0.         ! mg/l
+'DOC'        1        1.0d-10        1.0d-10    '  '  0.         ! mg/l
+'biomass'    1        1.5d-80        1.5d-80    '  '  0.         ! mg/l
+'*'        
+# Index  Speciation T(C)  P(bar)
+2          20.0            1.0                       
+# '        icon        guess         ctot         '
+'h2o'        1        1.000d+00      1.000d+00   '  '  0.      
+'h+'         3        1.0d-7         1.0d-7      '  '  0.      ! mol/l
+'no3-'       1        1.0d-10        1.0d-10     '  '  0.      ! mg/l
+'DOC'        1        1.0d-10        1.0d-10     '  '  0.      ! mg/l
+'biomass'    1        1.0d-0         1.0d-0      '  '  0.      ! mg/l
+'*'        
+# Index  Speciation T(C)  P(bar)
+3          20.0            1.0                       
+# '        icon        guess         ctot         '
+'h2o'        1        1.000d+00      1.000d+00   '  '  0.      
+'h+'         3        1.0d-7         1.0d-7      '  '  0.      ! mol/l
+'no3-'       1        1.0d-10        1.0d-10     '  '  0.      ! mg/l
+'DOC'        1        1.0d-10        1.0d-10     '  '  0.      ! mg/l
+'biomass'    1        1.5d-80        1.5d-80     '  '  0.      ! mg/l
+'*'        
+# Index  Speciation T(C)  P(bar)
+1          20.0            1.0                       
+# '        icon        guess         ctot         '
+'h2o'        1        1.000d+00      1.000d+00   '  '  0.      
+'h+'         3        1.0d-7         1.0d-7      '  '  0.  
+'no3-'       1        34.1           34.1        '  '  0.
+'DOC'        1        43.2           43.2        '  '  0.
+'biomass'    1        1.5d-80        1.5d-80     '  '  0.      
+'*'        
+# '----------------------------------------------------------------------------'
+# 'INITIAL MINERAL ZONES'
+'*'
+# '----------------------------------------------------------------------------'
+# 'INITIAL gas ZONES'
+'*'
+# '----------------------------------------------------------------------------'
+# 'Permeability-Porosity Zones'
+'*'
+# '----------------------------------------------------------------------------'
+# 'INITIAL SURFACE ADSORPTION ZONES'
+'*'
+# '---------------------------------------if Sden=0 Kd store retardation factor'
+# 'INITIAL LINEAR EQUILIBRIUM Kd ZONE'
+'*'
+# '---------------------------------------if Sden=0 Kd store retardation factor'
+# 'INITIAL ZONES OF CATION EXCHANGE'
+'*'
+# '----------------------------------------------------------------------------'
+# 'end'
+

@@ -1,0 +1,40 @@
+# Title 
+'Column a of Nitrate problem in Doussan et al., 1997, in Contam. Hydrology'
+# options for reactive chemical transport: ! ISPIA,INIBOUND,ISOLVC,ngamm,NGAS1,ichdump,kcpl,Ico2h2o,numdr 
+    2    1    5    0    0    0    0    0    0 
+# constraints for reactive chemical transport (4e10.4): !sl1min, rcour, stimax, cnfact
+   1.00e-4       0.9       4.0       1.0       
+# Read input and output file names:
+therAKin.dat                ! thermodynamic database
+iter.dat                    ! iteration information
+Nia_conc.dat                ! aqueous concentrations in tecplot form
+Nia_min.dat                 ! mineral data  in tecplot form
+Nia_gas.dat                 ! gas data  in tecplot form
+time.dat                    ! concentrations at specific elements over time
+# Weighting parameters
+       1.0       1.0 1.000d-09   0.0d-05           ! itime wupc,dffun,dffung
+# data to convergence criteria:
+    1 0.100E-03  100 1.000E-05   30 0.100E-05  0.00E-05  0.00E-05    !  ........ TOLDC,TOLDR 
+# writing control variables: ! NWTI NWNOD NWCOM NWMIN NWAQ NWADS NWEXC iconflag(=1:mol/l) minflag(=1:Vf)
+   20    1    3    0    0    0    0    1    1   
+# pointer of nodes for writing in time:
+G   3
+# pointer of components for writing:
+    3    4    5
+# pointer of minerals for writing:
+
+# Individual aqueous species for which to output concentrations in time and plot files:
+
+# Adsorption species for which to output concentrations in time and plot files:
+
+# Exchange species for which to output concentrations in time and plot files:
+
+# default values of chemical zone codes for grid blocks:
+    1    1    1    1    0    0    1    1
+# chemical zone codes for nodes:
+B   1   54    1    2    1    2    1    0    0    1    1
+G   1   54    1    3    1    3    1    0    0    1    1
+
+# this "end" record is needed now
+end 
+
