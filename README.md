@@ -43,6 +43,6 @@ export pytough=/home/${USER}/Projects/PyTOUGH/
 
 
 known issues:
-1. can not parse t2listing when kddata is more than 2. 
-2. does not include parsing nesq nad1 and nad2
+1. can not parse t2listing (flow.out) when kddata is more than 2. 
+2. does not include parsing nesq nad1 and nad2, which may resulted in error in parsing error.
 

@@ -6,14 +6,15 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 import importlib
-#def parsing_result ():
 
 
 pytough_path=os.environ['pytough']
 print(os.environ['pytough'])
 
 current_path=os.getcwd()
+
 current_folder_name=os.path.basename(current_path)
+
 sys.path.append(os.path.join(pytough_path,'python'))
 
 py_compile.compile(os.path.join(pytough_path,'python','t2listing.py'))
@@ -23,17 +24,14 @@ import t2listing
 import t2data
 importlib.reload(t2listing)
 importlib.reload(t2data)
-
-#saturation=np.linspace(0,1,100)
-
-name = 'flow.inp'
-inp  = t2data.t2data(name)
-
 import tr2data
 importlib.reload(tr2data)
 
+saturation=np.linspace(0,1,100)
+name = 'flow.inp'
+inp  = t2data.t2data(name)
+cinp  = tr2data.tr2data('chemical.inp')
 
-chem_inp  = tr2data.tr2data('chemical.inp')
 
 # print (inp.grid.rocktype)
 
@@ -42,37 +40,41 @@ chem_inp  = tr2data.tr2data('chemical.inp')
 # rock_type=[i for i in inp.grid.rocktype]
 
 
-# density=np.array([j.density for j in inp.grid.rocktypelist])
-# porosity=np.array([j.porosity for j in inp.grid.rocktypelist])
+density=np.array([j.density for j in inp.grid.rocktypelist])
+porosity=np.array([j.porosity for j in inp.grid.rocktypelist])
 
-# tortuosity=np.array([j.tortuosity for j in inp.grid.rocktypelist])
-# compressibility=np.array([j.compressibility for j in inp.grid.rocktypelist])
+tortuosity=np.array([j.tortuosity for j in inp.grid.rocktypelist])
+compressibility=np.array([j.compressibility for j in inp.grid.rocktypelist])
+
+
+
+# dx from matrix 
+#dx_mtx= (x_mtx[:,:-1]+x_mtx[:,1:])/2
+
+
 # #see page 69 of pytough user t2block object
 # #
 element_coordinate_m=np.array([j.centre for j in inp.grid.blocklist])
 
 ### way to get the x and y as matrix
-#Amic_aqureshape_format=[11,7]
-#element_coordinate_m=np.array([j.centre for j in inp.grid.blocklist])
-#x_ay_all=np.array([i[0] for i in element_coordinate_m[1:]] )
-#x_mtx=x_ay_all.reshape(Amic_aqureshape_format)
-#y_ay_all=np.array([i[1] for i in element_coordinate_m[1:]] )
-#y_mtx=y_ay_all.reshape(Amic_aqureshape_format)
-#z_ay_all=np.array([i[2] for i in element_coordinate_m[1:]] )
-#z_mtx=z_ay_all.reshape(Amic_aqureshape_format)
-## x_mtx here is the centre of each element
-#
-#
-## obtaining dx dy and dz from coordinate.
+Amic_aqureshape_format=[3,55]
+vol_ay_all=np.array([j.volume for j in inp.grid.blocklist])
+vol_mtx=vol_ay_all.reshape(Amic_aqureshape_format)
+element_coordinate_m=np.array([j.centre for j in inp.grid.blocklist])
+x_ay_all=np.array([i[0] for i in element_coordinate_m] )
+x_mtx=x_ay_all.reshape(Amic_aqureshape_format)
+y_ay_all=np.array([i[1] for i in element_coordinate_m] )
+y_mtx=y_ay_all.reshape(Amic_aqureshape_format)
+z_ay_all=np.array([i[2] for i in element_coordinate_m] )
+z_mtx=z_ay_all.reshape(Amic_aqureshape_format)
+# x_mtx here is the centre of each element
+
+
+# obtaining dx dy and dz from coordinate.
 #x_ay=x_mtx[0]
 #y_ay=[i[0] for i in   y_mtx]
 #dy=[-2]*11
 #dz=[10]
-#
-
-
-
-
 
 # TO200324 the attempt to export from inp to vtz is failed because:
 #1. the current grid is not regular given the first cell 'TOP 0'
@@ -85,36 +87,60 @@ element_coordinate_m=np.array([j.centre for j in inp.grid.blocklist])
 # #element_coordinate_m[1:,0]
 
 # volume=np.array([j.volume for j in inp.grid.blocklist])
-rock_type=np.array([j.rocktype for j in inp.grid.blocklist])
+# rock_type=np.array([j.rocktype for j in inp.grid.blocklist])
 
-# volume[1:].reshape(reshape_format)  # first is removed because
+# volume.reshape(reshape_format)  # first is removed because
 
-#rock_type
-#array([TUBES, TUBES, TUBES, TUBES, TUBES, TUBES, TUBES, TUBES, TUBES,
-#       TUBES, TUBES, TUBES, TUBES, TUBES, TUBES, TUBES], dtype=object)
+# rock_type.reshape(reshape_format)
+# array([[FRACT, MATRX, MATRX, MATRX, MATRX, MATRX, MATRX],
+#        [FRACT, MATRX, MATRX, MATRX, MATRX, MATRX, MATRX],
+#        [FRACT, MATRX, MATRX, MATRX, MATRX, MATRX, MATRX],
+#        [FRACT, MATRX, MATRX, MATRX, MATRX, MATRX, MATRX],
+#        [FRACT, MATRX, MATRX, MATRX, MATRX, MATRX, MATRX],
+#        [FRACT, MATRX, MATRX, MATRX, MATRX, MATRX, MATRX],
+#        [FRACT, MATRX, MATRX, MATRX, MATRX, MATRX, MATRX],
+#        [FRACT, MATRX, MATRX, MATRX, MATRX, MATRX, MATRX],
+#        [FRACT, MATRX, MATRX, MATRX, MATRX, MATRX, MATRX],
+#        [FRACT, MATRX, MATRX, MATRX, MATRX, MATRX, MATRX],
+#        [FRACB, MATRB, MATRB, MATRB, MATRB, MATRB, MATRB]], dtype=object)
 
 
-#num_connections
-#Out[18]: array([1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-#WARNING: 1. THIS MEANS TOUGHREACT HAS YET IMPLIMENT THE FUCTION OF SUSSESSIVE 
-#  CONNECTION MADE BY VARIABLE NESQ!
-#WARNING: 2. THE X in input is only for plotting purpose and has nothing to do with the result
 
-
+# num_connections=np.array([j.num_connections for j in inp.grid.blocklist])
+# num_connections.reshape(reshape_format)
+# # array([[3, 4, 4, 4, 4, 4, 3],
+# #        [3, 4, 4, 4, 4, 4, 3],
+# #        [3, 4, 4, 4, 4, 4, 3],
+# #        [3, 4, 4, 4, 4, 4, 3],
+# #        [3, 4, 4, 4, 4, 4, 3],
+# #        [3, 4, 4, 4, 4, 4, 3],
+# #        [3, 4, 4, 4, 4, 4, 3],
+# #        [3, 4, 4, 4, 4, 4, 3],
+# #        [3, 4, 4, 4, 4, 4, 3],
+# #        [3, 4, 4, 4, 4, 4, 3],
+# #        [1, 1, 1, 1, 1, 1, 1]])
 
 name=np.array([j.name for j in inp.grid.blocklist])
-#name
-#Out[19]: 
-#array(['F   1', 'F   2', 'F   3', 'F   4', 'F   5', 'F   6', 'F   7',
-#       'F   8', 'F   9', 'F  10', 'F  11', 'F  12', 'F  13', 'F  14',
-#       'F  15', 'F  16'], dtype='<U5')
+name_mtx=name.reshape(Amic_aqureshape_format)
+# # array([['    1', '2   1', '3   1', '4   1', '5   1', '6   1', '7   1'],
+# #        ['    2', '2   2', '3   2', '4   2', '5   2', '6   2', '7   2'],
+# #        ['    3', '2   3', '3   3', '4   3', '5   3', '6   3', '7   3'],
+# #        ['    4', '2   4', '3   4', '4   4', '5   4', '6   4', '7   4'],
+# #        ['    5', '2   5', '3   5', '4   5', '5   5', '6   5', '7   5'],
+# #        ['    6', '2   6', '3   6', '4   6', '5   6', '6   6', '7   6'],
+# #        ['    7', '2   7', '3   7', '4   7', '5   7', '6   7', '7   7'],
+# #        ['    8', '2   8', '3   8', '4   8', '5   8', '6   8', '7   8'],
+# #        ['    9', '2   9', '3   9', '4   9', '5   9', '6   9', '7   9'],
+# #        ['   10', '2  10', '3  10', '4  10', '5  10', '6  10', '7  10'],
+# #        ['wta 1', 'wta 2', 'wta 3', 'wta 4', 'wta 5', 'wta 6', 'wta 7']],
+# #       dtype='<U5')
 
 # neighbour_name=np.array([j.neighbour_name for j in inp.grid.blocklist])
-# neighbour_name[1:].reshape(reshape_format)
+# neighbour_name.reshape(reshape_format)
 
 
 # ahtx=np.array([j.ahtx for j in inp.grid.blocklist])
-# ahtx[1:].reshape(reshape_format)
+# ahtx.reshape(reshape_format)
 
 
 # num_connections=np.array([j.permeability for j in inp.grid.connectionlist])
@@ -136,7 +162,7 @@ name=np.array([j.name for j in inp.grid.blocklist])
 # 
 # from example of 3d in pytough, geom.dat has keyword VERTICES and GRID
 
-aqui_con=t2listing.toughreact_tecplot('Nia_conc.dat',inp.grid.blocklist)
+aqu=t2listing.toughreact_tecplot('Nia_conc.dat',inp.grid.blocklist)
 #cc=Amic_aqu.history((inp.grid.block['TOP 0'],'Sg'))
 #cc=Amic_aqu.history([(inp.grid.block['TOP 0'],'Sg'),    (inp.grid.block['    1'],'Sg')])
 
@@ -145,8 +171,8 @@ aqui_con=t2listing.toughreact_tecplot('Nia_conc.dat',inp.grid.blocklist)
 #Amic_aqu.element.DataFrame
 
 # below are successful
-aqui_min=t2listing.toughreact_tecplot('Nia_min.dat',inp.grid.blocklist)
-aqui_gas=t2listing.toughreact_tecplot('Nia_gas.dat',inp.grid.blocklist)
+sod=t2listing.toughreact_tecplot('Nia_min.dat',inp.grid.blocklist)
+gas=t2listing.toughreact_tecplot('Nia_gas.dat',inp.grid.blocklist)
 
 
 # this is failed, because this is not in tecplot format
@@ -238,16 +264,25 @@ opt=t2listing.t2listing(name_output)
 ##   TO200324 one way to figure out connection
 ## it is not possible to get mullgrid from input file because information is 
 ## insurfficient https://github.com/acroucher/PyTOUGH/issues/21
-#mask_vertical_flow_direction=[not(i.dircos) for i in inp.grid.connectionlist]
+bool_mask_vertical_flow_direction=[not(i.dircos) for i in inp.grid.connectionlist]
+
+mask_vertical_flow_direction = np.where(bool_mask_vertical_flow_direction)[0]
+
+
+
+distance_ay_all=[i.distance for i in inp.grid.connectionlist]
+
+# inp.grid.connectionlist[2].dircos 
+
 # name_mtx[:-1,0]
-# name_mtx[1:,0]
-#first_column_tuple=list(zip(name_mtx[:-1,0],name_mtx[1:,0]))
-#connection_ay=opt.connection.DataFrame.row
-#opt.connectionlist.DataFrame.row
-#indices = np.where(np.in1d(first_column_tuple, opt.connection.DataFrame.row))[0]
-#indx = [items.index(tupl) for tupl in items if tupl[0] == s]
-#indx = [items.index(tupl) for tupl in items if tupl[0] == s]
-#Output = [i for i, item in   enumerate(opt.connection.DataFrame.row)    if item == first_column_tuple[0] ]  #working  
+# name_mtx0]
+#first_column_tuple=list(zip(name_mtx[:-1,0],name_mtx0]))
+##connection_ay=opt.connection.DataFrame.row
+##opt.connectionlist.DataFrame.row
+##indices = np.where(np.in1d(first_column_tuple, opt.connection.DataFrame.row))[0]
+##indx = [items.index(tupl) for tupl in items if tupl[0] == s]
+##indx = [items.index(tupl) for tupl in items if tupl[0] == s]
+##Output = [i for i, item in   enumerate(opt.connection.DataFrame.row)    if item == first_column_tuple[0] ]  #working  
 #mask_first_column_index_ay =  [  [i for i, item in   enumerate(opt.connection.DataFrame.row)    if item == j ] for j in   first_column_tuple   ]
 #mask_first_column_index_ay=np.array([i[0] for i in mask_first_column_index_ay])  # for flow output
 
