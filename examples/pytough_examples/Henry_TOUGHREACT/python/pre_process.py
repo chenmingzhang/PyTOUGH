@@ -3,30 +3,30 @@ import numpy as np
 import matplotlib.pyplot as plt
 import csv
 import os
-from t2data import *
+#from t2data import *
 from mpl_toolkits.mplot3d import Axes3D
-import sys
-import py_compile
 import importlib
+import py_compile
 cwd = os.getcwd()
 
 
 
-## reload t2listing and t2data in case there is update in the module 
-#pytough_path=os.environ['pytough']
-#print(os.environ['pytough'])
-#
-#current_path=os.getcwd()
-#current_folder_name=os.path.basename(current_path)
-#sys.path.append(os.path.join(pytough_path,'python'))
-#
-#py_compile.compile(os.path.join(pytough_path,'python','t2listing.py'))
-#py_compile.compile(os.path.join(pytough_path,'python','t2data.py'))
-#
-#import t2listing
-#import t2data
-#importlib.reload(t2listing)
-#importlib.reload(t2data)
+# reload t2listing and t2data in case there is update in the module 
+pytough_path=os.environ['pytough']
+print(os.environ['pytough'])
+
+current_path=os.getcwd()
+current_folder_name=os.path.basename(current_path)
+sys.path.append(os.path.join(pytough_path,'python'))
+
+py_compile.compile(os.path.join(pytough_path,'python','t2listing.py'))
+py_compile.compile(os.path.join(pytough_path,'python','t2data.py'))
+
+import t2listing
+import t2data
+importlib.reload(t2listing)
+importlib.reload(t2data)
+
 
 liquid_density_kgPm3   = 1000
 brine_density_kgPm3    = 1185.1
@@ -38,8 +38,10 @@ T_kelven               = 273.15
 T_initial              = 25.0
 P_initial              = 101.3e3
 
-dat       = t2data()
-dat.title = 'dp_model_flow'
+dat       = t2data.t2data()
+dat.title = 'flow.inp'   # for toughreact, only 'flow.inp' can be used as flow input file
+dat.add_react(mopr=[None,2,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1])
+# the first 2 means only run tough2 not chemical and solute
 
 # #--- set up the model ---------------------------------
 length_x = 40.
@@ -49,11 +51,11 @@ nblks_z  = 12
 dx       = [length_x / nblks_x] * nblks_x
 dz       = [length_z / nblks_z] * nblks_z
 dy       = [0.5]
-geo      = mulgrid().rectangular(dx, dy, dz)
+geo      = t2data.mulgrid().rectangular(dx, dy, dz)
 geo.write(dat.title+'.dat')
 
 # #Create TOUGH2 input data file:
-dat.grid = t2grid().fromgeo(geo)
+dat.grid = t2data.t2grid().fromgeo(geo)
 dat.parameter.update(
     {'max_timesteps'  : 9.e3,
      'const_timestep' : -1,
@@ -81,13 +83,13 @@ dat.multi={'num_components': 3, 'num_equations': 3, 'num_phases': 2, 'num_second
 dat.selection={'float':[None],'integer':[2]}
 
 # #Add another rocktype, with relative permeability and capillarity functions & parameters:
-r1                       = rocktype('SAND ', nad = 2, porosity = 0.45,density = 2650.,permeability = [2.e-12, 2.e-12, 2.e-12],conductivity = 2.51,specific_heat = 920)
+r1                       = t2data.rocktype('SAND ', nad = 2, porosity = 0.45,density = 2650.,permeability = [2.e-12, 2.e-12, 2.e-12],conductivity = 2.51,specific_heat = 920)
 r1.tortuosity            = 0
 r1.relative_permeability = {'type': 7, 'parameters': [0.627, 0.045, 1., 0.054]      }
 r1.capillarity           = {'type': 7, 'parameters': [0.627, 0.045, 5.e-4, 1.e8, 1.]}
 dat.grid.add_rocktype(r1)
 
-r2                       = rocktype('BOUND', nad = 2,porosity = 0.99,density = 2650., permeability = [2.e-12, 2.e-12, 2.e-12],conductivity = 2.51,specific_heat = 1.e5)
+r2                       = t2data.rocktype('BOUND', nad = 2,porosity = 0.99,density = 2650., permeability = [2.e-12, 2.e-12, 2.e-12],conductivity = 2.51,specific_heat = 1.e5)
 r2.relative_permeability = {'type': 1, 'parameters': [0.1, 0., 1., 0.1]}
 r2.capillarity           = {'type': 1, 'parameters': [0. , 0., 1.0    ]}
 dat.grid.add_rocktype(r2)
@@ -106,16 +108,16 @@ for blk in dat.grid.blocklist:
 
 # #add boundary condition block at each end:
 for i in range(nblks_z):
-    b1 = t2block('zzz'+str(i+1), bvolume, dat.grid.rocktype['BOUND'],ahtx=conarea,centre=np.array([0,0.25,-(length_z/nblks_z+i)/2]) )
+    b1 = t2data.t2block('zzz'+str(i+1), bvolume, dat.grid.rocktype['BOUND'],ahtx=conarea,centre=np.array([0,0.25,-(length_z/nblks_z+i)/2]) )
     dat.grid.add_block(b1)
-    con1 = t2connection([b1, dat.grid.blocklist[i*nblks_x],b1],                     # why three
+    con1 = t2data.t2connection([b1, dat.grid.blocklist[i*nblks_x],b1],                     # why three
                     distance = [condist,0.5*dx[0]], area = conarea, direction=1)    #dirction=1 ends up with betax=0 (cos between gravity and line between link)
     dat.grid.add_connection(con1)
 
 for i in range(nblks_z-4):
-    b2 = t2block('zzz'+str(nblks_z+i+1), bvolume, dat.grid.rocktype['BOUND'],ahtx=conarea,centre=np.array([length_x,0.25,-(length_z/nblks_z+i+4)/2]))
+    b2 = t2data.t2block('zzz'+str(nblks_z+i+1), bvolume, dat.grid.rocktype['BOUND'],ahtx=conarea,centre=np.array([length_x,0.25,-(length_z/nblks_z+i+4)/2]))
     dat.grid.add_block(b2)
-    con2 = t2connection([dat.grid.blocklist[nblks_x-1+(i+4)*nblks_x], b2],
+    con2 = t2data.t2connection([dat.grid.blocklist[nblks_x-1+(i+4)*nblks_x], b2],
                     distance = [0.5*dx[nblks_x-1], condist], area = conarea, direction=1)
     dat.grid.add_connection(con2)
 

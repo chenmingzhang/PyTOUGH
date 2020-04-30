@@ -91,7 +91,8 @@ t2data_format_specification = {
     'minc'  : [['part', 'type', '', 'dual'], ['5s'] * 2 + ['5x', '5s']],
     'part1' : [['num_continua', 'nvol', 'where'] + ['spacing'] * 7,
                ['3d'] * 2 + ['-4s'] + ['10.4e'] * 7],
-    'part2' : [['vol'] * 8, ['10.4e'] * 8]
+    'part2' : [['vol'] * 8, ['10.4e'] * 8],
+    'react' : [['a']*20,['1s']*20]
     }
 
 t2data_extra_precision_format_specification = {
@@ -215,7 +216,7 @@ t2data_sections = [
     'SIMUL', 'ROCKS', 'PARAM', 'MOMOP', 'START', 'NOVER', 'RPCAP',
     'LINEQ', 'SOLVR', 'MULTI', 'TIMES', 'SELEC', 'DIFFU',
     'ELEME', 'CONNE', 'MESHM', 'GENER', 'SHORT', 'FOFT',
-    'COFT', 'GOFT', 'INCON', 'INDOM']
+    'COFT', 'GOFT', 'INCON', 'INDOM','REACT']
 
 t2_extra_precision_sections = ['ROCKS', 'ELEME', 'CONNE', 'RPCAP', 'GENER']
 
@@ -256,6 +257,7 @@ class t2data(object):
         self._extra_precision, self._echo_extra_precision = [], True
         self.update_read_write_functions()
         self.read_function = read_function
+        self.react={}
         if self.filename: self.read(filename, meshfilename)
 
     def get_extra_precision(self): return self._extra_precision
@@ -377,7 +379,9 @@ class t2data(object):
              self.history_connection,
              self.history_generator,
              self.incon,
-             self.indom]))
+             self.indom,
+             self.react]))
+        #pdb.set_trace()
         return [keyword for keyword in t2data_sections if data_present[keyword]]
     present_sections = property(get_present_sections)
 
@@ -918,7 +922,7 @@ class t2data(object):
 
     def write_generators(self, outfile):
         if self.generatorlist:
-            outfile.write('GENER\n')
+            outfile.write('GENER----1MOPR(20)-2----*----3----*----4----*----5----*----6----*----7----*----8\n')
             for generator in self.generatorlist:
                 self.write_generator(generator, outfile)
             outfile.write('\n')
@@ -934,7 +938,7 @@ class t2data(object):
 
     def write_times(self, outfile):
         if self.output_times:
-            outfile.write('TIMES\n')
+            outfile.write('TIMES----1MOPR(20)-2----*----3----*----4----*----5----*----6----*----7----*----8\n')
             outfile.write_value_line(self.output_times, 'output_times1')
             nlines = int(ceil(self.output_times['num_times_specified'] / 8.))
             for i in range(nlines):
@@ -963,7 +967,7 @@ class t2data(object):
 
     def write_incons(self, outfile):
         if self.incon:
-            outfile.write('INCON\n')
+            outfile.write('INCON----1MOPR(20)-2----*----3----*----4----*----5----*----6----*----7----*----8\n')
             for blk in self.grid.blocklist:
                 blkname = blk.name
                 try:
@@ -1610,7 +1614,7 @@ class t2data(object):
         outfile = t2data_parser(self.filename, 'w')
         self.write_title(outfile)
         for keyword in self._sections:
-            pdb.set_trace()
+            #pdb.set_trace()
             if (keyword not in mesh_sections) and \
                     ((keyword not in self.extra_precision) or
                      (keyword in self.extra_precision and self.echo_extra_precision)):
@@ -2008,7 +2012,28 @@ class t2data(object):
                     self.history_generator[i] = blockmap[gen]
 
     def write_react(self, outfile):
-        if self.multi != {}:
-            outfile.write('react\n')
-            spec = ['multi', 'multi_autough2'][self.type == 'AUTOUGH2']
-            outfile.write_value_line(self.multi, spec)
+        if self.react != {}:
+            outfile.write('REACT----1MOPR(20)-2----*----3----*----4----*----5----*----6----*----7----*----8\n')
+            #pdb.set_trace()
+            outfile.write_values(self.react[1:], 'react')
+
+    def add_react(self,mopr=[None,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]):
+        '''
+        add lines of REACT into inp file so that TOUGHREACT can read through
+        notice that the index of self.react is the same as MOPR in page 25 
+        toughreact manual. this means self.react[0] is not used.
+        the default mopr value is [None,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        '''
+        #pdb.set_trace()
+        self.insert_section('REACT')
+        self.react =mopr
+
+
+#    def write_generators(self, outfile):
+#        if self.generatorlist:
+#            outfile.write('GENER----1MOPR(20)-2----*----3----*----4----*----5----*----6----*----7----*----8\n')
+#            for generator in self.generatorlist:
+#                self.write_generator(generator, outfile)
+#            outfile.write('\n')
+#    def write_start(self, outfile):
+#        if self.start: outfile.write('START\n')
