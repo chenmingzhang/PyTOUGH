@@ -312,7 +312,8 @@ class t2data(object):
                  self.read_history_connections,
                  self.read_history_generators,
                  self.read_incons,
-                 self.read_indom]))
+                 self.read_indom,
+                 self.read_react]))
 
         self.write_fn = dict(zip(
                 t2data_sections,
@@ -552,7 +553,7 @@ class t2data(object):
 
     def write_simulator(self, outfile):
         if self.simulator:
-            outfile.write('SIMUL\n')
+            outfile.write('SIMUL----1----*----2----*----3----*----4----*----5----*----6----*----7----*----8\n')
             outfile.write(self.simulator.strip() + '\n')
 
     def read_rocktypes(self, infile):
@@ -584,7 +585,7 @@ class t2data(object):
         while infile.readline().strip(): pass
 
     def write_rocktypes(self, outfile):
-        outfile.write('ROCKS\n')
+        outfile.write('ROCKS----1----*----2----*----3----*----4----*----5----*----6----*----7----*----8\n')
         for rt in self.grid.rocktypelist:
             vals = [rt.name, rt.nad, rt.density, rt.porosity] + \
                    list(rt.permeability) + [rt.conductivity, rt.specific_heat]
@@ -630,7 +631,7 @@ class t2data(object):
         return line
 
     def write_parameters(self, outfile):
-        outfile.write('PARAM\n')
+        outfile.write('PARAM----1----*----2----*----3----*----4----*----5----*----6----*----7----*----8\n')
         from copy import copy
         paramw = copy(self.parameter)
         if paramw['print_block'] is not None:
@@ -659,7 +660,7 @@ class t2data(object):
         
     def write_more_options(self, outfile):
         """Writes additional parameter options"""
-        outfile.write('MOMOP\n')
+        outfile.write('MOMOP----1----*----2----*----3----*----4----*----5----*----6----*----7----*----8\n')
         self._more_option_str = ''.join([str(m) for m in self.more_option[1:]])
         outfile.write_value_line(self.__dict__, '_more_option_str')
         
@@ -691,7 +692,7 @@ class t2data(object):
 
     def write_multi(self, outfile):
         if self.multi != {}:
-            outfile.write('MULTI\n')
+            outfile.write('MULTI----1----*----2----*----3----*----4----*----5----*----6----*----7----*----8\n')
             spec = ['multi', 'multi_autough2'][self.type == 'AUTOUGH2']
             outfile.write_value_line(self.multi, spec)
 
@@ -700,7 +701,7 @@ class t2data(object):
         self.start = True
 
     def write_start(self, outfile):
-        if self.start: outfile.write('START\n')
+        if self.start: outfile.write('START----1----*----2----*----3----*----4----*----5----*----6----*----7----*----8\n')
 
     def read_rpcap(self, infile):
         """Reads relative permeability and capillarity parameters"""
@@ -717,7 +718,7 @@ class t2data(object):
 
     def write_rpcap(self, outfile):
         if self.relative_permeability:
-            outfile.write('RPCAP\n')
+            outfile.write('RPCAP----1----*----2----*----3----*----4----*----5----*----6----*----7----*----8\n')
             vals = [self.relative_permeability['type'], None] + \
                    self.relative_permeability['parameters']
             outfile.write_values(vals, 'relative_permeability')
@@ -731,7 +732,7 @@ class t2data(object):
 
     def write_lineq(self, outfile):
         if self.lineq:
-            outfile.write('LINEQ\n')
+            outfile.write('LINEQ----1----*----2----*----3----*----4----*----5----*----6----*----7----*----8\n')
             outfile.write_value_line(self.lineq, 'lineq')
 
     def read_solver(self, infile):
@@ -740,7 +741,7 @@ class t2data(object):
 
     def write_solver(self, outfile):
         if self.solver:
-            outfile.write('SOLVR\n')
+            outfile.write('SOLVR----1----*----2----*----3----*----4----*----5----*----6----*----7----*----8\n')
             outfile.write_value_line(self.solver, 'solver')
 
     def read_blocks(self, infile):
@@ -776,7 +777,7 @@ class t2data(object):
         while infile.readline().strip(): pass
 
     def write_blocks(self, outfile):
-        outfile.write('ELEME\n')
+        outfile.write('ELEME----1----*----2----*----3----*----4----*----5----*----6----*----7----*----8\n')
         if self.grid.num_blocks > 0:
             from copy import copy
             for blk in self.grid.blocklist:
@@ -813,7 +814,7 @@ class t2data(object):
         while infile.readline().strip(): pass
 
     def write_connections(self, outfile):
-        outfile.write('CONNE\n')
+        outfile.write('CONNE----1----*----2----*----3----*----4----*----5----*----6----*----7----*----8\n')
         if self.grid.num_connections > 0:
             for con in self.grid.connectionlist:
                 vals = [unfix_blockname(con.block[0].name),
@@ -922,7 +923,7 @@ class t2data(object):
 
     def write_generators(self, outfile):
         if self.generatorlist:
-            outfile.write('GENER----1MOPR(20)-2----*----3----*----4----*----5----*----6----*----7----*----8\n')
+            outfile.write('GENER----1----*----2----*----3----*----4----*----5----*----6----*----7----*----8\n')
             for generator in self.generatorlist:
                 self.write_generator(generator, outfile)
             outfile.write('\n')
@@ -938,7 +939,7 @@ class t2data(object):
 
     def write_times(self, outfile):
         if self.output_times:
-            outfile.write('TIMES----1MOPR(20)-2----*----3----*----4----*----5----*----6----*----7----*----8\n')
+            outfile.write('TIMES----1----*----2----*----3----*----4----*----5----*----6----*----7----*----8\n')
             outfile.write_value_line(self.output_times, 'output_times1')
             nlines = int(ceil(self.output_times['num_times_specified'] / 8.))
             for i in range(nlines):
@@ -2028,12 +2029,6 @@ class t2data(object):
         self.insert_section('REACT')
         self.react =mopr
 
-
-#    def write_generators(self, outfile):
-#        if self.generatorlist:
-#            outfile.write('GENER----1MOPR(20)-2----*----3----*----4----*----5----*----6----*----7----*----8\n')
-#            for generator in self.generatorlist:
-#                self.write_generator(generator, outfile)
-#            outfile.write('\n')
-#    def write_start(self, outfile):
-#        if self.start: outfile.write('START\n')
+    def read_react(self,infile):
+        vals = infile.read_values('react')
+        self.react=vals
