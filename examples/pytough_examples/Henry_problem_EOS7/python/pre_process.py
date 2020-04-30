@@ -59,22 +59,22 @@ dat.multi={'num_components': 3, 'num_equations': 3, 'num_phases': 2, 'num_second
 dat.selection={'float':[None],'integer':[2]}
 
 # #Add another rocktype, with relative permeability and capillarity functions & parameters:
-r1 = rocktype('SAND ', nad=2, porosity=0.45,density=2650.,permeability = [2.e-12, 2.e-12, 2.e-12],conductivity=2.51,specific_heat=920)
-r1.tortuosity=0
+r1                       = rocktype('SAND ', nad = 2, porosity = 0.45,density = 2650.,permeability = [2.e-12, 2.e-12, 2.e-12],conductivity = 2.51,specific_heat = 920)
+r1.tortuosity            = 0
+r1.relative_permeability = {'type': 7, 'parameters': [0.627, 0.045, 1., 0.054]      }
+r1.capillarity           = {'type': 7, 'parameters': [0.627, 0.045, 5.e-4, 1.e8, 1.]}
 dat.grid.add_rocktype(r1)
-r1.relative_permeability = {'type': 7, 'parameters': [0.627, 0.045, 1., 0.054]}
-r1.capillarity = {'type': 7, 'parameters': [0.627, 0.045, 5.e-4, 1.e8, 1.]}
 
-r2 = rocktype('BOUND', nad=2,porosity=0.99,density=2650., permeability = [2.e-12, 2.e-12, 2.e-12],conductivity=2.51,specific_heat=1.e5)
-dat.grid.add_rocktype(r2)
+r2                       = rocktype('BOUND', nad = 2,porosity = 0.99,density = 2650., permeability = [2.e-12, 2.e-12, 2.e-12],conductivity = 2.51,specific_heat = 1.e5)
 r2.relative_permeability = {'type': 1, 'parameters': [0.1, 0., 1., 0.1]}
-r2.capillarity = {'type': 1, 'parameters': [0., 0., 1.0]}
+r2.capillarity           = {'type': 1, 'parameters': [0. , 0., 1.0    ]}
+dat.grid.add_rocktype(r2)
 # relative_humidity=0.1
 # P_bound=np.log(relative_humidity)*liquid_density_kgPm3*R_value*(T_initial+T_kelven)/water_molecular_weight
 # r2.relative_permeability = {'type': 1, 'parameters': [0.1,0.0,1.0,0.1,]}
 # r2.capillarity = {'type': 1, 'parameters': [-P_bound, 0., 1.0]}
 	
-bvol = 0.0
+bvolume = 1.e50
 conarea = dy[0] * dz[0]
 condist = 1.e-10
 # #assign rocktype and parameter values:
@@ -84,32 +84,34 @@ for blk in dat.grid.blocklist:
 
 # #add boundary condition block at each end:
 for i in range(nblks_z):
-    b1 = t2block('zzz'+str(i+1), bvol, r2)
-    b1.volume=1.e50
+    b1 = t2block('zzz'+str(i+1), bvolume, dat.grid.rocktype['BOUND'],ahtx=conarea,centre=np.array([0,0.25,-(length_z/nblks_z+i)/2]) )
     dat.grid.add_block(b1)
-    con1 = t2connection([b1, dat.grid.blocklist[i*nblks_x],b1],
-                    distance = [condist,0.5*dx[0]], area = conarea, direction=1)
+    con1 = t2connection([b1, dat.grid.blocklist[i*nblks_x],b1],                     # why three
+                    distance = [condist,0.5*dx[0]], area = conarea, direction=1)    #dirction=1 ends up with betax=0 (cos between gravity and line between link)
     dat.grid.add_connection(con1)
-    dat.grid.connectionlist[-1].dircos=0
-    dat.grid.blocklist[-1].ahtx=conarea
-    dat.grid.blocklist[-1].centre=np.array([0,0.25,-(length_z/nblks_z+i)/2])
 
 for i in range(nblks_z-4):
-    b2 = t2block('zzz'+str(nblks_z+i+1), bvol, dat.grid.rocktype['BOUND'])
-    b2.volume=1.e50
+    b2 = t2block('zzz'+str(nblks_z+i+1), bvolume, dat.grid.rocktype['BOUND'],ahtx=conarea,centre=np.array([length_x,0.25,-(length_z/nblks_z+i+4)/2]))
     dat.grid.add_block(b2)
     con2 = t2connection([dat.grid.blocklist[nblks_x-1+(i+4)*nblks_x], b2],
                     distance = [0.5*dx[nblks_x-1], condist], area = conarea, direction=1)
     dat.grid.add_connection(con2)
-    dat.grid.connectionlist[-1].dircos=0
-    dat.grid.blocklist[-1].ahtx=conarea
-    dat.grid.blocklist[-1].centre=np.array([length_x,0.25,-(length_z/nblks_z+i+4)/2])
+
+
+for i in range(nblks_z-4):
+    #print(dat.grid.blocklist[-(i+1)])
+    print(brine_density_kgPm3*dat.parameter['gravity']*(dat.grid.blocklist[-(i+1)].centre[2]+1.5)
 
 # #Set initial condition:
 for i in range(nblks_z-4):
-    dat.incon[str(dat.grid.blocklist[-(i+1)])] = [None, [P_initial-brine_density_kgPm3*dat.parameter['gravity']*(dat.grid.blocklist[-(i+1)].centre[2]+1.5), 1, 10.01, T_initial]]
+    dat.incon[str(dat.grid.blocklist[-(i+1)])] = \
+        [None, [P_initial-brine_density_kgPm3*dat.parameter['gravity']*(dat.grid.blocklist[-(i+1)].centre[2]+1.5), 1, 10.01, T_initial]]
+
+#[None, [144896.86625, 1, 10.01, 25.0]]
+
 for i in range(nblks_z):
-    dat.incon[str(dat.grid.blocklist[-(i+1+nblks_z-4)])] = [None, [P_initial-liquid_density_kgPm3*dat.parameter['gravity']*(dat.grid.blocklist[-(i+1+nblks_z-4)].centre[2]+1), 0, 10.01, T_initial]]
+    dat.incon[str(dat.grid.blocklist[-(i+1+nblks_z-4)])] \
+        = [None, [P_initial-liquid_density_kgPm3*dat.parameter['gravity']*(dat.grid.blocklist[-(i+1+nblks_z-4)].centre[2]+1), 0, 10.01, T_initial]]
 
 # #deleted block:
 j=0
