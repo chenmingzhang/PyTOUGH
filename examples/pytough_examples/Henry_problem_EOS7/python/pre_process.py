@@ -5,6 +5,27 @@ import csv
 import os
 from t2data import *
 from mpl_toolkits.mplot3d import Axes3D
+import sys
+import py_compile
+cwd = os.getcwd()
+
+
+
+# reload t2listing and t2data in case there is update in the module 
+pytough_path=os.environ['pytough']
+print(os.environ['pytough'])
+
+current_path=os.getcwd()
+current_folder_name=os.path.basename(current_path)
+sys.path.append(os.path.join(pytough_path,'python'))
+
+py_compile.compile(os.path.join(pytough_path,'python','t2listing.py'))
+py_compile.compile(os.path.join(pytough_path,'python','t2data.py'))
+
+import t2listing
+import t2data
+importlib.reload(t2listing)
+importlib.reload(t2data)
 
 liquid_density_kgPm3   = 1000
 brine_density_kgPm3    = 1185.1
@@ -98,9 +119,9 @@ for i in range(nblks_z-4):
     dat.grid.add_connection(con2)
 
 
-for i in range(nblks_z-4):
-    #print(dat.grid.blocklist[-(i+1)])
-    print(brine_density_kgPm3*dat.parameter['gravity']*(dat.grid.blocklist[-(i+1)].centre[2]+1.5)
+#for i in range(nblks_z-4):
+#    #print(dat.grid.blocklist[-(i+1)])
+#    print(brine_density_kgPm3*dat.parameter['gravity']*(dat.grid.blocklist[-(i+1)].centre[2]+1.5)
 
 # #Set initial condition:
 for i in range(nblks_z-4):

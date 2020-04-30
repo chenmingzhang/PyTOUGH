@@ -18,6 +18,7 @@ from t2grids import *
 from t2incons import *
 from math import ceil
 import struct
+import pdb
 
 t2data_format_specification = {
     'title': [['title'], ['80s']],
@@ -335,7 +336,8 @@ class t2data(object):
                  self.write_history_connections,
                  self.write_history_generators,
                  self.write_incons,
-                 self.write_indom]))
+                 self.write_indom,
+                 self.write_react]))
 
         skip_fn = dict(zip(
             t2_extra_precision_sections,
@@ -1608,6 +1610,7 @@ class t2data(object):
         outfile = t2data_parser(self.filename, 'w')
         self.write_title(outfile)
         for keyword in self._sections:
+            pdb.set_trace()
             if (keyword not in mesh_sections) and \
                     ((keyword not in self.extra_precision) or
                      (keyword in self.extra_precision and self.echo_extra_precision)):
@@ -2004,3 +2007,8 @@ class t2data(object):
                 if gen in blockmap:
                     self.history_generator[i] = blockmap[gen]
 
+    def write_react(self, outfile):
+        if self.multi != {}:
+            outfile.write('react\n')
+            spec = ['multi', 'multi_autough2'][self.type == 'AUTOUGH2']
+            outfile.write_value_line(self.multi, spec)

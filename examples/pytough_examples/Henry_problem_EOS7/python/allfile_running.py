@@ -1,11 +1,5 @@
 import os
-cwd = os.getcwd()
 
-
-#execfile(cwd+'/python/pre_process.py')
-#execfile(cwd+'/python/running_model.py')
-#execfile(cwd+'/python/parsing_outputfile.py')
-#execfile(cwd+'/python/post_process.py')
 
 path1=os.path.join(cwd,'python','pre_process.py')
 exec(compile(open(path1).read(), path1, 'exec'))
