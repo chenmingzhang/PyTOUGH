@@ -12,6 +12,7 @@ R_value                = 8.3145
 mPmm                   = 1.e-3
 dayPs                  = 1./(3600*24)
 T_kelven               = 273.15
+p_atm_pa               = 101.3e3
 
 dat       = t2data()
 dat.title = 'flow.inp'
@@ -39,8 +40,8 @@ dat.parameter.update(
      'default_incons' : [101.3e3, 10.99, 25.0, None],
      'relative_error' : 1.e-5})
 	 
-dat.parameter['print_interval']=dat.parameter['max_timesteps']/20
-dat.parameter['max_timestep']=dat.parameter['tstop']/dat.parameter['max_timesteps']
+dat.parameter['print_interval'] = dat.parameter['max_timesteps']/20
+dat.parameter['max_timestep']   = dat.parameter['tstop']/dat.parameter['max_timesteps']
 
 dat.start = True
 dat.diffusion=[[2.13e-5,     0.e-8],   [2.13e-5,     0.e-8]]
@@ -76,28 +77,29 @@ r2 = rocktype('BOUND',
         conductivity  = 2.51,
         specific_heat = 1.e5)
 r2.relative_permeability = {'type': 1, 'parameters': [0.1,0.0,1.0,0.1,]}
-r2.capillarity = {'type': 1, 'parameters': [0., 0., 1.0]}
+r2.capillarity           = {'type': 1, 'parameters': [0., 0., 1.0]}
 dat.grid.add_rocktype(r2)
 
 
-bvol = 0.0
+bvol = 1.e50
 conarea = dx[0] * dy[0]
 condist = 1.e-10
   
 # #assign rocktype and parameter values:
 for blk in dat.grid.blocklist:
     blk.rocktype = r1
-    blk.ahtx=conarea
+    blk.ahtx     = conarea   # interface area for heat exchange
 	
 # #add boundary condition block at each end:
-b1 = t2block('bdy01', bvol, r2)
-b1.volume  =  1.e50
+b1 = t2block('bdy01', bvol, r2,
+             ahtx      = conarea)# area for heat exchange 
 dat.grid.add_block(b1)
 
 con1 = t2connection([dat.grid.blocklist[0],b1],
                     distance  = [0.5*dz[0],condist],
                     area      = conarea, 
-                    direction = 3)
+                    direction = 3,   # which to read permeability
+                    dircos    = -1)  # ISOT not BETX
 dat.grid.add_connection(con1)
 
 # b2 = t2block('bdy02', bvol, dat.grid.rocktype['BOUND'])
@@ -106,20 +108,21 @@ dat.grid.add_connection(con1)
                     # distance = [0.5*dz[nblks-1], condist], area = conarea, direction=3)
 # dat.grid.add_connection(con2)
 
-dat.grid.connectionlist[-1].dircos = -1
-dat.grid.blocklist[-1].ahtx        = conarea
 
 # #Set initial condition:
 for i in range(len(dat.grid.blocklist)-1):
-    dat.incon[str(dat.grid.blocklist[i])] = [None, [101.3e3+dat.grid.blocklist[i].centre[2]*(-1)*liquid_density_kgPm3*dat.parameter['gravity'], 10.01, 25.0]]
-dat.incon['bdy01'] = [None, [101.3e3, 0.99, 25.0]]
-dat.incon[str(dat.grid.blocklist[1])][1][1] = 10.99
+    dat.incon[str(dat.grid.blocklist[i])] = \
+            [None, [p_atm_pa+dat.grid.blocklist[i].centre[2]*(-1)*liquid_density_kgPm3*dat.parameter['gravity'], 10.01, 25.0]]
+dat.incon['bdy01'] = [None, [p_atm_pa, 0.99, 25.0]]   # what does 0.99 mean?
+dat.incon[str(dat.grid.blocklist[1])][1][1] = 10.99   # why is this needed?
 
 # #add generator:
 flow_rate_mmPday = -5.
 flow_rate_kgPs   = flow_rate_mmPday*conarea*liquid_density_kgPm3*mPmm*dayPs
-gen              = t2generator(name  = 'INF 1', block = dat.grid.blocklist[0].name,
-              gx = flow_rate_kgPs, type = 'COM1')
+gen              = t2generator(name  = 'INF 1', 
+                               block = dat.grid.blocklist[0].name,
+                               gx   = flow_rate_kgPs,
+                               type = 'COM1')
 dat.add_generator(gen)
 
 
