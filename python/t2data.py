@@ -930,6 +930,7 @@ class t2data(object):
 
     def read_times(self, infile):
         """Reads output times from file"""
+        #pdb.set_trace()
         infile.read_value_line(self.output_times, 'output_times1')
         self.output_times['time'] = []
         nlines = int(ceil(self.output_times['num_times_specified'] / 8.))

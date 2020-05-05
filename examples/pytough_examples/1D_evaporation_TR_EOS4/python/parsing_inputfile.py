@@ -15,10 +15,10 @@ m2mm                   = 1000
 day2s                  = 3600*24
 T_kelven               = 273.15
 
-dat.title = 'flow.out'
+title = 'flow.out'
 
 # #--- read TOUGH2 input file ------------------------------------	
-dat = t2data(dat.title)
+dat = t2data(title)
 # dat.grid.write_vtk('sam6_geo.vtu')
 
 # #--- plot generated mesh ------------------------------------	

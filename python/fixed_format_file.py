@@ -11,6 +11,7 @@ PyTOUGH is distributed in the hope that it will be useful, but WITHOUT ANY WARRA
 You should have received a copy of the GNU Lesser General Public License along with PyTOUGH.  If not, see <http://www.gnu.org/licenses/>."""
 
 from numpy import nan
+import pdb
 
 def fortran_float(s, blank_value = 0.0):
     """Returns float of a string written by Fortran.
@@ -71,7 +72,8 @@ from functools import partial
 fortran_read_float = partial(fortran_float, blank_value = None)
 fortran_read_int = partial(fortran_int, blank_value = None)
 
-def read_function_dict(floatfn = default_read_float, intfn = default_read_int,
+#def read_function_dict(floatfn = default_read_float, intfn = default_read_int,
+def read_function_dict(floatfn = fortran_read_float, intfn = fortran_read_int,       #TO200505 make all numbers read by fortran format
                              strfn = default_read_str, spacefn = default_read_space):
     """Returns a conversion function dictionary using the specified functions for float,
     int, string and space."""

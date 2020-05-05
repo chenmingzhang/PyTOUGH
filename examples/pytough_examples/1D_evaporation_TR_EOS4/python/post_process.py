@@ -1,9 +1,9 @@
 
-from t2listing import *
 import numpy as np
 import matplotlib.pyplot as plt
 import csv
 import os
+from t2listing import *
 from t2data import *
 from mpl_toolkits.mplot3d import Axes3D
 
