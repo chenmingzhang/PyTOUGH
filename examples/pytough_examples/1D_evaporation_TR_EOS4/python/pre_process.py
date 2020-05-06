@@ -14,10 +14,30 @@ dayPs                  = 1./(3600*24)
 sPday                  = 3600*24.
 T_init_c               = 25.0
 p_atm_pa               = 101.3e3
-simulation_time_s      = 3.110e+07   #30*3600*24
+simulation_time_s      = 3.110e+07*2   #30*3600*24
+max_no_time_steps      = 9999 
+
+
+
+
+
 
 inp       = t2data()
 inp.title = 'flow.inp'
+
+
+# delete exisiting input file
+cwd=os.getcwd()
+inp_path=os.path.join(os.getcwd(),inp.title)
+
+if os.path.exists(inp_path):
+    os.remove(inp_path)
+    print("Existing "+ inp.title + " deleted\n")
+else:
+    print("Can not delete "+ inp.title + "  as it doesn't exists\n")
+
+
+
 
 # #--- set up the model ---------------------------------
 length = 1.
@@ -31,16 +51,19 @@ geo    = mulgrid().rectangular(dx, dy, dz)
 # #Create TOUGH2 input data file:
 inp.grid = t2grid().fromgeo(geo)
 inp.parameter.update(
-    {'max_timesteps'  : 9999,     # maximum number of time steps
+    {'max_timesteps'  : max_no_time_steps,     # maximum number of time steps, 9999 in TR means max_timesteps do not restrict the simulation time
      'const_timestep' : -1,
      'tstop'          : simulation_time_s,
      'gravity'        : 9.81,
-     'print_level'    : 2,      #-3
-     'texp'           : 2.41e-05,
+     'print_level'    : 2,      #-3 SO far TR can not handle print level >2
+     'texp'           : 2.41e-05,   # default vapour diffusion coefficient. note this is not 1e-9m2/s for solute
      'timestep'       : [1.0],
      'be'             : 2.334,
      'default_incons' : [p_atm_pa, 10.99, T_init_c, None],
-     'relative_error' : 1.e-6})
+     'relative_error' : 1.e-6,
+     'print_interval' : max_no_time_steps/20,
+     'max_timestep'   : 86400     # the maximum length of time step in second
+     })
 	 
 inp.parameter['print_interval'] = inp.parameter['max_timesteps']/20
 inp.parameter['max_timestep']   = inp.parameter['tstop']/inp.parameter['max_timesteps']
@@ -64,7 +87,7 @@ inp.parameter['option'][21] = 3
 
 
 
-# TIMES
+# TIMES 
 inp.output_times = {'num_times_specified': int(simulation_time_s*dayPs),
                     'time': list( np.arange(int(simulation_time_s*dayPs)) *sPday   )}
 
@@ -105,7 +128,9 @@ for blk in inp.grid.blocklist:
 	
 # #add boundary condition block at each end:
 b1 = t2block('bdy01', bvol, r2,
-             ahtx      = conarea)# area for heat exchange 
+             ahtx      = conarea, # area for heat exchange
+             centre    = np.array([ dx[0]/2,dy[0]/2,0   ])   # important for plotting
+             ) 
 #inp.grid.add_block(b1)
 
 inp.grid.blocklist.insert(0,b1)
@@ -166,3 +191,4 @@ inp.add_generator(gen)
 inp.add_react(mopr=[None,2,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1])
 
 inp.write(inp.title)
+print("file " + inp.title +" generated\n")

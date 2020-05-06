@@ -7,6 +7,8 @@ import os
 from t2data import *
 from mpl_toolkits.mplot3d import Axes3D
 
+print('Parsing output file\n')
+
 liquid_density_kgPm3   = 1000
 water_molecular_weight = 0.018
 kpaPpa                 = 1.e-3
@@ -22,11 +24,23 @@ dat = t2data('flow.inp')
 
 connection_first_distance               = np.array([blk.distance[0] for blk in dat.grid.connectionlist])
 connection_second_distance              = np.array([blk.distance[1] for blk in dat.grid.connectionlist])
-element_value                           = np.cumsum(np.insert(connection_first_distance+connection_second_distance,0,0))
-connection_value                        = np.cumsum(connection_first_distance+np.insert(connection_second_distance[:-1], 0, 0)) 
+ele_depth_m                             = np.cumsum(np.insert(connection_first_distance+connection_second_distance,0,0))
+con_depth_m                            = np.cumsum(connection_first_distance+np.insert(connection_second_distance[:-1], 0, 0)) 
                                         
+
+element_coordinate_m=np.array([j.centre for j in inp.grid.blocklist])
+ele_x_ay_all=np.array([i[0] for i in element_coordinate_m] )
+ele_z_ay_all=np.array([i[2] for i in element_coordinate_m] )
+
+#x_element_ay =[ i[2] for i in element_coordinate_m ]
 #lst.element.column_name
 #['P', 'T', 'SG', 'SL', 'XAIRG', 'XAIRL', 'PAIR', 'PCAP', 'DG', 'DL']
+#lst.connection.column_name
+#['FLOH', 'FLOH/FLOF', 'FLOF', 'FLO(GAS)', 'VAPDIF', 'FLO(LIQ.)', 'VEL(GAS)', 'VEL(LIQ.)']
+#lst.generation.column_name
+#['GENERATION RATE', 'ENTHALPY', 'FF(GAS)', 'FF(LIQ.)', 'P(WB)']
+
+
 gas_density_kgPm3                       = np.array([lst.history(('e',i,'DG' ) )[1] for i in lst.element.row_name])   # two brackets is needed!
 liq_density_kgPm3                       = np.array([lst.history(('e',i,'DL'  ))[1] for i in lst.element.row_name])
 gas_saturation                          = np.array([lst.history(('e',i,'SG'  ))[1] for i in lst.element.row_name])
@@ -37,11 +51,11 @@ capillary_pressure_pa                   = np.array([lst.history(('e',i,'PCAP'))[
 temperature_degree                      = np.array([lst.history(('e',i,'T'   ))[1] for i in lst.element.row_name])
 vapor_mass_fraction_in_gas              = 1-np.array([lst.history(('e',i,'XAIRG'))[1] for i in lst.element.row_name])
                                         
-liquid_flow_kgPs                        = -np.array([lst.history(('c',lst.connection.row_name[i],'FLO(LIQ.)'))[1] for i in range(lst.connection.num_rows)])
+liquid_flow_kgPs                        = -np.array([lst.history(('c',i,'FLO(LIQ.)'))[1] for i in lst.connection.row_name])
 liquid_flow_mmPday                      = liquid_flow_kgPs/dat.grid.connectionlist[0].area/liquid_density_kgPm3/mPmm/dayPs
-gas_flow_kgPs                           = -np.array([lst.history(('c',lst.connection.row_name[i],'FLO(GAS)'))[1] for i in range(lst.connection.num_rows)])
+gas_flow_kgPs                           = -np.array([lst.history(('c',i,'FLO(GAS)'))[1] for i in lst.connection.row_name])
 gas_flow_mmPday                         = gas_flow_kgPs/dat.grid.connectionlist[0].area/liquid_density_kgPm3/mPmm/dayPs
-vapor_diff_flow_kgPs                    = -np.array([lst.history(('c',lst.connection.row_name[i],'VAPDIF'))[1] for i in range(lst.connection.num_rows)])
+vapor_diff_flow_kgPs                    = -np.array([lst.history(('c',i,'VAPDIF'))[1] for i in lst.connection.row_name])      # c means connection, but why negative? negative may related to BETAX, which is -1 in this case
 vapor_diff_flow_mmPday                  = vapor_diff_flow_kgPs/dat.grid.connectionlist[0].area/liquid_density_kgPm3/mPmm/dayPs
   
 # gas_advection_velocity_mPs              = -1*np.array([lst.history(('c',lst.connection.row_name[i],'VEL(GAS)'))[1] for i in range(lst.connection.num_rows)])

@@ -27,8 +27,8 @@ dat = t2data(title)
 
 connection_first_distance    = np.array([blk.distance[0] for blk in dat.grid.connectionlist])
 connection_second_distance   = np.array([blk.distance[1] for blk in dat.grid.connectionlist])
-element_value                = np.cumsum(np.insert(connection_first_distance+connection_second_distance,0,0))
-connection_value             = np.cumsum(connection_first_distance+np.insert(connection_second_distance[:-1], 0, 0)) 
+ele_depth_m                  = np.cumsum(np.insert(connection_first_distance+connection_second_distance,0,0))
+con_depth_m                 = np.cumsum(connection_first_distance+np.insert(connection_second_distance[:-1], 0, 0)) 
 
 # geo = mulgrid().rectangular(element_coordinate[:,0], -2*np.array([element_coordinate[0,1]]), -2*np.array([element_coordinate[0,2]]))
 # geo.write_vtk('geom.vtk')
@@ -53,7 +53,7 @@ connection_value             = np.cumsum(connection_first_distance+np.insert(con
 
 # fig=plt.figure()
 # # ax1=plt.subplot(141)
-# # ax1.plot(initial_porosity[:],element_value,'b-')
+# # ax1.plot(initial_porosity[:],ele_depth_m  ,'b-')
 # # plt.xlabel('Por.')
 # # plt.ylabel('x (m)')
 # # # plt.ylabel('high (m)')
@@ -62,7 +62,7 @@ connection_value             = np.cumsum(connection_first_distance+np.insert(con
 # # #ax1.set_yscale('log')
 
 # ax2=plt.subplot(131)
-# ax2.plot(initial_condition[:,0]/1000,element_value,'b-')
+# ax2.plot(initial_condition[:,0]/1000,ele_depth_m  ,'b-')
 # plt.xlabel('Gas Pre. (Kpa)')
 # # plt.ylabel('high (m)')
 # plt.ylim(1.5,-0.1)
@@ -70,7 +70,7 @@ connection_value             = np.cumsum(connection_first_distance+np.insert(con
 # #plt.yscale('log')
 
 # ax3=plt.subplot(132)
-# ax3.plot(100-(initial_condition[:,1]-10)*100,element_value,'b-')
+# ax3.plot(100-(initial_condition[:,1]-10)*100,ele_depth_m  ,'b-')
 # plt.xlabel('Liq. Sat. (%)')
 # # plt.ylabel('high (m)')
 # plt.ylim(1.5,-0.1)
@@ -79,7 +79,7 @@ connection_value             = np.cumsum(connection_first_distance+np.insert(con
 # #ax3.set_yscale('log')
 
 # ax4=plt.subplot(133)
-# ax4.plot(initial_condition[:,2],element_value,'b-')
+# ax4.plot(initial_condition[:,2],ele_depth_m  ,'b-')
 # plt.xlabel('Tem. (Degree)')
 # # plt.ylabel('high (m)')
 # plt.ylim(1.5,-0.1)
