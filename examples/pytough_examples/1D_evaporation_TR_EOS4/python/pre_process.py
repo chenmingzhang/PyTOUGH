@@ -14,7 +14,7 @@ dayPs                  = 1./(3600*24)
 sPday                  = 3600*24.
 T_init_c               = 25.0
 p_atm_pa               = 101.3e3
-simulation_time_s      = 30*3600*24
+simulation_time_s      = 3.110e+07   #30*3600*24
 
 inp       = t2data()
 inp.title = 'flow.inp'
@@ -31,7 +31,7 @@ geo    = mulgrid().rectangular(dx, dy, dz)
 # #Create TOUGH2 input data file:
 inp.grid = t2grid().fromgeo(geo)
 inp.parameter.update(
-    {'max_timesteps'  : 3.e3,
+    {'max_timesteps'  : 9999,     # maximum number of time steps
      'const_timestep' : -1,
      'tstop'          : simulation_time_s,
      'gravity'        : 9.81,
@@ -40,7 +40,7 @@ inp.parameter.update(
      'timestep'       : [1.0],
      'be'             : 2.334,
      'default_incons' : [p_atm_pa, 10.99, T_init_c, None],
-     'relative_error' : 1.e-5})
+     'relative_error' : 1.e-6})
 	 
 inp.parameter['print_interval'] = inp.parameter['max_timesteps']/20
 inp.parameter['max_timestep']   = inp.parameter['tstop']/inp.parameter['max_timesteps']

@@ -25,15 +25,17 @@ connection_second_distance              = np.array([blk.distance[1] for blk in d
 element_value                           = np.cumsum(np.insert(connection_first_distance+connection_second_distance,0,0))
 connection_value                        = np.cumsum(connection_first_distance+np.insert(connection_second_distance[:-1], 0, 0)) 
                                         
-gas_density_kgPm3                       = np.array([lst.history(('e',lst.element.row_name[i],'DG' ) )[1] for i in range(lst.element.num_rows)])   # two brackets is needed!
-liq_density_kgPm3                       = np.array([lst.history(('e',lst.element.row_name[i],'DL'  ))[1] for i in range(lst.element.num_rows)])
-gas_saturation                          = np.array([lst.history(('e',lst.element.row_name[i],'SG'  ))[1] for i in range(lst.element.num_rows)])
-liq_saturation                          = np.array([lst.history(('e',lst.element.row_name[i],'SL'  ))[1] for i in range(lst.element.num_rows)])
-gas_pressure_pa                         = np.array([lst.history(('e',lst.element.row_name[i],'P'   ))[1] for i in range(lst.element.num_rows)])
-air_pressure_pa                         = np.array([lst.history(('e',lst.element.row_name[i],'PAIR'))[1] for i in range(lst.element.num_rows)])
-capillary_pressure_pa                   = np.array([lst.history(('e',lst.element.row_name[i],'PCAP'))[1] for i in range(lst.element.num_rows)])
-temperature_degree                      = np.array([lst.history(('e',lst.element.row_name[i],'T'   ))[1] for i in range(lst.element.num_rows)])
-vapor_mass_fraction_in_gas              = 1-np.array([lst.history(('e',lst.element.row_name[i],'XAIRG'))[1] for i in range(lst.element.num_rows)])
+#lst.element.column_name
+#['P', 'T', 'SG', 'SL', 'XAIRG', 'XAIRL', 'PAIR', 'PCAP', 'DG', 'DL']
+gas_density_kgPm3                       = np.array([lst.history(('e',i,'DG' ) )[1] for i in lst.element.row_name])   # two brackets is needed!
+liq_density_kgPm3                       = np.array([lst.history(('e',i,'DL'  ))[1] for i in lst.element.row_name])
+gas_saturation                          = np.array([lst.history(('e',i,'SG'  ))[1] for i in lst.element.row_name])
+liq_saturation                          = np.array([lst.history(('e',i,'SL'  ))[1] for i in lst.element.row_name])
+gas_pressure_pa                         = np.array([lst.history(('e',i,'P'   ))[1] for i in lst.element.row_name])
+air_pressure_pa                         = np.array([lst.history(('e',i,'PAIR'))[1] for i in lst.element.row_name])
+capillary_pressure_pa                   = np.array([lst.history(('e',i,'PCAP'))[1] for i in lst.element.row_name])
+temperature_degree                      = np.array([lst.history(('e',i,'T'   ))[1] for i in lst.element.row_name])
+vapor_mass_fraction_in_gas              = 1-np.array([lst.history(('e',i,'XAIRG'))[1] for i in lst.element.row_name])
                                         
 liquid_flow_kgPs                        = -np.array([lst.history(('c',lst.connection.row_name[i],'FLO(LIQ.)'))[1] for i in range(lst.connection.num_rows)])
 liquid_flow_mmPday                      = liquid_flow_kgPs/dat.grid.connectionlist[0].area/liquid_density_kgPm3/mPmm/dayPs
@@ -71,10 +73,10 @@ vapor_diff_flow_second_mmPday           = vapor_diff_flow_mmPday[1]
 water_flow_second_mmPday                = liquid_flow_second_mmPday+vapor_flow_second_mmPday+vapor_diff_flow_second_mmPday
 total_water_flow_second_mm              = np.cumsum(water_flow_second_mmPday*np.insert(np.diff(lst.times),0,lst.times[0])*dayPs)
  
-water_generation_kgPs                   = np.array([lst.history(('g',lst.generation.row_name[i],'GENERATION RATE'))[1] for i in range(lst.generation.num_rows)])
+water_generation_kgPs                   = np.array([lst.history(('g',i,'GENERATION RATE'))[1] for i in lst.generation.row_name])
 water_generation_mmPday                 = water_generation_kgPs/dat.grid.connectionlist[0].area/liquid_density_kgPm3/mPmm/dayPs
-water_generation_vapor_mass_fraction    = np.array([lst.history(('g',lst.generation.row_name[i],'FF(GAS)'))[1] for i in range(lst.generation.num_rows)])
-water_generation_liquid_mass_fraction   = np.array([lst.history(('g',lst.generation.row_name[i],'FF(LIQ.)'))[1] for i in range(lst.generation.num_rows)])
+water_generation_vapor_mass_fraction    = np.array([lst.history(('g',i,'FF(GAS)' ))[1] for i in lst.generation.row_name])
+water_generation_liquid_mass_fraction   = np.array([lst.history(('g',i,'FF(LIQ.)'))[1] for i in lst.generation.row_name])
 water_generation_vapor_mmPday           = water_generation_mmPday*water_generation_vapor_mass_fraction
 water_generation_liquid_mmPday          = water_generation_mmPday*water_generation_liquid_mass_fraction
 
