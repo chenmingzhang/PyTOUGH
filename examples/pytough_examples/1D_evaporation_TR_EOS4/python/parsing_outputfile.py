@@ -35,62 +35,73 @@ ele_z_ay_all=np.array([i[2] for i in element_coordinate_m] )
 #x_element_ay =[ i[2] for i in element_coordinate_m ]
 #lst.element.column_name
 #['P', 'T', 'SG', 'SL', 'XAIRG', 'XAIRL', 'PAIR', 'PCAP', 'DG', 'DL']
+# XAIRG   ----   mass fraction of air in gas phase
+# XAIRL   ----   mass fraction of air in liquid phase  ???? what does this mean?
+# PAIR    ----   parial pressure of air ( i think it is air pressure)
+# PCAP    ----   capillary pressure
+# DL      ----   liquid density
+# DG      ----   gas density
+
 #lst.connection.column_name
 #['FLOH', 'FLOH/FLOF', 'FLOF', 'FLO(GAS)', 'VAPDIF', 'FLO(LIQ.)', 'VEL(GAS)', 'VEL(LIQ.)']
 #lst.generation.column_name
 #['GENERATION RATE', 'ENTHALPY', 'FF(GAS)', 'FF(LIQ.)', 'P(WB)']
 
 
-gas_density_kgPm3                       = np.array([lst.history(('e',i,'DG' ) )[1] for i in lst.element.row_name])   # two brackets is needed!
-liq_density_kgPm3                       = np.array([lst.history(('e',i,'DL'  ))[1] for i in lst.element.row_name])
-gas_saturation                          = np.array([lst.history(('e',i,'SG'  ))[1] for i in lst.element.row_name])
-liq_saturation                          = np.array([lst.history(('e',i,'SL'  ))[1] for i in lst.element.row_name])
-gas_pressure_pa                         = np.array([lst.history(('e',i,'P'   ))[1] for i in lst.element.row_name])
-air_pressure_pa                         = np.array([lst.history(('e',i,'PAIR'))[1] for i in lst.element.row_name])
-capillary_pressure_pa                   = np.array([lst.history(('e',i,'PCAP'))[1] for i in lst.element.row_name])
-temperature_degree                      = np.array([lst.history(('e',i,'T'   ))[1] for i in lst.element.row_name])
-vapor_mass_fraction_in_gas              = 1-np.array([lst.history(('e',i,'XAIRG'))[1] for i in lst.element.row_name])
-                                        
-liquid_flow_kgPs                        = -np.array([lst.history(('c',i,'FLO(LIQ.)'))[1] for i in lst.connection.row_name])
-liquid_flow_mmPday                      = liquid_flow_kgPs/dat.grid.connectionlist[0].area/liquid_density_kgPm3/mPmm/dayPs
-gas_flow_kgPs                           = -np.array([lst.history(('c',i,'FLO(GAS)'))[1] for i in lst.connection.row_name])
-gas_flow_mmPday                         = gas_flow_kgPs/dat.grid.connectionlist[0].area/liquid_density_kgPm3/mPmm/dayPs
-vapor_diff_flow_kgPs                    = -np.array([lst.history(('c',i,'VAPDIF'))[1] for i in lst.connection.row_name])      # c means connection, but why negative? negative may related to BETAX, which is -1 in this case
-vapor_diff_flow_mmPday                  = vapor_diff_flow_kgPs/dat.grid.connectionlist[0].area/liquid_density_kgPm3/mPmm/dayPs
+gas_density_xt_mtx_kgPm3          = np.array([lst.history(('e',i,'DG' ) )[1] for i in lst.element.row_name])   # two brackets is needed!
+liq_density_xt_mtx_kgPm3          = np.array([lst.history(('e',i,'DL'  ))[1] for i in lst.element.row_name])
+gas_saturation_xt_mtx             = np.array([lst.history(('e',i,'SG'  ))[1] for i in lst.element.row_name])
+liq_saturation_xt_mtx             = np.array([lst.history(('e',i,'SL'  ))[1] for i in lst.element.row_name])
+gas_pressure_xt_mtx_pa            = np.array([lst.history(('e',i,'P'   ))[1] for i in lst.element.row_name])
+air_pressure_xt_mtx_pa            = np.array([lst.history(('e',i,'PAIR'))[1] for i in lst.element.row_name])
+capillary_pressure_xt_mtx_pa      = np.array([lst.history(('e',i,'PCAP'))[1] for i in lst.element.row_name])
+temperature_degree_xt_mtx         = np.array([lst.history(('e',i,'T'   ))[1] for i in lst.element.row_name])
+vapor_mass_fraction_in_gas_xt_mtx = 1-np.array([lst.history(('e',i,'XAIRG'))[1] for i in lst.element.row_name])
+                                  
+liquid_flow_xt_mtx_kgPs           = -np.array([lst.history(('c',i,'FLO(LIQ.)'))[1] for i in lst.connection.row_name])
+
+liquid_flow_xt_mtx_mmPday         = liquid_flow_xt_mtx_kgPs/dat.grid.connectionlist[0].area/liq_density_xt_mtx_kgPm3/mPmm/dayPs   # for i in 
+
+gas_flow_xt_mtx_kgPs              = -np.array([lst.history(('c',i,'FLO(GAS)'))[1] for i in lst.connection.row_name])
+gas_flow_xt_mtx_mmPday            = gas_flow_xt_mtx_kgPs/dat.grid.connectionlist[0].area/liquid_density_kgPm3/mPmm/dayPs
+vapor_diff_flow_xt_mtx_kgPs       = -np.array([lst.history(('c',i,'VAPDIF'))[1] for i in lst.connection.row_name])      # c means connection, but why negative? negative may related to BETAX, which is -1 in this case
+vapor_diff_flow_xt_mtx_mmPday     = vapor_diff_flow_xt_mtx_kgPs/dat.grid.connectionlist[0].area/liquid_density_kgPm3/mPmm/dayPs
   
-# gas_advection_velocity_mPs              = -1*np.array([lst.history(('c',lst.connection.row_name[i],'VEL(GAS)'))[1] for i in range(lst.connection.num_rows)])
-# gas_advection_velocity_kgPs             = gas_advection_velocity_mPs*gas_density_kgPm3[1:]*dat.grid.connectionlist[0].area*dat.grid.rocktype['SAND '].porosity
-# gas_advection_velocity_mmPday           = gas_advection_velocity_mPs*dat.grid.rocktype['SAND '].porosity/mPmm/dayPs 
-# liquid_advection_velocity_mPs           = -1*np.array([lst.history(('c',lst.connection.row_name[i],'VEL(LIQ.)'))[1] for i in range(lst.connection.num_rows)])
-# liquid_advection_velocity_kgPs          = liquid_advection_velocity_mPs*liq_density_kgPm3[1:]*dat.grid.connectionlist[0].area*dat.grid.rocktype['SAND '].porosity
-# liquid_advection_velocity_mmPday        = liquid_advection_velocity_mPs*dat.grid.rocktype['SAND '].porosity/mPmm/dayPs 
-# vapor_advection_velocity_mmPday         = vapor_mass_fraction_in_gas[1:]*gas_advection_velocity_mmPday
-# vapor_advection_velocity_kgPs           = vapor_mass_fraction_in_gas[1:]*gas_advection_velocity_kgPs
-# vapor_adv_flow_top_mmPday               = vapor_advection_velocity_mmPday[0]       
-# vapor_adv_flow_second_mmPday            = vapor_advection_velocity_mmPday[1]
+# gas_adv_velocity_mPs              = -1*np.array([lst.history(('c',lst.connection.row_name[i],'VEL(GAS)'))[1] for i in range(lst.connection.num_rows)])
+# gas_adv_velocity_kgPs             = gas_adv_velocity_mPs*gas_density_kgPm3[1:]*dat.grid.connectionlist[0].area*dat.grid.rocktype['SAND '].porosity
+# gas_adv_velocity_mmPday           = gas_adv_velocity_mPs*dat.grid.rocktype['SAND '].porosity/mPmm/dayPs 
+# liquid_adv_velocity_mPs           = -1*np.array([lst.history(('c',lst.connection.row_name[i],'VEL(LIQ.)'))[1] for i in range(lst.connection.num_rows)])
+# liquid_adv_velocity_kgPs          = liquid_adv_velocity_mPs*liq_density_kgPm3[1:]*dat.grid.connectionlist[0].area*dat.grid.rocktype['SAND '].porosity
+# liquid_adv_velocity_mmPday        = liquid_adv_velocity_mPs*dat.grid.rocktype['SAND '].porosity/mPmm/dayPs 
+# vapor_adv_velocity_mmPday         = vapor_mass_fraction_in_gas[1:]*gas_adv_velocity_mmPday
+# vapor_adv_velocity_kgPs           = vapor_mass_fraction_in_gas[1:]*gas_adv_velocity_kgPs
+# vapor_adv_flow_top_mmPday               = vapor_adv_velocity_mmPday[0]       
+# vapor_adv_flow_second_mmPday            = vapor_adv_velocity_mmPday[1]
  
-vapor_flow_mmPday                       = vapor_mass_fraction_in_gas[1:]*gas_flow_mmPday
-vapor_flow_kgPs                         = vapor_mass_fraction_in_gas[1:]*gas_flow_kgPs
+vapor_adv_xt_mtx_mmPday                 = vapor_mass_fraction_in_gas_xt_mtx[1:]*gas_flow_xt_mtx_mmPday
+vapor_adv_xt_mtx_kgPs                   = vapor_mass_fraction_in_gas_xt_mtx[1:]*gas_flow_xt_mtx_kgPs
 
 
-liquid_flow_top_mmPday                  = liquid_flow_mmPday[0]
-gas_flow_top_mmPday                     = gas_flow_mmPday[0]
-vapor_flow_top_mmPday                   = vapor_flow_mmPday[0]
-vapor_diff_flow_top_mmPday              = vapor_diff_flow_mmPday[0]
+liquid_flow_top_mmPday                  = liquid_flow_xt_mtx_mmPday[0]
+gas_flow_top_mmPday                     = gas_flow_xt_mtx_mmPday[0]
+vapor_adv_top_mmPday                    = vapor_adv_xt_mtx_mmPday[0]
+vapor_diff_flow_top_mmPday              = vapor_diff_flow_xt_mtx_mmPday[0]
 
    
-liquid_flow_second_mmPday               = liquid_flow_mmPday[1]
-gas_flow_second_mmPday                  = gas_flow_mmPday[1]
-vapor_flow_second_mmPday                = vapor_flow_mmPday[1]
-vapor_diff_flow_second_mmPday           = vapor_diff_flow_mmPday[1]
+liquid_flow_second_mmPday               = liquid_flow_xt_mtx_mmPday[1]
+gas_flow_second_mmPday                  = gas_flow_xt_mtx_mmPday[1]
+vapor_adv_second_mmPday                 = vapor_adv_xt_mtx_mmPday[1]
+vapor_diff_flow_second_mmPday           = vapor_diff_flow_xt_mtx_mmPday[1]
 
-water_flow_second_mmPday                = liquid_flow_second_mmPday+vapor_flow_second_mmPday+vapor_diff_flow_second_mmPday
-total_water_flow_second_mm              = np.cumsum(water_flow_second_mmPday*np.insert(np.diff(lst.times),0,lst.times[0])*dayPs)
+water_flow_top_mmPday                   = liquid_flow_top_mmPday+vapor_adv_top_mmPday+vapor_diff_flow_top_mmPday
+water_flow_second_mmPday                = liquid_flow_second_mmPday+vapor_adv_second_mmPday+vapor_diff_flow_second_mmPday
+
+cumsum_water_flow_second_mm             = np.cumsum(water_flow_second_mmPday*np.insert(np.diff(lst.times),0,lst.times[0])*dayPs)
  
 water_generation_kgPs                   = np.array([lst.history(('g',i,'GENERATION RATE'))[1] for i in lst.generation.row_name])
 water_generation_mmPday                 = water_generation_kgPs/dat.grid.connectionlist[0].area/liquid_density_kgPm3/mPmm/dayPs
 water_generation_vapor_mass_fraction    = np.array([lst.history(('g',i,'FF(GAS)' ))[1] for i in lst.generation.row_name])
-water_generation_liquid_mass_fraction   = np.array([lst.history(('g',i,'FF(LIQ.)'))[1] for i in lst.generation.row_name])
+water_generation_liquid_mass_fraction   = np.array([lst.history(('g',i,'FF(LIQ.)'))[1] for i in lst.generation.row_name])  # what is FF(LIQ) mean and how did it distribute to both?
 water_generation_vapor_mmPday           = water_generation_mmPday*water_generation_vapor_mass_fraction
 water_generation_liquid_mmPday          = water_generation_mmPday*water_generation_liquid_mass_fraction
 

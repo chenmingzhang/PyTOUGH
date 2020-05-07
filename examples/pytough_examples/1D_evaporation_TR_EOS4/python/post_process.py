@@ -38,11 +38,19 @@ while i<lst.num_times:
 	
     ax3=plt.subplot(441)
     ax3.plot(temperature_degree[:,i],ele_depth_m  ,'r1-')
-    plt.xlabel('Temperature (Celsius)')
-    plt.ylabel('x (m)')
-    # plt.ylabel('high (m)')
+    plt.tick_params(
+                axis='y',         
+                which='both',    
+                labelleft=True,
+                labelright=False,
+                right=True
+                )
+    plt.xlabel('Temperature \n(Celsius)')
+    plt.ylabel('Depth (m)')
     plt.ylim(-0.1,1.1)
     plt.xlim(20,30)
+    plt.gca().invert_yaxis()
+    plt.grid()
 
     #plt.xlim(np.min(temperature_degree),np.max(temperature_degree))
     #ax3.set_yscale('log')
@@ -53,16 +61,23 @@ while i<lst.num_times:
 
     ax1=plt.subplot(442)
     ax1.plot(gas_pressure_pa[1:,i]*kpaPpa, ele_depth_m  [1:],'k1-')
-    plt.xlabel('Gas Pressure (Kpa)')
+    plt.xlabel('Gas Pressure \n(Kpa)')
     #ax1.spines['top'].set_color('red')
     plt.ylim(-0.1,1.1)
     plt.xlim(100,104)
     plt.xlim(np.min(gas_pressure_pa[1:]*kpaPpa),np.max(gas_pressure_pa[1:]*kpaPpa))
+    plt.tick_params(
+                axis='y',         
+                which='both',    
+                labelleft=False,
+                labelright=False,
+                right=True
+                )
     #plt.ticklabel_format(style='sci', axis='x', scilimits=(0,0))
     #ax1.set_yscale('log')
     ax2=ax1.twiny()
     ax2.plot(gas_flow_mmPday[:,i],con_depth_m    ,'r1-')
-    plt.xlabel('Gas Velocity (mm/day)')
+    plt.xlabel('Gas Velocity \n(mm/day)')
     # plt.ylabel('high (m)')
     plt.ylim(-0.1,1.1)
     #plt.xlim(100,115)
@@ -71,18 +86,28 @@ while i<lst.num_times:
     #plt.ticklabel_format(style='sci', axis='x', scilimits=(0,0))
     ax2.spines['top'].set_color('red')
     ax2.xaxis.label.set_color('red')
-    ax2.tick_params(axis='x', colors='red')	 
+    ax2.tick_params(axis='x', 
+            colors='red')	 
+    ax2.invert_yaxis()
+    plt.grid()
 
     ax3=plt.subplot(443)
     ax3.plot(vapor_diff_flow_mmPday[:,i]*10,con_depth_m    ,'k1-')
-    plt.xlabel('Vapor Diffusion ($*10^-1$ mm/day)')
+    plt.xlabel('Vapor Diffusion \n($*10^-1$ mm/day)')
     # plt.ylabel('high (m)')
     plt.ylim(-0.1,1.1)
     plt.xlim(-0.2,5)
+    plt.tick_params(
+                axis='y',         
+                which='both',    
+                labelleft=False,
+                labelright=False,
+                right=True
+                )
     #plt.xlim(np.nanmin(vapor_diff_flow_mmPday)*1.e2,np.nanmax(vapor_diff_flow_mmPday)*1.e2)			
     ax4=ax3.twiny()	
     ax4.plot(liquid_flow_mmPday[:,i]*10,con_depth_m    ,'r1-')
-    plt.xlabel('Liquid Velocity ($*10^-1$ mm/day)')
+    plt.xlabel('Liquid Velocity \n($*10^-1$ mm/day)')
     # plt.ylabel('high (m)')
     plt.ylim(-0.1,1.1)
     plt.xlim(-0.2,5)
@@ -92,109 +117,144 @@ while i<lst.num_times:
     ax4.xaxis.label.set_color('red')
     ax4.tick_params(axis='x', colors='red')	 	
     #plt.ticklabel_format(style='sci', axis='x', scilimits=(0,0))    
+    ax4.invert_yaxis()
+    plt.grid()
 
     ax3=plt.subplot(444)
     ax3.plot(liq_saturation[1:,i]*100,ele_depth_m  [1:],'k1-')
-    plt.xlabel('Liquid saturation (%)')
+    plt.xlabel('Liquid saturation \n(%)')
     # plt.ylabel('high (m)')
     plt.ylim(-0.1,1.1)
     plt.xlim(-5,105)
-    #ax3.set_yscale('log')
+    plt.tick_params(
+                axis='y',         
+                which='both',    
+                labelleft=False,
+                labelright=True,
+                right=True
+                )
     ax4=ax3.twiny()
-    ax4.plot(capillary_pressure_pa[1:,i]*kpaPpa,ele_depth_m  [1:],'r1-')
-    plt.xlabel('Capillary Pressure (Kpa)')
+    ax4.plot(-capillary_pressure_pa[1:,i]*kpaPpa,ele_depth_m  [1:],'r1-')
+    ax4.set_xscale('log')
+    plt.xlabel('-Capillary Pressure \n(Kpa)')
     # plt.ylabel('high (m)')
     plt.ylim(1.1,-0.1)
     #plt.xlim(-50,0.1)
-    plt.xlim(np.min(capillary_pressure_pa[1:]*kpaPpa),np.max(capillary_pressure_pa[1:]*kpaPpa))
+    #plt.xlim(np.min(capillary_pressure_pa[1:]*kpaPpa),np.max(capillary_pressure_pa[1:]*kpaPpa))
     #ax3.set_yscale('log')
     #plt.ticklabel_format(style='sci', axis='x', scilimits=(0,0))
     ax4.spines['top'].set_color('red')	
     ax4.xaxis.label.set_color('red')
     ax4.tick_params(axis='x', colors='red')	 	
     #plt.ticklabel_format(style='sci', axis='x', scilimits=(0,0))    
+    plt.grid()
 
 
     # change of value over time
     ax7=plt.subplot(713)
-    ax7.plot(lst.times[:i]*dayPs,vapor_diff_flow_top_mmPday[:i],'k1-')
-    plt.ylabel('Vapor Diffusion\na1 to atm (mm/day)')
+    ax7.plot(lst.times[:i]*dayPs,vapor_diff_flow_top_mmPday[:i]   ,'k1-',label='a1 to atm' )
+    ax7.plot(lst.times[:i]*dayPs,vapor_diff_flow_second_mmPday[:i],'r1-',label='a2 to a1' )
+    plt.ylabel('Vapor Diffusion\n(mm/day)')
     #plt.xlabel('Time (day)')
     #plt.ylim(0.08,0.13)
-    plt.ylim(np.min(vapor_diff_flow_top_mmPday),np.max(vapor_diff_flow_top_mmPday))
+    #plt.ylim(np.min(vapor_diff_flow_top_mmPday),np.max(vapor_diff_flow_top_mmPday))
     plt.xlim(0,np.max(lst.times)*dayPs)
     plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
+    plt.legend(loc="upper right",prop={'size':10})
     #ax7.set_xscale('log')
-    ax8 = ax7.twinx() 
-    ax8.plot(lst.times[:i]*dayPs,vapor_flow_top_mmPday[:i],'r1-',)
+    #ax8 = ax7.twinx() 
     #plt.ylim(-1.3e-1,-6e-2)
-    plt.ylim(np.min(vapor_flow_top_mmPday),np.max(vapor_flow_top_mmPday))
-    plt.xlim(0,np.max(lst.times)*dayPs)
-    plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
-    plt.ylabel('Vapor Adv\na1 to atm\n (mm/day)')
+    #plt.ylim(1.05*np.min(vapor_adv_top_mmPday),1.05*np.max(vapor_adv_top_mmPday))
+    #plt.xlim(0,np.max(lst.times)*dayPs)
+    #plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
+    #plt.ylabel('Vapor Adv.\na1 to atm\n (mm/day)')
     #plt.xlabel('Time (day)')
     #ax8.set_xscale('log')
-    ax8.spines['right'].set_color('red')
-    ax8.yaxis.label.set_color('red')
-    ax8.tick_params(axis='y', colors='red')
+    #ax8.spines['right'].set_color('red')
+    #ax8.yaxis.label.set_color('red')
+    #ax8.tick_params(axis='y', colors='red')
+    plt.tick_params(
+                axis='x',         
+                which='both',    
+                labelbottom=False,
+                )
+    plt.grid()
 	
     ax7=plt.subplot(714)
-    ax7.plot(lst.times[:i]*dayPs,liquid_flow_second_mmPday[:i],'k1-')
-    plt.ylabel('Liquid Velocity\na2 to a1\n (mm/day)')
+    ax7.plot(lst.times[:i]*dayPs,liquid_flow_top_mmPday[:i],'k1-',label='a1 to atm')
+    ax7.plot(lst.times[:i]*dayPs,liquid_flow_second_mmPday[:i],'r1-',label='a2 to a1')
+    plt.ylabel('Liquid Vel.\n (mm/day)')
     #plt.xlabel('Time (day)')
     #plt.ylim(-0.1e-3,0.11e-2)
-    plt.ylim(np.min(liquid_flow_second_mmPday),np.max(liquid_flow_second_mmPday))
+    #plt.ylim(np.min(liquid_flow_second_mmPday),np.max(liquid_flow_second_mmPday))
     plt.xlim(0,np.max(lst.times)*dayPs)
     plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
+    plt.legend(loc="upper right",prop={'size':10})
     #ax7.set_xscale('log')
-    ax8 = ax7.twinx() 
-    ax8.plot(lst.times[:i]*dayPs,liquid_flow_top_mmPday[:i],'r1-',)
+    #ax8 = ax7.twinx() 
+    #ax8.plot(lst.times[:i]*dayPs,liquid_flow_top_mmPday[:i],'r1-',)
     #plt.ylim(-1.e1,1.1e2)
-    plt.ylim(np.min(liquid_flow_top_mmPday),np.max(liquid_flow_top_mmPday))
-    plt.xlim(0,np.max(lst.times)*dayPs)
-    plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
-    plt.ylabel('Liquid Velocity\na1 to atm\n (mm/day)')
+    #plt.ylim(np.min(liquid_flow_top_mmPday),np.max(liquid_flow_top_mmPday))
+    #plt.xlim(0,np.max(lst.times)*dayPs)
+    #plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
+    #plt.ylabel('Liquid Velocity\na1 to atm\n (mm/day)')
     #plt.xlabel('Time (day)')
     #ax8.set_xscale('log')
-    ax8.spines['right'].set_color('red')
-    ax8.yaxis.label.set_color('red')
-    ax8.tick_params(axis='y', colors='red')		
+    #ax8.spines['right'].set_color('red')
+    #ax8.yaxis.label.set_color('red')
+    #ax8.tick_params(axis='y', colors='red')		
+    plt.tick_params(
+                axis='x',         
+                which='both',    
+                labelbottom=False,
+                )
+    plt.grid()
 	
     ax7=plt.subplot(715)
-    ax7.plot(lst.times[:i]*dayPs,vapor_diff_flow_second_mmPday[:i],'k1-')
-    plt.ylabel('Vapor Diffusion\na2 to a1\n (mm/day)')
+    #ax7.plot(lst.times[:i]*dayPs,vapor_diff_flow_second_mmPday[:i],'k1-')
+    ax7.plot(lst.times[:i]*dayPs,vapor_adv_top_mmPday[:i]   ,'k1-',label='a1 to atm')
+    ax7.plot(lst.times[:i]*dayPs,vapor_adv_second_mmPday[:i],'r1-',label='a2 to a1')
+    plt.ylabel('Vapor Adv\n (mm/day)')
     #plt.xlabel('Time (day)')
     #plt.ylim(0.08,0.13)
-    plt.ylim(np.min(vapor_diff_flow_second_mmPday),np.max(vapor_diff_flow_second_mmPday))
-    plt.xlim(0,np.max(lst.times)*dayPs)
+    #plt.ylim(np.min(vapor_diff_flow_second_mmPday),np.max(vapor_diff_flow_second_mmPday))
+    #plt.xlim(0,np.max(lst.times)*dayPs)
     plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
     #ax7.set_xscale('log')
-    ax8 = ax7.twinx() 
-    ax8.plot(lst.times[:i]*dayPs,vapor_flow_second_mmPday[:i],'r1-',)
+    #ax8 = ax7.twinx() 
+    #ax8.plot(lst.times[:i]*dayPs,vapor_adv_second_mmPday[:i],'r1-',)
     #plt.ylim(-1.3e-1,-6e-2)
-    plt.ylim(np.min(vapor_flow_second_mmPday),np.max(vapor_flow_second_mmPday))
+    #plt.ylim(np.min(vapor_adv_second_mmPday),np.max(vapor_adv_second_mmPday))
     plt.xlim(0,np.max(lst.times)*dayPs)
     plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
-    plt.ylabel('Vapor Adv\na2 to a1\n (mm/day)')
+    plt.legend(loc="right",prop={'size':10})
+    #plt.ylabel('Vapor Adv\na2 to a1\n (mm/day)')
     #plt.xlabel('Time (day)')
     #ax8.set_xscale('log')
-    ax8.spines['right'].set_color('red')
-    ax8.yaxis.label.set_color('red')
-    ax8.tick_params(axis='y', colors='red')
+    #ax8.spines['right'].set_color('red')
+    #ax8.yaxis.label.set_color('red')
+    #ax8.tick_params(axis='y', colors='red')
+    plt.tick_params(
+                axis='x',         
+                which='both',    
+                labelbottom=False,
+                )
+    plt.grid()
 	
     ax7=plt.subplot(716)
-    ax7.plot(lst.times[:i]*dayPs,water_flow_second_mmPday[:i],'k1-')
-    plt.ylabel('Water Flux\na2 to a1\n (mm/day)')
+    ax7.plot(lst.times[:i]*dayPs,water_flow_top_mmPday[:i],'k1-',label='a1 to atm')
+    ax7.plot(lst.times[:i]*dayPs,water_flow_second_mmPday[:i],'r1-',label='a2 to a1')
+    plt.ylabel('Water Flux\n(mm/day)')
     #plt.xlabel('Time (day)')
     #plt.ylim(-0.1e-3,0.11e-2)
-    plt.ylim(np.min(water_flow_second_mmPday),np.max(water_flow_second_mmPday))
+    #plt.ylim(np.min(water_flow_second_mmPday),np.max(water_flow_second_mmPday))
     plt.xlim(0,np.max(lst.times)*dayPs)
     plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
     #ax7.set_xscale('log')
     ax8 = ax7.twinx() 
-    ax8.plot(lst.times[:i]*dayPs,total_water_flow_second_mm[:i],'r1-',)
+    ax8.plot(lst.times[:i]*dayPs,cumsum_water_flow_second_mm[:i],'g1-',)
     #plt.ylim(-1.e1,1.1e2)
-    plt.ylim(np.min(total_water_flow_second_mm),np.max(total_water_flow_second_mm))
+    plt.ylim(np.min(cumsum_water_flow_second_mm),np.max(cumsum_water_flow_second_mm))
     plt.xlim(0,np.max(lst.times)*dayPs)
     plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
     plt.ylabel('Total water loss\na2 to a1\n (mm)')
@@ -203,6 +263,13 @@ while i<lst.num_times:
     ax8.spines['right'].set_color('red')
     ax8.yaxis.label.set_color('red')
     ax8.tick_params(axis='y', colors='red')			
+    plt.legend(loc="right",prop={'size':10})
+    plt.tick_params(
+                axis='x',         
+                which='both',    
+                labelbottom=False,
+                )
+    plt.grid()
 	
     ax7=plt.subplot(717)
     ax7.plot(lst.times[:i]*dayPs,water_generation_vapor_mmPday[:,:i][0],'k1-')
@@ -225,6 +292,7 @@ while i<lst.num_times:
     ax8.spines['right'].set_color('red')
     ax8.yaxis.label.set_color('red')
     ax8.tick_params(axis='y', colors='red')			
+    plt.grid()
 
     # ax7=plt.subplot(818)
     # ax7.plot(lst.times[:i]*dayPs,water_generation_mmPday[:,:i][0],'k1-')
@@ -249,7 +317,8 @@ while i<lst.num_times:
     plt.rcParams.update({'font.size':12})
     #fig.tight_layout()
     plt.savefig('figure/output_'+str(i)+'.png',dpi=200) 
-    i+=200
+    #i+=200
+    i+=1000
     plt.close('all')
 
 

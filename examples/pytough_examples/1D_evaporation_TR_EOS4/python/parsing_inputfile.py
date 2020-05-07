@@ -18,9 +18,13 @@ T_kelven               = 273.15
 title = 'flow.out'
 
 # #--- read TOUGH2 input file ------------------------------------	
+
+t = time.time()
 dat = t2data(title)
 # dat.grid.write_vtk('sam6_geo.vtu')
 
+elapsed = time.time() - t
+print('Parsing output Elapsed: %s minutes' %(elapsed/60))
 # #--- plot generated mesh ------------------------------------	
     
 #element_coordinate           = np.array([j.centre for j in dat.grid.blocklist])
