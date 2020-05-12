@@ -326,7 +326,8 @@ while i<lst.num_times:
     #fig.tight_layout()
     plt.savefig('figure/output_'+str(i)+'.png',dpi=200) 
     #i+=200
-    i+=276
+    #i+=276
+    i+=65
     plt.close('all')
 
 

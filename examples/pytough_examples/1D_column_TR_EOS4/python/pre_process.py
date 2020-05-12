@@ -36,7 +36,7 @@ else:
 
 
 # ---- set up the model ---------------------------------
-length = 4.
+length = 400.
 nblks  = 50
 dz     = [length / nblks] * nblks
 dy     = dx  = [0.1]
@@ -58,15 +58,15 @@ inp.parameter.update(
      'default_incons' : [p_atm_pa, 10.99, T_init_c, None],
      'relative_error' : 1.e-6,
      'print_interval' : max_no_time_steps/20,
-     'max_timestep'   : 86400     # the maximum length of time step in second
+     'max_timestep'   : 10000   #86400     # the maximum length of time step in second
      })
 	 
 inp.parameter['print_interval'] = inp.parameter['max_timesteps']/20
 inp.parameter['max_timestep']   = inp.parameter['tstop']/inp.parameter['max_timesteps']
 
 inp.start = True
-inp.diffusion=[[2.13e-5,     0.e-8],   
-               [2.13e-5,     0.e-8]]
+#inp.diffusion=[[2.13e-5,     0.e-8],   
+#               [2.13e-5,     0.e-8]]
 inp.multi={ 'num_components'           : 2,   # warning, the key needs to be exactly the same, no extra spacings
             'num_equations'            : 3,
             'num_phases'               : 2,
@@ -74,7 +74,7 @@ inp.multi={ 'num_components'           : 2,   # warning, the key needs to be exa
 
 # #Set MOPs:
 inp.parameter['option'][1]  = 1
-inp.parameter['option'][7]  = 0
+inp.parameter['option'][7]  = 1
 inp.parameter['option'][9]  = 1
 inp.parameter['option'][11] = 0
 inp.parameter['option'][16] = 4
@@ -84,8 +84,8 @@ inp.parameter['option'][21] = 3
 
 
 # TIMES 
-inp.output_times = {'num_times_specified': int(simulation_time_s*dayPs),
-                    'time': list( np.arange(int(simulation_time_s*dayPs)) *sPday   )}
+inp.output_times = {'num_times_specified': int(simulation_time_s*dayPs/2),
+                    'time': list( np.arange(int(simulation_time_s*dayPs)) *sPday*2   )}
 
 
 # #Add another rocktype, with relative permeability and capillarity functions & parameters:
@@ -173,18 +173,18 @@ for num,key in enumerate(inp.grid.blocklist):
 #inp.incon['  a 2'][1][1] = 10.99                          # why is this needed?
 
 #inp.incon['bdy02'] = [None, [p_atm_pa, 0.99, T_init_c]]   # what does 0.99 mean?
-#inp.incon['bdy02'] = [None, [p_atm_pa, 10.01, T_init_c]]   # what does 0.99 mean?
+inp.incon['bdy02'] = [None, [p_atm_pa, 10.01, T_init_c]]   # what does 0.99 mean?
 #inp.incon['bdy02'] = [None, [p_atm_pa, 0.01, T_init_c]]   # what does 0.99 mean?
-inp.incon['bdy02'] = [None, [p_atm_pa, 10.999999, T_init_c]]   # what does 0.99 mean?
+#inp.incon['bdy02'] = [None, [p_atm_pa, 10.999999, T_init_c]]   # what does 0.99 mean?
 
 # #add generator:
-#flow_rate_mmPday = 0.5
-#flow_rate_kgPs   = flow_rate_mmPday*conarea*liquid_density_kgPm3*mPmm*dayPs
-#gen              = t2generator(name  = 'INF 1', 
-#                               block = '  a 1',      #inp.grid.blocklist[0].name,
-#                               gx   = flow_rate_kgPs,
-#                               type = 'COM1')
-#inp.add_generator(gen)
+flow_rate_mmPday = 1e-30
+flow_rate_kgPs   = flow_rate_mmPday*conarea*liquid_density_kgPm3*mPmm*dayPs
+gen              = t2generator(name  = 'INF 1', 
+                               block = '  a 1',      #inp.grid.blocklist[0].name,
+                               gx   = flow_rate_kgPs,
+                               type = 'COM1')
+inp.add_generator(gen)
 
 
 

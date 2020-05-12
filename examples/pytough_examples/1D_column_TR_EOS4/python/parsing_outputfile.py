@@ -59,7 +59,7 @@ xirg_xt_mtx              = 1-np.array([lst.history(('e',i,'XAIRG'))[1] for i in 
 
 
 dv_xt_mtx_kgPm3          =  dg_xt_mtx_kgPm3 * xirg_xt_mtx    # this is wrong
-dv_sat_xt_mtx_kgPm3      =   2.29e-5*( (t_xt_mtx+273.15)    /273.15)**1.75
+dv_sat_xt_mtx_kgPm3      =  1e-3*np.exp(19.819-4976/ ( t_xt_mtx +273.15   )   )
                                   
 
 dl_con_loc_xt_mtx_kgPm3  = np.array( [ (i[:-1]+i[1:])/2 for i in dl_xt_mtx_kgPm3.T]).T
