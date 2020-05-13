@@ -17,3 +17,13 @@ exec(compile(open(path4).read(), path4, 'exec'))
 
 path5=os.path.join('..','python','check_balance.py')
 exec(compile(open(path5).read(), path5, 'exec'))
+
+
+
+
+path6=os.path.join('..','python','validate_swcc.py')
+exec(compile(open(path6).read(), path6, 'exec'))
+
+
+path6=os.path.join('..','python','calc_swcc.py')
+exec(compile(open(path6).read(), path6, 'exec'))

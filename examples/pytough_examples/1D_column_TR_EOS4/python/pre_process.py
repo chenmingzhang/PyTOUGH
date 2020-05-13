@@ -14,7 +14,7 @@ dayPs                  = 1./(3600*24)
 sPday                  = 3600*24.
 T_init_c               = 25.0
 p_atm_pa               = 101.3e3
-simulation_time_s      = 300*86400.   
+simulation_time_s      = 3000*86400.
 max_no_time_steps      = 9999 
 
 
@@ -36,7 +36,7 @@ else:
 
 
 # ---- set up the model ---------------------------------
-length = 400.
+length = 4  #400.
 nblks  = 50
 dz     = [length / nblks] * nblks
 dy     = dx  = [0.1]
@@ -58,15 +58,15 @@ inp.parameter.update(
      'default_incons' : [p_atm_pa, 10.99, T_init_c, None],
      'relative_error' : 1.e-6,
      'print_interval' : max_no_time_steps/20,
-     'max_timestep'   : 10000   #86400     # the maximum length of time step in second
+     'max_timestep'   : 50000   #86400     # the maximum length of time step in second
      })
 	 
 inp.parameter['print_interval'] = inp.parameter['max_timesteps']/20
 inp.parameter['max_timestep']   = inp.parameter['tstop']/inp.parameter['max_timesteps']
 
 inp.start = True
-#inp.diffusion=[[2.13e-5,     0.e-8],   
-#               [2.13e-5,     0.e-8]]
+inp.diffusion=[[2.13e-5,     0.e-8],   
+               [2.13e-5,     0.e-8]]
 inp.multi={ 'num_components'           : 2,   # warning, the key needs to be exactly the same, no extra spacings
             'num_equations'            : 3,
             'num_phases'               : 2,
@@ -84,8 +84,9 @@ inp.parameter['option'][21] = 3
 
 
 # TIMES 
-inp.output_times = {'num_times_specified': int(simulation_time_s*dayPs/2),
-                    'time': list( np.arange(int(simulation_time_s*dayPs)) *sPday*2   )}
+output_interval_days = 30
+inp.output_times = {'num_times_specified': int(simulation_time_s*dayPs/output_interval_days),
+                    'time': list( np.arange(int(simulation_time_s*dayPs)) *sPday*output_interval_days   )}
 
 
 # #Add another rocktype, with relative permeability and capillarity functions & parameters:
@@ -93,23 +94,32 @@ r1 = rocktype('SAND ',
         nad           = 2,
         porosity      = 0.45,
         density       = 2650.,
-        permeability  = [2.e-12, 2.e-12, 2.e-12],
+        permeability  = [2.e-11, 2.e-11, 2.e-11],
         conductivity  = 2.51,
         specific_heat = 920)
 Residual_saturation      = 0.045
-r1.relative_permeability = {'type': 7, 'parameters': [0.627, Residual_saturation, 1., 0.054]}
-r1.capillarity           = {'type': 7, 'parameters': [0.627, Residual_saturation-1.e-5, 5.e-4, 1.e8, 1.]}
+#nv=2.1
+nv=1.3
+#p_air_pa= 500  # unit
+
+#p_air_pa= 2000  # unit bad
+#p_air_pa= 1000  # unit
+#p_air_pa= 100  # unit ok but steep
+
+p_air_pa= 700  # unit
+r1.relative_permeability = {'type': 7, 'parameters': [1.-1./nv, Residual_saturation      , 1., 0.054]}
+r1.capillarity           = {'type': 7, 'parameters': [1.-1./nv, Residual_saturation-1.e-5, 1/p_air_pa, 1.e8, 1.]}
 inp.grid.add_rocktype(r1)
 	
 r2 = rocktype('BOUND',
         nad           = 2,
         porosity      = 0.99,
         density       = 2650.,
-        permeability  = [2.e-12, 2.e-12, 2.e-12],
+        permeability  = [1.e-11, 1.e-11, 1.e-11],
         conductivity  = 2.51,
         specific_heat = 1.e5)
 r2.relative_permeability = {'type': 1, 'parameters': [0.1,0.0,1.0,0.1,]}
-r2.capillarity           = {'type': 1, 'parameters': [0., 0., 1.0]}
+r2.capillarity           = {'type': 1, 'parameters': [0. , 0., 1.0]}
 inp.grid.add_rocktype(r2)
 
 
@@ -161,8 +171,7 @@ inp.grid.connectionlist.insert( len(inp.grid.connection)+1   ,con2)
 
 
 
-
-
+# ----------- add initial condition --------------------------------------------
 for num,key in enumerate(inp.grid.blocklist):
     if str(key)[:3]=='  a':
         inp.incon[str(key)] = \
@@ -178,15 +187,13 @@ inp.incon['bdy02'] = [None, [p_atm_pa, 10.01, T_init_c]]   # what does 0.99 mean
 #inp.incon['bdy02'] = [None, [p_atm_pa, 10.999999, T_init_c]]   # what does 0.99 mean?
 
 # #add generator:
-flow_rate_mmPday = 1e-30
+flow_rate_mmPday = 1e-30 #5.47   # 2000mm /  365  days = 5.47mm/day mm1e-30
 flow_rate_kgPs   = flow_rate_mmPday*conarea*liquid_density_kgPm3*mPmm*dayPs
 gen              = t2generator(name  = 'INF 1', 
                                block = '  a 1',      #inp.grid.blocklist[0].name,
                                gx   = flow_rate_kgPs,
                                type = 'COM1')
 inp.add_generator(gen)
-
-
 
 
 # only run tough2 no toughreact
