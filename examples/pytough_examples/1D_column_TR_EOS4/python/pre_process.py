@@ -99,7 +99,7 @@ r1 = rocktype('SAND ',
         specific_heat = 920)
 Residual_saturation      = 0.045
 #nv=2.1
-nv=1.3
+nv=3.0
 #p_air_pa= 500  # unit
 
 #p_air_pa= 2000  # unit bad
@@ -107,7 +107,7 @@ nv=1.3
 #p_air_pa= 100  # unit ok but steep
 
 p_air_pa= 700  # unit
-r1.relative_permeability = {'type': 7, 'parameters': [1.-1./nv, Residual_saturation      , 1., 0.054]}
+r1.relative_permeability = {'type': 7, 'parameters': [1.-1./nv, Residual_saturation      , 1.        , 0.054]}
 r1.capillarity           = {'type': 7, 'parameters': [1.-1./nv, Residual_saturation-1.e-5, 1/p_air_pa, 1.e8, 1.]}
 inp.grid.add_rocktype(r1)
 	

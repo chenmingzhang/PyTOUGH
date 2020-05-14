@@ -63,6 +63,38 @@ ax.set_yscale('log')
 
 
 
+
+#ax1=plt.subplot(122)
+#if  relative_permeability_type==1:
+#    saturation=np.array([relative_permeability_parameter[0],relative_permeability_parameter[2]])
+#    liquid_relative_permeability=np.array([0,1])
+#    gas_relative_permeability=np.array([1,0])
+#
+#if  relative_permeability_type==7:
+#    lamda=relative_permeability_parameter[0]
+#    liquid_residual_saturation=relative_permeability_parameter[1]
+#    saturated_liquid_saturation=relative_permeability_parameter[2]
+#    gas_residual_saturation=relative_permeability_parameter[3]
+#    saturation=np.append(saturation1,saturation2)          
+#    S_star=(saturation-liquid_residual_saturation)/(saturated_liquid_saturation-liquid_residual_saturation)
+#    S_bar=(saturation-liquid_residual_saturation)/(1-gas_residual_saturation-liquid_residual_saturation)
+#    liquid_relative_permeability=S_star**0.5*(1-(1-S_star**(1/lamda))**lamda)**2
+#    liquid_relative_permeability[saturation>=saturated_liquid_saturation]=1
+#    gas_relative_permeability=(1-S_bar)**2*(1-S_bar**2)
+#    if gas_residual_saturation==0:
+#        gas_relative_permeability=1-liquid_relative_permeability
+#
+#ax1.plot(saturation,liquid_relative_permeability,'k-o',)
+#plt.xlabel('saturation')
+#plt.ylabel('liquid_relative_permeability)')
+#plt.ylim(0,1)
+
+
+
+
+
+
+
 plt.savefig("figure/Capillary_&_SWCC_for_"+str(i)+".png",dpi=300)
 
 

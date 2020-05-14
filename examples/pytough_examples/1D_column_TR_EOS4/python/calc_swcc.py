@@ -61,9 +61,15 @@ import matplotlib.pyplot as plt
 #a=np.arange(10)
 #
 
-def swcc_van_genuchten_tough2(sat=None,lam=0.23,slr=0.045,inv_p0= 0.00142857,pmax=1e8,sl_sat=1,sw_plot=True,p0=None,nv=None):
+def swcc_van_genuchten_tough2(sat=None,lam=0.23,slr=0.045,inv_p0= 0.00142857,pmax=1e8,sl_sat=1,sw_plot=True,p0=None,nv=None,sgr=0.054):
     '''
     calculate capillary pressure based on the input soil water retention curve
+    default values
+    sat=None,lam=0.23,slr=0.045,inv_p0= 0.00142857,pmax=1e8,sl_sat=1,sw_plot=True,p0=None,nv=None
+    a example to run the command
+
+        a=calc_swcc.swcc_van_genuchten_tough2()
+
     '''
 
     if sat==None:
@@ -72,14 +78,13 @@ def swcc_van_genuchten_tough2(sat=None,lam=0.23,slr=0.045,inv_p0= 0.00142857,pma
         inv_p0=1/p0
     if nv!=None:
         lam=1-1/nv
+    else:
+        nv=  1/(1-lam)
 
-    nv=  1/(1-lam)
+
+
     p_zero_point    = 1./inv_p0
-    
-
     p_cap = np.zeros(len(sat))
-
-
     mask_sat_gt_slr = sat>slr
 
     saturation1     = sat[mask_sat_gt_slr]
@@ -96,6 +101,29 @@ def swcc_van_genuchten_tough2(sat=None,lam=0.23,slr=0.045,inv_p0= 0.00142857,pma
     envg                = 1./(1-lam)
     pcslope             = -p_zero_point/lam/envg/(sl_sat-slr)*(sbar**(-1/lam)-1)**((1-envg)/envg)*sbar**(-(1+lam)/lam) 
     capillary_pressure2 = pce+pcslope*(saturation2-slr-1.e-5)
+
+
+    p_cap[mask_sat_gt_slr] = capillary_pressure1
+    p_cap[~mask_sat_gt_slr] = capillary_pressure2
+
+    #lam        = relative_permeability_parameter[0]
+    #slr        = relative_permeability_parameter[1]
+    #sl_sat     = relative_permeability_parameter[2]
+    #sgr        = relative_permeability_parameter[3]
+    
+    S_star=(sat-slr)/(sl_sat-slr)
+    S_bar=(sat-slr)/(1-sgr-slr)
+    liquid_relative_permeability=S_star**0.5*(1-(1-S_star**(1/lam))**lam)**2
+    liquid_relative_permeability[sat>=sl_sat]=1
+    gas_relative_permeability=(1-S_bar)**2*(1-S_bar**2)
+    if sgr==0:
+        gas_relative_permeability=1-liquid_relative_permeability
+    
+    ax1.plot(sat,liquid_relative_permeability,'k-o',)
+    plt.xlabel('saturation')
+    plt.ylabel('liquid_relative_permeability)')
+    plt.ylim(0,1)
+
     
     
     if sw_plot:
@@ -105,16 +133,22 @@ def swcc_van_genuchten_tough2(sat=None,lam=0.23,slr=0.045,inv_p0= 0.00142857,pma
         plt.plot(saturation1,capillary_pressure1,'r.-',saturation2,capillary_pressure2,'.-')
         #plt.plot(sl_xt_mtx[:,-1],     -pcap_xt_mtx_pa[:,-1],'b.-')
         
-        plt.text(0.2, 10.e4*10**(2/1.5),'P_zero='+str(p_zero_point))
-        plt.xlabel('saturation')
-        plt.ylabel('capillary_pressure')
+        #plt.text(0.2, 10.e4*10**(2/1.5),'P_zero='+str(p_zero_point))
+        plt.xlabel('SATURATION')
+        plt.ylabel('CAPILLARY PRESSURE (Pa)')
         #plt.ylim(10,1.e10)
         #plt.xlim(-0.1,1.1)
         #plt.ticklabel_format(style='sci', axis='x', scilimits=(0,0))
         ax.set_yscale('log')
+        plt.grid()
         plt.suptitle('lam = %5.2f , nv = %5.2f , slr= %5.3f \n, inv_p0 = %5.2e, p0 = %5.2e \npmax = %5.2e,  ' %(lam,nv,slr,inv_p0,p_zero_point,pmax ),fontsize=8)
+        filename='SWCC_lam_%5.2f_nv_%5.2f_slr_%5.3f_invp0_%5.2e_p0_%5.2e_pmax_%5.2e,  ' %(lam,nv,slr,inv_p0,p_zero_point,pmax )
+        filename=filename.replace('+','').replace('-','n').replace(' ','')
+        #print(filename)
     
-    
-    plt.savefig("figure/Capillary_&_SWCC_for_"+".png",dpi=300)
+        plt.savefig("figure/"+filename+".png",dpi=300)
+
+
+    return p_cap
 
 
