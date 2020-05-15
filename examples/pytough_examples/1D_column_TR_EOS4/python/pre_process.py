@@ -36,6 +36,7 @@ else:
 
 # ---- set up the model ---------------------------------
 length = 4  #400.
+#length = 400  #400.
 nblks  = 50
 dz     = [length / nblks] * nblks
 dy     = dx  = [0.1]
@@ -89,6 +90,7 @@ inp.output_times = {'num_times_specified': int(simulation_time_s*dayPs/output_in
 
 
 # #Add another rocktype, with relative permeability and capillarity functions & parameters:
+
 r1 = rocktype('SAND ', 
         nad           = 2,
         porosity      = 0.45,
@@ -156,21 +158,22 @@ for blk in inp.grid.blocklist:
     blk.ahtx     = conarea   # interface area for heat exchange
 	
 
-## -------add boundary condition block on the surface-----------------
-#bdy01 = t2block('bdy01', bvol, r2,
-#             ahtx      = conarea, # area for heat exchange
-#             centre    = np.array([ dx[0]/2,dy[0]/2,0   ])   # important for plotting
-#             ) 
-#
-#inp.grid.blocklist.insert(0,bdy01)
-#
-#con1 = t2connection([inp.grid.block['  a 1'],bdy01],
-#                    distance  = [0.5*dz[0],condist],
-#                    area      = conarea, 
-#                    direction = 3,   # which to read permeability
-#                    dircos    = -1)  # ISOT not BETX
-#
-#inp.grid.connectionlist.insert(0,con1)
+# -------add boundary condition block on the surface-----------------
+bdy01 = t2block('bdy01', bvol, r2,
+             ahtx      = conarea, # area for heat exchange
+             centre    = np.array([ dx[0]/2,dy[0]/2,0   ])   # important for plotting
+             ) 
+
+inp.grid.blocklist.insert(0,bdy01)
+
+con1 = t2connection([inp.grid.block['  a 1'] , bdy01],
+                    #distance  = [condist , 0.5*dz[0]],
+                    distance  = [0.5*dz[0]   , condist  ],
+                    area      = conarea, 
+                    direction = 3,   # which to read permeability
+                    dircos    = -1)  # ISOT not BETX
+
+inp.grid.connectionlist.insert(0,con1)
 
 
 
@@ -185,7 +188,8 @@ bdy02 = t2block('bdy02', bvol, r2,
 inp.grid.blocklist.insert( len(inp.grid.block)+1 ,bdy02)      #lenlen(inp.grid.block)+1 puts the element to the end
 
 con2 = t2connection([bdy02,inp.grid.block['  a50']  ],
-                    distance  = [0.5*dz[0],condist],
+                    distance  = [condist , 0.5*dz[0]],
+                    #distance  = [0.5*dz[0],condist],
                     area      = conarea, 
                     direction = 3,   # which to read permeability in blocks rocktype
                     dircos    = -1)  # ISOT not BETX
@@ -198,14 +202,12 @@ inp.grid.connectionlist.insert( len(inp.grid.connection)+1   ,con2)
 for num,key in enumerate(inp.grid.blocklist):
     if str(key)[:3]=='  a':
         inp.incon[str(key)] = \
-                [None, [p_atm_pa , 10.01, T_init_c]]
+                [None, [p_atm_pa , 10.0001, T_init_c]]
                 #[None, [p_atm_pa - inp.grid.block[str(key)].centre[2]*liquid_density_kgPm3*inp.parameter['gravity'], 10.01, T_init_c]]
 
-#inp.incon['bdy01'] = [None, [p_atm_pa, 0.99, T_init_c]]   # what does 0.99 mean?
-#inp.incon['  a 2'][1][1] = 10.99                          # why is this needed?
-
+inp.incon['bdy01'] = [None, [p_atm_pa, 10.999, T_init_c]]   # what does 0.99 mean?, meaning air saturation on the top is 99 %
+inp.incon['bdy02'] = [None, [p_atm_pa, 10.0001, T_init_c]]   # what does 0.01 mean? meaning air satuation at the bottom is 1%, liquid is 99%
 #inp.incon['bdy02'] = [None, [p_atm_pa, 0.99, T_init_c]]   # what does 0.99 mean?
-inp.incon['bdy02'] = [None, [p_atm_pa, 10.01, T_init_c]]   # what does 0.99 mean?
 #inp.incon['bdy02'] = [None, [p_atm_pa, 0.01, T_init_c]]   # what does 0.99 mean?
 #inp.incon['bdy02'] = [None, [p_atm_pa, 10.999999, T_init_c]]   # what does 0.99 mean?
 
