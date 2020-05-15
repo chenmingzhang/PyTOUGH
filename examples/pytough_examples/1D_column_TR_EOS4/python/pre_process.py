@@ -5,8 +5,7 @@ import csv
 import os
 from t2data import *
 from mpl_toolkits.mplot3d import Axes3D
-
-liquid_density_kgPm3   = 1000
+liquid_density_kgPm3   = 1000 
 water_molecular_weight = 0.018
 R_value                = 8.3145
 mPmm                   = 1.e-3
@@ -58,7 +57,7 @@ inp.parameter.update(
      'default_incons' : [p_atm_pa, 10.99, T_init_c, None],
      'relative_error' : 1.e-6,
      'print_interval' : max_no_time_steps/20,
-     'max_timestep'   : 50000   #86400     # the maximum length of time step in second
+     'max_timestep'   : 1000 #50000   #86400     # the maximum length of time step in second
      })
 	 
 inp.parameter['print_interval'] = inp.parameter['max_timesteps']/20
@@ -100,11 +99,21 @@ r1 = rocktype('SAND ',
 
 
 
+#slr      = 0.045
+##nv       = 2.1
+##nv       = 1.2
+#nv       = 4.0
+#pmax     = 1.e8
+#p_air_pa = 700  # unit
+#sl_sat   = 1.
+
 slr      = 0.045
 #nv       = 2.1
-nv       = 1.2
+#nv       = 1.2
+nv       = 4.0
 pmax     = 1.e8
-p_air_pa = 700  # unit
+#p_air_pa = 700  # unit
+p_air_pa = 8000  # unit
 sl_sat   = 1.
 
 #nv=3.0
@@ -201,11 +210,12 @@ inp.incon['bdy02'] = [None, [p_atm_pa, 10.01, T_init_c]]   # what does 0.99 mean
 #inp.incon['bdy02'] = [None, [p_atm_pa, 10.999999, T_init_c]]   # what does 0.99 mean?
 
 # #add generator:
-flow_rate_mmPday = 1e-30 #5.47   # 2000mm /  365  days = 5.47mm/day mm1e-30
-flow_rate_kgPs   = flow_rate_mmPday*conarea*liquid_density_kgPm3*mPmm*dayPs
+#recharge_rate_mmPday = 5.47 #1e-30 #5.47   # 2000mm /  365  days = 5.47mm/day mm1e-30
+recharge_rate_mmPday = 1e-30 #5.47   # 2000mm /  365  days = 5.47mm/day mm1e-30
+recharge_rate_kgPs   = recharge_rate_mmPday*conarea*liquid_density_kgPm3*mPmm*dayPs
 gen              = t2generator(name  = 'INF 1', 
                                block = '  a 1',      #inp.grid.blocklist[0].name,
-                               gx   = flow_rate_kgPs,
+                               gx   = recharge_rate_kgPs,
                                type = 'COM1')
 inp.add_generator(gen)
 

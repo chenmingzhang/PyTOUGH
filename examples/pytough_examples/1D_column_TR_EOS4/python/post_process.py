@@ -324,8 +324,8 @@ while i<lst.num_times:
     fig.suptitle('time: %6.2e days' %(lst.times[i]*dayPs))
     plt.rcParams.update({'font.size':12})
     #fig.tight_layout()
-    filename='SWCC_lam_%5.2f_nv_%5.2f_slr_%5.3f_invp0_%5.2e_p0_%5.2e_pmax_%5.2e,  ' %(lam,nv,slr,inv_p0,p_air_pa,pmax )
-    filename=filename.replace('+','').replace('-','n').replace(' ','')
+    filename='_lam%5.2f_nv%5.2f_slr%5.3f_invp0_%5.2e_p0_%5.2e_pmax%5.2e_recharge%5.2e' %(lam,nv,slr,inv_p0,p_air_pa,pmax,recharge_rate_mmPday )
+    filename=filename.replace('+','').replace('e-','n').replace(' ','')
     plt.savefig('figure/prrm_'+ filename+ '_time_'+str(i)+'_result.png',dpi=200) 
     #i+=200
     #i+=276

@@ -71,6 +71,7 @@ def swcc_van_genuchten_tough2(sat=None,lam=0.23,slr=0.045,inv_p0= 0.00142857,pma
 
         a=calc_swcc.swcc_van_genuchten_tough2()
 
+        return [p_cap,klr,kgr]
     '''
 
     if sat==None:
