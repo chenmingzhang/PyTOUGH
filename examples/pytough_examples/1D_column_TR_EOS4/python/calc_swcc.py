@@ -1,6 +1,7 @@
 # this script validate the swcc curve
 import numpy as np
 import matplotlib.pyplot as plt
+import pdb
 
 
 
@@ -111,25 +112,32 @@ def swcc_van_genuchten_tough2(sat=None,lam=0.23,slr=0.045,inv_p0= 0.00142857,pma
     #sl_sat     = relative_permeability_parameter[2]
     #sgr        = relative_permeability_parameter[3]
     
-    S_star=(sat-slr)/(sl_sat-slr)
-    S_bar=(sat-slr)/(1-sgr-slr)
-    liquid_relative_permeability=S_star**0.5*(1-(1-S_star**(1/lam))**lam)**2
-    liquid_relative_permeability[sat>=sl_sat]=1
-    gas_relative_permeability=(1-S_bar)**2*(1-S_bar**2)
+    #relative permeability is calcuated by subroutine relp in t2f_v2.f
+    s_star                = (sat-slr)/(sl_sat-slr)
+    mask_pos_s_star       = s_star>0
+    klr                   = np.zeros(len(sat))
+    klr[~mask_pos_s_star] = 0
+
+
+
+
+    s_bar                = (sat-slr)/(1-sgr-slr)
+    klr[mask_pos_s_star] = s_star[mask_pos_s_star]**0.5*(1-(1-s_star[mask_pos_s_star]**(1/lam))**lam)**2
+    klr[sat >=   sl_sat] = 1
+    kgr                  = (1-s_bar)**2*(1-s_bar**2)
     if sgr==0:
-        gas_relative_permeability=1-liquid_relative_permeability
+        kgr=1-klr
     
-    ax1.plot(sat,liquid_relative_permeability,'k-o',)
-    plt.xlabel('saturation')
-    plt.ylabel('liquid_relative_permeability)')
-    plt.ylim(0,1)
 
     
     
+    #pdb.set_trace()
     if sw_plot:
     
         fig = plt.figure()
-        ax  = fig.add_subplot(111)
+        fig.subplots_adjust(hspace=0.5,wspace=0.5)
+        fig.subplots_adjust(left=0.17, right=0.93, top=0.93, bottom=0.15)
+        ax1  = fig.add_subplot(121)
         plt.plot(saturation1,capillary_pressure1,'r.-',saturation2,capillary_pressure2,'.-')
         #plt.plot(sl_xt_mtx[:,-1],     -pcap_xt_mtx_pa[:,-1],'b.-')
         
@@ -139,16 +147,22 @@ def swcc_van_genuchten_tough2(sat=None,lam=0.23,slr=0.045,inv_p0= 0.00142857,pma
         #plt.ylim(10,1.e10)
         #plt.xlim(-0.1,1.1)
         #plt.ticklabel_format(style='sci', axis='x', scilimits=(0,0))
-        ax.set_yscale('log')
+        ax1.set_yscale('log')
         plt.grid()
-        plt.suptitle('lam = %5.2f , nv = %5.2f , slr= %5.3f \n, inv_p0 = %5.2e, p0 = %5.2e \npmax = %5.2e,  ' %(lam,nv,slr,inv_p0,p_zero_point,pmax ),fontsize=8)
+        plt.suptitle('lam = %5.2f , nv = %5.2f , slr= %5.3f , inv_p0 = %5.2e, p0 = %5.2e pmax = %5.2e,  ' %(lam,nv,slr,inv_p0,p_zero_point,pmax ),fontsize=8)
         filename='SWCC_lam_%5.2f_nv_%5.2f_slr_%5.3f_invp0_%5.2e_p0_%5.2e_pmax_%5.2e,  ' %(lam,nv,slr,inv_p0,p_zero_point,pmax )
         filename=filename.replace('+','').replace('-','n').replace(' ','')
-        #print(filename)
-    
+        ax2  = fig.add_subplot(122)
+        ax2.plot(sat,klr,'k-o',)
+        ax2.plot(sat,kgr,'r-o',)
+        ax2.set_yscale('log')
+        plt.xlabel('SATURATION')
+        plt.ylabel('RELATIVE PERMEABILITY')
+        plt.ylim(1e-16,1)
+        plt.grid()
         plt.savefig("figure/"+filename+".png",dpi=300)
 
 
-    return p_cap
+    return [p_cap,klr,kgr]
 
 

@@ -97,18 +97,32 @@ r1 = rocktype('SAND ',
         permeability  = [2.e-11, 2.e-11, 2.e-11],
         conductivity  = 2.51,
         specific_heat = 920)
-Residual_saturation      = 0.045
-#nv=2.1
-nv=3.0
+
+
+
+slr      = 0.045
+#nv       = 2.1
+nv       = 1.2
+pmax     = 1.e8
+p_air_pa = 700  # unit
+sl_sat   = 1.
+
+#nv=3.0
+#nv=1.5
+#nv=5
 #p_air_pa= 500  # unit
 
 #p_air_pa= 2000  # unit bad
 #p_air_pa= 1000  # unit
 #p_air_pa= 100  # unit ok but steep
 
-p_air_pa= 700  # unit
-r1.relative_permeability = {'type': 7, 'parameters': [1.-1./nv, Residual_saturation      , 1.        , 0.054]}
-r1.capillarity           = {'type': 7, 'parameters': [1.-1./nv, Residual_saturation-1.e-5, 1/p_air_pa, 1.e8, 1.]}
+
+inv_p0 = 1/p_air_pa
+lam    = 1-1/nv
+
+r1.capillarity           = {'type': 7, 'parameters': [lam, slr, inv_p0, pmax, sl_sat]}
+r1.relative_permeability = {'type': 7, 'parameters': [lam, slr, 1. , 0.054]}
+#r1.capillarity           = {'type': 7, 'parameters': [lam, slr-1.e-5, 1/p_air_pa, 1.e8, 1.]}
 inp.grid.add_rocktype(r1)
 	
 r2 = rocktype('BOUND',
