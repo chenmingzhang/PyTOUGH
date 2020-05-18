@@ -143,8 +143,8 @@ r2 = rocktype('BOUND',
         permeability  = [1.e-11, 1.e-11, 1.e-11],
         conductivity  = 2.51,
         specific_heat = 1.e5)
-r2.relative_permeability = {'type': 1, 'parameters': [0.1,0.0,1.0,0.1,]}
-r2.capillarity           = {'type': 1, 'parameters': [0. , 0., 1.0]}
+r2.capillarity           = {'type': 1, 'parameters': [0. , 0., 1.0     ]}
+r2.relative_permeability = {'type': 1, 'parameters': [0.1,0.0, 1.0,0.1,]}
 inp.grid.add_rocktype(r2)
 
 
@@ -199,10 +199,12 @@ inp.grid.connectionlist.insert( len(inp.grid.connection)+1   ,con2)
 
 
 # ----------- add initial condition --------------------------------------------
+sg_init=0.001
 for num,key in enumerate(inp.grid.blocklist):
     if str(key)[:3]=='  a':
         inp.incon[str(key)] = \
-                [None, [p_atm_pa , 10.0001, T_init_c]]
+                [None, [p_atm_pa , 10.0+sg_init, T_init_c]]
+                #[None, [p_atm_pa , 10.0001, T_init_c]]
                 #[None, [p_atm_pa - inp.grid.block[str(key)].centre[2]*liquid_density_kgPm3*inp.parameter['gravity'], 10.01, T_init_c]]
 
 inp.incon['bdy01'] = [None, [p_atm_pa, 10.999, T_init_c]]   # what does 0.99 mean?, meaning air saturation on the top is 99 %
