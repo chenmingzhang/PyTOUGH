@@ -33,7 +33,6 @@ else:
 
 
 
-
 # ---- set up the model ---------------------------------
 length = 4  #400.
 #length = 400  #400.
@@ -199,7 +198,7 @@ inp.grid.connectionlist.insert( len(inp.grid.connection)+1   ,con2)
 
 
 # ----------- add initial condition --------------------------------------------
-sg_init=0.001
+sg_init=0.0000001
 for num,key in enumerate(inp.grid.blocklist):
     if str(key)[:3]=='  a':
         inp.incon[str(key)] = \
@@ -225,7 +224,7 @@ inp.add_generator(gen)
 
 
 # only run tough2 no toughreact
-inp.add_react(mopr=[None,2,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1])
+inp.add_react(mopr=[None,1,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1])
 
 inp.write(inp.title)
 print("file " + inp.title +" generated\n")
