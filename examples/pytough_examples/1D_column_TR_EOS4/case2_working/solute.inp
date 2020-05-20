@@ -16,13 +16,15 @@ tim.dat                    ! time evolution at specified blocks
 #data to convergence criteria:
    40 0.100E-03  200 3.000E-04   30 0.100E-02 0.000E-03 0.000E-03     ! ....TOLDC,TOLDR
 #writing control varibles: NWTI NWNOD NWCOM NWMIN NWAQ NWADS NWEXC iconflag(=1:mol/l) minflag(=1:Vf)
-10000    1    9   15    0    0    0    1    1 
+10000    1    5   1    0    0    0    1    1 
 #pointer of nodes for writing in time:
   a 1
 #pointer of components for writing:
-    4    5    6    7    8    9   10   11   12
+1   2   3    4    5        
+#7    8    9   10   11   12
 #pointer of minerals for writing:
-    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   
+    1   
+# 2    3    4    5    6    7    8    9   10   11   12   13   14   15   
 #Individual aqueous species for which to output concentrations in time and plot files:
    
 #Adsorption species for which to output concentrations in time and plot files:

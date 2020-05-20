@@ -12,6 +12,14 @@ exec(compile(open(path2).read(), path2, 'exec'))
 path3=os.path.join('..','python','parsing_outputfile.py')
 exec(compile(open(path3).read(), path3, 'exec'))
 
+
+path_tr_opt=os.path.join('..','python','parsing_tr_output.py')
+exec(compile(open(path3).read(), path_tr_opt, 'exec'))
+
+
+#parsing_tr_output.py 
+
+
 path4=os.path.join('..','python','post_process.py')
 exec(compile(open(path4).read(), path4, 'exec'))
 

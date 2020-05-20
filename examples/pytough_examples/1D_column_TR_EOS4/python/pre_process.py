@@ -224,7 +224,7 @@ inp.add_generator(gen)
 
 
 # only run tough2 no toughreact
-inp.add_react(mopr=[None,1,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1])
+inp.add_react(mopr=[None,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1])
 
 inp.write(inp.title)
 print("file " + inp.title +" generated\n")
