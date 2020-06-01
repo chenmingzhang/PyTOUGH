@@ -26,6 +26,8 @@ exec(compile(open(path4).read(), path4, 'exec'))
 path5=os.path.join('..','python','check_balance.py')
 exec(compile(open(path5).read(), path5, 'exec'))
 
+path5=os.path.join('..','python','plot_tr_output.py')
+exec(compile(open(path5).read(), path5, 'exec'))
 
 
 

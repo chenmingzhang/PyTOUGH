@@ -62,7 +62,7 @@ gas.first(); sod.first(); aqu.first()
 plot_every=5
 array_length=len(volume)
 
-opt_idx= np.linspace(0,opt.num_times,5,dtype=int) 
+opt_idx= np.linspace(0,opt.num_times-1,6,dtype=int) 
 
 # opt element matrix
 opt.tx_ele_mtx={}
@@ -175,52 +175,52 @@ im2 = ax[2].plot(aqu.tx_mtx['X'][5] , aqu.tx_mtx['t_h+'][5])
 
 
 
-im3 = ax[3].plot(aqu.tx_mtx['X'][0] , aqu.tx_mtx['t_ca+2'][0] , label="%.1e" % aqu.times[0]+'yrs')
-im3 = ax[3].plot(aqu.tx_mtx['X'][1] , aqu.tx_mtx['t_ca+2'][1] , label="%.1e" % aqu.times[1]+'yrs')
-im3 = ax[3].plot(aqu.tx_mtx['X'][2] , aqu.tx_mtx['t_ca+2'][2] , label="%.1e" % aqu.times[2]+'yrs')
-im3 = ax[3].plot(aqu.tx_mtx['X'][3] , aqu.tx_mtx['t_ca+2'][3] , label="%.1e" % aqu.times[3]+'yrs')
-im3 = ax[3].plot(aqu.tx_mtx['X'][4] , aqu.tx_mtx['t_ca+2'][4] , label="%.1e" % aqu.times[4]+'yrs')
-im3 = ax[3].plot(aqu.tx_mtx['X'][5] , aqu.tx_mtx['t_ca+2'][5] , label="%.1e" % aqu.times[5]+'yrs')
-im3 = ax[3].scatter(aqu.tx_mtx['X'][0][0],
-        chem_inp.water['list']['boundary']['1']['ca+2']['ctot'] )
-
-ax[3].legend(bbox_to_anchor=(1.02, 0.9), loc=2, borderaxespad=0.)
-
-im4 = ax[4].plot(aqu.tx_mtx['X'][0] , aqu.tx_mtx['t_mg+2'][0])
-im4 = ax[4].plot(aqu.tx_mtx['X'][1] , aqu.tx_mtx['t_mg+2'][1])
-im4 = ax[4].plot(aqu.tx_mtx['X'][2] , aqu.tx_mtx['t_mg+2'][2])
-im4 = ax[4].plot(aqu.tx_mtx['X'][3] , aqu.tx_mtx['t_mg+2'][3])
-im4 = ax[4].plot(aqu.tx_mtx['X'][4] , aqu.tx_mtx['t_mg+2'][4])
-im4 = ax[4].plot(aqu.tx_mtx['X'][5] , aqu.tx_mtx['t_mg+2'][5])
-im4 = ax[4].scatter(aqu.tx_mtx['X'][0][0],
-        chem_inp.water['list']['boundary']['1']['mg+2']['ctot'] )
-
-im5 = ax[5].plot(aqu.tx_mtx['X'][0] , aqu.tx_mtx['t_na+'][0])
-im5 = ax[5].plot(aqu.tx_mtx['X'][1] , aqu.tx_mtx['t_na+'][1])
-im5 = ax[5].plot(aqu.tx_mtx['X'][2] , aqu.tx_mtx['t_na+'][2])
-im5 = ax[5].plot(aqu.tx_mtx['X'][3] , aqu.tx_mtx['t_na+'][3])
-im5 = ax[5].plot(aqu.tx_mtx['X'][4] , aqu.tx_mtx['t_na+'][4])
-im5 = ax[5].plot(aqu.tx_mtx['X'][5] , aqu.tx_mtx['t_na+'][5])
-im5 = ax[5].scatter(aqu.tx_mtx['X'][0][0],
-        chem_inp.water['list']['boundary']['1']['na+']['ctot'] )
-
-im6 = ax[6].plot(aqu.tx_mtx['X'][0] , aqu.tx_mtx['t_k+'][0])
-im6 = ax[6].plot(aqu.tx_mtx['X'][1] , aqu.tx_mtx['t_k+'][1])
-im6 = ax[6].plot(aqu.tx_mtx['X'][2] , aqu.tx_mtx['t_k+'][2])
-im6 = ax[6].plot(aqu.tx_mtx['X'][3] , aqu.tx_mtx['t_k+'][3])
-im6 = ax[6].plot(aqu.tx_mtx['X'][4] , aqu.tx_mtx['t_k+'][4])
-im6 = ax[6].plot(aqu.tx_mtx['X'][5] , aqu.tx_mtx['t_k+'][5])
-im6 = ax[6].scatter(aqu.tx_mtx['X'][0][0],
-        chem_inp.water['list']['boundary']['1']['k+']['ctot'] )
-
-im7 = ax[7].plot(aqu.tx_mtx['X'][0] , aqu.tx_mtx['t_hco3-'][0])
-im7 = ax[7].plot(aqu.tx_mtx['X'][1] , aqu.tx_mtx['t_hco3-'][1])
-im7 = ax[7].plot(aqu.tx_mtx['X'][2] , aqu.tx_mtx['t_hco3-'][2])
-im7 = ax[7].plot(aqu.tx_mtx['X'][3] , aqu.tx_mtx['t_hco3-'][3])
-im7 = ax[7].plot(aqu.tx_mtx['X'][4] , aqu.tx_mtx['t_hco3-'][4])
-im7 = ax[7].plot(aqu.tx_mtx['X'][5] , aqu.tx_mtx['t_hco3-'][5])
-im7 = ax[7].scatter(aqu.tx_mtx['X'][0][0],
-        chem_inp.water['list']['boundary']['1']['hco3-']['ctot'] )
+#im3 = ax[3].plot(aqu.tx_mtx['X'][0] , aqu.tx_mtx['t_ca+2'][0] , label="%.1e" % aqu.times[0]+'yrs')
+#im3 = ax[3].plot(aqu.tx_mtx['X'][1] , aqu.tx_mtx['t_ca+2'][1] , label="%.1e" % aqu.times[1]+'yrs')
+#im3 = ax[3].plot(aqu.tx_mtx['X'][2] , aqu.tx_mtx['t_ca+2'][2] , label="%.1e" % aqu.times[2]+'yrs')
+#im3 = ax[3].plot(aqu.tx_mtx['X'][3] , aqu.tx_mtx['t_ca+2'][3] , label="%.1e" % aqu.times[3]+'yrs')
+#im3 = ax[3].plot(aqu.tx_mtx['X'][4] , aqu.tx_mtx['t_ca+2'][4] , label="%.1e" % aqu.times[4]+'yrs')
+#im3 = ax[3].plot(aqu.tx_mtx['X'][5] , aqu.tx_mtx['t_ca+2'][5] , label="%.1e" % aqu.times[5]+'yrs')
+#im3 = ax[3].scatter(aqu.tx_mtx['X'][0][0],
+#        chem_inp.water['list']['boundary']['1']['ca+2']['ctot'] )
+#
+#ax[3].legend(bbox_to_anchor=(1.02, 0.9), loc=2, borderaxespad=0.)
+#
+#im4 = ax[4].plot(aqu.tx_mtx['X'][0] , aqu.tx_mtx['t_mg+2'][0])
+#im4 = ax[4].plot(aqu.tx_mtx['X'][1] , aqu.tx_mtx['t_mg+2'][1])
+#im4 = ax[4].plot(aqu.tx_mtx['X'][2] , aqu.tx_mtx['t_mg+2'][2])
+#im4 = ax[4].plot(aqu.tx_mtx['X'][3] , aqu.tx_mtx['t_mg+2'][3])
+#im4 = ax[4].plot(aqu.tx_mtx['X'][4] , aqu.tx_mtx['t_mg+2'][4])
+#im4 = ax[4].plot(aqu.tx_mtx['X'][5] , aqu.tx_mtx['t_mg+2'][5])
+#im4 = ax[4].scatter(aqu.tx_mtx['X'][0][0],
+#        chem_inp.water['list']['boundary']['1']['mg+2']['ctot'] )
+#
+#im5 = ax[5].plot(aqu.tx_mtx['X'][0] , aqu.tx_mtx['t_na+'][0])
+#im5 = ax[5].plot(aqu.tx_mtx['X'][1] , aqu.tx_mtx['t_na+'][1])
+#im5 = ax[5].plot(aqu.tx_mtx['X'][2] , aqu.tx_mtx['t_na+'][2])
+#im5 = ax[5].plot(aqu.tx_mtx['X'][3] , aqu.tx_mtx['t_na+'][3])
+#im5 = ax[5].plot(aqu.tx_mtx['X'][4] , aqu.tx_mtx['t_na+'][4])
+#im5 = ax[5].plot(aqu.tx_mtx['X'][5] , aqu.tx_mtx['t_na+'][5])
+#im5 = ax[5].scatter(aqu.tx_mtx['X'][0][0],
+#        chem_inp.water['list']['boundary']['1']['na+']['ctot'] )
+#
+#im6 = ax[6].plot(aqu.tx_mtx['X'][0] , aqu.tx_mtx['t_k+'][0])
+#im6 = ax[6].plot(aqu.tx_mtx['X'][1] , aqu.tx_mtx['t_k+'][1])
+#im6 = ax[6].plot(aqu.tx_mtx['X'][2] , aqu.tx_mtx['t_k+'][2])
+#im6 = ax[6].plot(aqu.tx_mtx['X'][3] , aqu.tx_mtx['t_k+'][3])
+#im6 = ax[6].plot(aqu.tx_mtx['X'][4] , aqu.tx_mtx['t_k+'][4])
+#im6 = ax[6].plot(aqu.tx_mtx['X'][5] , aqu.tx_mtx['t_k+'][5])
+#im6 = ax[6].scatter(aqu.tx_mtx['X'][0][0],
+#        chem_inp.water['list']['boundary']['1']['k+']['ctot'] )
+#
+#im7 = ax[7].plot(aqu.tx_mtx['X'][0] , aqu.tx_mtx['t_hco3-'][0])
+#im7 = ax[7].plot(aqu.tx_mtx['X'][1] , aqu.tx_mtx['t_hco3-'][1])
+#im7 = ax[7].plot(aqu.tx_mtx['X'][2] , aqu.tx_mtx['t_hco3-'][2])
+#im7 = ax[7].plot(aqu.tx_mtx['X'][3] , aqu.tx_mtx['t_hco3-'][3])
+#im7 = ax[7].plot(aqu.tx_mtx['X'][4] , aqu.tx_mtx['t_hco3-'][4])
+#im7 = ax[7].plot(aqu.tx_mtx['X'][5] , aqu.tx_mtx['t_hco3-'][5])
+#im7 = ax[7].scatter(aqu.tx_mtx['X'][0][0],
+#        chem_inp.water['list']['boundary']['1']['hco3-']['ctot'] )
 
 im8 = ax[8].plot(aqu.tx_mtx['X'][0] , aqu.tx_mtx['t_so4-2'][0])
 im8 = ax[8].plot(aqu.tx_mtx['X'][1] , aqu.tx_mtx['t_so4-2'][1])
