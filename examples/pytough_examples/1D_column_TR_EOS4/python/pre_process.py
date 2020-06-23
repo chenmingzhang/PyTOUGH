@@ -13,7 +13,7 @@ dayPs                  = 1./(3600*24)
 sPday                  = 3600*24.
 T_init_c               = 25.0
 p_atm_pa               = 101.3e3
-simulation_time_s      = 3000*86400.
+simulation_time_s      = 1000*86400.
 max_no_time_steps      = 9999 
 
 
@@ -142,7 +142,7 @@ r2 = rocktype('BOUND',
         permeability  = [1.e-11, 1.e-11, 1.e-11],
         conductivity  = 2.51,
         specific_heat = 1.e5)
-r2.capillarity           = {'type': 1, 'parameters': [0. , 0., 1.0     ]}
+r2.capillarity           = {'type': 1, 'parameters': [0. , 0., 1.0,sl_sat ]}
 r2.relative_permeability = {'type': 1, 'parameters': [0.1,0.0, 1.0,0.1,]}
 inp.grid.add_rocktype(r2)
 
@@ -214,7 +214,7 @@ inp.incon['bdy02'] = [None, [p_atm_pa, 10.0001, T_init_c]]   # what does 0.01 me
 
 # #add generator:
 #recharge_rate_mmPday = 5.47 #1e-30 #5.47   # 2000mm /  365  days = 5.47mm/day mm1e-30
-recharge_rate_mmPday = 1e-30 #5.47   # 2000mm /  365  days = 5.47mm/day mm1e-30
+recharge_rate_mmPday = 5.47   # 2000mm /  365  days = 5.47mm/day mm1e-30
 recharge_rate_kgPs   = recharge_rate_mmPday*conarea*liquid_density_kgPm3*mPmm*dayPs
 gen              = t2generator(name  = 'INF 1', 
                                block = '  a 1',      #inp.grid.blocklist[0].name,
@@ -222,6 +222,7 @@ gen              = t2generator(name  = 'INF 1',
                                type = 'COM1')
 inp.add_generator(gen)
 
+print("Recharge rate is " + str(recharge_rate_mmPday) +" mm/day\n")
 
 # only run tough2 no toughreact
 inp.add_react(mopr=[None,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1])

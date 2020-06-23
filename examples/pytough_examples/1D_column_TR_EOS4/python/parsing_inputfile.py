@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import csv
 import os
+import time
 from t2listing import *
 from t2data    import *
 from t2incons  import *
@@ -20,7 +21,7 @@ title = 'flow.out'
 # #--- read TOUGH2 input file ------------------------------------	
 
 t = time.time()
-dat = t2data(title)
+inp = t2data(title)
 # dat.grid.write_vtk('sam6_geo.vtu')
 
 elapsed = time.time() - t
@@ -29,8 +30,8 @@ print('Parsing output Elapsed: %s minutes' %(elapsed/60))
     
 #element_coordinate           = np.array([j.centre for j in dat.grid.blocklist])
 
-connection_first_distance    = np.array([blk.distance[0] for blk in dat.grid.connectionlist])
-connection_second_distance   = np.array([blk.distance[1] for blk in dat.grid.connectionlist])
+connection_first_distance    = np.array([blk.distance[0] for blk in inp.grid.connectionlist])
+connection_second_distance   = np.array([blk.distance[1] for blk in inp.grid.connectionlist])
 ele_depth_m                  = np.cumsum(np.insert(connection_first_distance+connection_second_distance,0,0))
 con_depth_m                 = np.cumsum(connection_first_distance+np.insert(connection_second_distance[:-1], 0, 0)) 
 

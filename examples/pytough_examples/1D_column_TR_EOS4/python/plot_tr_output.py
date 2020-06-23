@@ -57,67 +57,6 @@ opt.first(); gas.first(); aqu.first(); sod.first()
 
 
 
-opt.first();
-gas.first(); sod.first(); aqu.first()
-plot_every=5
-array_length=len(volume)
-
-opt_idx= np.linspace(0,opt.num_times-1,6,dtype=int) 
-
-# opt element matrix
-opt.tx_ele_mtx={}
-for j in opt.element.column_name:
-    opt.tx_ele_mtx[j] =np.empty((0,array_length), float) 
-for i in opt.times:
-    for j in opt.element.column_name:
-        opt.tx_ele_mtx[j] =  np.append(opt.tx_ele_mtx[j] , np.array([opt.element.DataFrame[j]]), axis=0)
-    opt.next()
-
-# opt connection matrix
-opt.tx_con_mtx={}
-opt.first();
-for j in opt.connection.column_name:
-    opt.tx_con_mtx[j] =np.empty((0,array_length-1), float) 
-for i in opt.times:
-    for j in opt.connection.column_name:
-        opt.tx_con_mtx[j] =  np.append(opt.tx_con_mtx[j] , np.array([opt.connection.DataFrame[j]]), axis=0)
-    opt.next()
-
-
-# aquifer condition time x axis matrix  (useful when drawing contours)
-aqu.first()
-aqu.tx_mtx={}
-for j in aqu.element.column_name:
-    aqu.tx_mtx[j] =np.empty((0,array_length), float) 
-
-for i in aqu.times:
-    for j in aqu.element.column_name:
-        aqu.tx_mtx[j] =  np.append(aqu.tx_mtx[j] , np.array([aqu.element.DataFrame[j]]), axis=0)
-    aqu.next()
-    
-
-# aquifer mineral time x axis matrix
-sod.tx_mtx={}
-for j in sod.element.column_name:
-    sod.tx_mtx[j] =np.empty((0,array_length), float) 
-for i in sod.times:
-    for j in sod.element.column_name:
-        sod.tx_mtx[j] =  np.append(sod.tx_mtx[j] , np.array([sod.element.DataFrame[j]]), axis=0)
-    sod.next()
-
-# aquifer gas time x axis matrix
-gas.tx_mtx={}
-for j in gas.element.column_name:
-    gas.tx_mtx[j] =np.empty((0,array_length), float) 
-for i in gas.times:
-    for j in gas.element.column_name:
-        gas.tx_mtx[j] =  np.append(gas.tx_mtx[j] , np.array([gas.element.DataFrame[j]]), axis=0)
-    gas.next()
-
-
-#connection_x_location= np.vstack([sod.tx_mtx['X'][0][1:], sod.tx_mtx['X'][0][:-1]]).mean(axis=0)
-con_depth_m= np.vstack([sod.tx_mtx['Z'][0][1:], sod.tx_mtx['Z'][0][:-1]]).mean(axis=0)
-
 gas.first(); sod.first(); aqu.first()
 #for ii in opt.times[0::plot_every]:
 
@@ -129,8 +68,8 @@ tlt =('opt.time='  "%0.2f" % (opt.time/86400/365)   +' years'
     ', aqu.time='  "%0.2f" % (gas.time   ) +' years')
 #fig.suptitle(   tlt     , fontsize=16,fontweight="bold")
 print(tlt)
-no_row=5
-no_col=4
+no_row=6
+no_col=5
 ax = [[] for i in range(no_row*no_col)]
 
 k=0
@@ -155,7 +94,6 @@ i = opt_idx[2]; im0 = ax[0].plot( aqu.tx_mtx['pH'][i] , ele_depth_m , label="%.1
 i = opt_idx[3]; im0 = ax[0].plot( aqu.tx_mtx['pH'][i] , ele_depth_m , label="%.1e" % aqu.times[i]+'yrs')
 i = opt_idx[4]; im0 = ax[0].plot( aqu.tx_mtx['pH'][i] , ele_depth_m , label="%.1e" % aqu.times[i]+'yrs')
 i = opt_idx[5]; im0 = ax[0].plot( aqu.tx_mtx['pH'][i] , ele_depth_m , label="%.1e" % aqu.times[i]+'yrs')
-
 
 
 # what does it mean by 't_h20' 
@@ -186,32 +124,46 @@ i = opt_idx[5] ; im3 = ax[3].plot( aqu.tx_mtx['pH'][i] , ele_depth_m ,label="%.1
 #im3 = ax[3].scatter(aqu.tx_mtx['X'][0][0],
 #        chem_inp.water['list']['boundary']['1']['pH']['ctot'] )
 
-ax[3].legend(bbox_to_anchor=(1.02, 0.9), loc=2, borderaxespad=0.)
 
-#im4 = ax[4].plot(aqu.tx_mtx['X'][0] , aqu.tx_mtx['t_mg+2'][0])
-#im4 = ax[4].plot(aqu.tx_mtx['X'][1] , aqu.tx_mtx['t_mg+2'][1])
-#im4 = ax[4].plot(aqu.tx_mtx['X'][2] , aqu.tx_mtx['t_mg+2'][2])
-#im4 = ax[4].plot(aqu.tx_mtx['X'][3] , aqu.tx_mtx['t_mg+2'][3])
-#im4 = ax[4].plot(aqu.tx_mtx['X'][4] , aqu.tx_mtx['t_mg+2'][4])
-#im4 = ax[4].plot(aqu.tx_mtx['X'][5] , aqu.tx_mtx['t_mg+2'][5])
+i = opt_idx[0] ; im4 = ax[4].plot(aqu.tx_mtx['t_o2(aq)'][i] , ele_depth_m )
+i = opt_idx[1] ; im4 = ax[4].plot(aqu.tx_mtx['t_o2(aq)'][i] , ele_depth_m )
+i = opt_idx[2] ; im4 = ax[4].plot(aqu.tx_mtx['t_o2(aq)'][i] , ele_depth_m )
+i = opt_idx[3] ; im4 = ax[4].plot(aqu.tx_mtx['t_o2(aq)'][i] , ele_depth_m )
+i = opt_idx[4] ; im4 = ax[4].plot(aqu.tx_mtx['t_o2(aq)'][i] , ele_depth_m )
+i = opt_idx[5] ; im4 = ax[4].plot(aqu.tx_mtx['t_o2(aq)'][i] , ele_depth_m )
 #im4 = ax[4].scatter(aqu.tx_mtx['X'][0][0],
 #        chem_inp.water['list']['boundary']['1']['mg+2']['ctot'] )
+ax[4].legend(bbox_to_anchor=(1.02, 1.), loc=2, borderaxespad=0.)
 
-#im5 = ax[5].plot(aqu.tx_mtx['X'][0] , aqu.tx_mtx['t_na+'][0])
-#im5 = ax[5].plot(aqu.tx_mtx['X'][1] , aqu.tx_mtx['t_na+'][1])
-#im5 = ax[5].plot(aqu.tx_mtx['X'][2] , aqu.tx_mtx['t_na+'][2])
-#im5 = ax[5].plot(aqu.tx_mtx['X'][3] , aqu.tx_mtx['t_na+'][3])
-#im5 = ax[5].plot(aqu.tx_mtx['X'][4] , aqu.tx_mtx['t_na+'][4])
-#im5 = ax[5].plot(aqu.tx_mtx['X'][5] , aqu.tx_mtx['t_na+'][5])
+i = opt_idx[0] ;im5 = ax[5].plot( gas.tx_mtx['o2(g)'][i]*gas.tx_mtx['Sg'][i] , ele_depth_m )
+i = opt_idx[1] ;im5 = ax[5].plot( gas.tx_mtx['o2(g)'][i]*gas.tx_mtx['Sg'][i] , ele_depth_m )
+i = opt_idx[2] ;im5 = ax[5].plot( gas.tx_mtx['o2(g)'][i]*gas.tx_mtx['Sg'][i] , ele_depth_m )
+i = opt_idx[3] ;im5 = ax[5].plot( gas.tx_mtx['o2(g)'][i]*gas.tx_mtx['Sg'][i] , ele_depth_m )
+i = opt_idx[4] ;im5 = ax[5].plot( gas.tx_mtx['o2(g)'][i]*gas.tx_mtx['Sg'][i] , ele_depth_m )
+i = opt_idx[5] ;im5 = ax[5].plot( gas.tx_mtx['o2(g)'][i]*gas.tx_mtx['Sg'][i] , ele_depth_m )
+#i = opt_idx[0] ;im5 = ax[5].plot( gas.tx_mtx['o2(g)'][i], ele_depth_m )
+#i = opt_idx[1] ;im5 = ax[5].plot( gas.tx_mtx['o2(g)'][i], ele_depth_m )
+#i = opt_idx[2] ;im5 = ax[5].plot( gas.tx_mtx['o2(g)'][i], ele_depth_m )
+#i = opt_idx[3] ;im5 = ax[5].plot( gas.tx_mtx['o2(g)'][i], ele_depth_m )
+#i = opt_idx[4] ;im5 = ax[5].plot( gas.tx_mtx['o2(g)'][i], ele_depth_m )
+#i = opt_idx[5] ;im5 = ax[5].plot( gas.tx_mtx['o2(g)'][i], ele_depth_m )
 #im5 = ax[5].scatter(aqu.tx_mtx['X'][0][0],
 #        chem_inp.water['list']['boundary']['1']['na+']['ctot'] )
 #
-#im6 = ax[6].plot(aqu.tx_mtx['X'][0] , aqu.tx_mtx['t_k+'][0])
-#im6 = ax[6].plot(aqu.tx_mtx['X'][1] , aqu.tx_mtx['t_k+'][1])
-#im6 = ax[6].plot(aqu.tx_mtx['X'][2] , aqu.tx_mtx['t_k+'][2])
-#im6 = ax[6].plot(aqu.tx_mtx['X'][3] , aqu.tx_mtx['t_k+'][3])
-#im6 = ax[6].plot(aqu.tx_mtx['X'][4] , aqu.tx_mtx['t_k+'][4])
-#im6 = ax[6].plot(aqu.tx_mtx['X'][5] , aqu.tx_mtx['t_k+'][5])
+i = opt_idx[0] ; im4 = ax[6].plot(aqu.tx_mtx['Sg'][i]*sod.tx_mtx['Porosity'][i] , ele_depth_m )
+i = opt_idx[1] ; im4 = ax[6].plot(aqu.tx_mtx['Sg'][i]*sod.tx_mtx['Porosity'][i] , ele_depth_m )
+i = opt_idx[2] ; im4 = ax[6].plot(aqu.tx_mtx['Sg'][i]*sod.tx_mtx['Porosity'][i] , ele_depth_m )
+i = opt_idx[3] ; im4 = ax[6].plot(aqu.tx_mtx['Sg'][i]*sod.tx_mtx['Porosity'][i] , ele_depth_m )
+i = opt_idx[4] ; im4 = ax[6].plot(aqu.tx_mtx['Sg'][i]*sod.tx_mtx['Porosity'][i] , ele_depth_m )
+i = opt_idx[5] ; im4 = ax[6].plot(aqu.tx_mtx['Sg'][i]*sod.tx_mtx['Porosity'][i] , ele_depth_m )
+
+i = opt_idx[0] ; im4 = ax[6].plot(aqu.tx_mtx['Sl'][i]*sod.tx_mtx['Porosity'][i] , ele_depth_m, ':' )
+i = opt_idx[1] ; im4 = ax[6].plot(aqu.tx_mtx['Sl'][i]*sod.tx_mtx['Porosity'][i] , ele_depth_m, ':' )
+i = opt_idx[2] ; im4 = ax[6].plot(aqu.tx_mtx['Sl'][i]*sod.tx_mtx['Porosity'][i] , ele_depth_m, ':' )
+i = opt_idx[3] ; im4 = ax[6].plot(aqu.tx_mtx['Sl'][i]*sod.tx_mtx['Porosity'][i] , ele_depth_m, ':' )
+i = opt_idx[4] ; im4 = ax[6].plot(aqu.tx_mtx['Sl'][i]*sod.tx_mtx['Porosity'][i] , ele_depth_m, ':' )
+i = opt_idx[5] ; im4 = ax[6].plot(aqu.tx_mtx['Sl'][i]*sod.tx_mtx['Porosity'][i] , ele_depth_m, ':' )
+
 #im6 = ax[6].scatter(aqu.tx_mtx['X'][0][0],
 #        chem_inp.water['list']['boundary']['1']['k+']['ctot'] )
 #
@@ -290,12 +242,12 @@ i = opt_idx[5] ; im15 = ax[15].plot(sod.tx_mtx['pyrite'][i] , ele_depth_m)
 #list(opt.tx_con_mtx)
 #['FLOH', 'FLOH/FLOF', 'FLOF', 'FLO(GAS)', 'VAPDIF', 'FLO(LIQ.)', 'VEL(GAS)', 'VEL(LIQ.)']
 
-i = opt_idx[0] ; im16 = ax[16].plot(opt.tx_con_mtx['FLO(LIQ.)'][i], con_depth_m)
-i = opt_idx[1] ; im16 = ax[16].plot(opt.tx_con_mtx['FLO(LIQ.)'][i], con_depth_m)
-i = opt_idx[2] ; im16 = ax[16].plot(opt.tx_con_mtx['FLO(LIQ.)'][i], con_depth_m)
-i = opt_idx[3] ; im16 = ax[16].plot(opt.tx_con_mtx['FLO(LIQ.)'][i], con_depth_m)
-i = opt_idx[4] ; im16 = ax[16].plot(opt.tx_con_mtx['FLO(LIQ.)'][i], con_depth_m)
-i = opt_idx[5] ; im16 = ax[16].plot(opt.tx_con_mtx['FLO(LIQ.)'][i], con_depth_m)
+i = opt_idx[0] ; im16 = ax[16].plot(opt.tx_con_mtx['FLO(LIQ.)'][i]*sPday/liquid_density_kgPm3/dx[0]/dy[0]/mPmm, con_depth_m)
+i = opt_idx[1] ; im16 = ax[16].plot(opt.tx_con_mtx['FLO(LIQ.)'][i]*sPday/liquid_density_kgPm3/dx[0]/dy[0]/mPmm, con_depth_m)
+i = opt_idx[2] ; im16 = ax[16].plot(opt.tx_con_mtx['FLO(LIQ.)'][i]*sPday/liquid_density_kgPm3/dx[0]/dy[0]/mPmm, con_depth_m)
+i = opt_idx[3] ; im16 = ax[16].plot(opt.tx_con_mtx['FLO(LIQ.)'][i]*sPday/liquid_density_kgPm3/dx[0]/dy[0]/mPmm, con_depth_m)
+i = opt_idx[4] ; im16 = ax[16].plot(opt.tx_con_mtx['FLO(LIQ.)'][i]*sPday/liquid_density_kgPm3/dx[0]/dy[0]/mPmm, con_depth_m)
+i = opt_idx[5] ; im16 = ax[16].plot(opt.tx_con_mtx['FLO(LIQ.)'][i]*sPday/liquid_density_kgPm3/dx[0]/dy[0]/mPmm, con_depth_m)
 
 i = opt_idx[0] ; im17 = ax[17].plot(opt.tx_con_mtx['VEL(LIQ.)'][i],con_depth_m)
 i = opt_idx[1] ; im17 = ax[17].plot(opt.tx_con_mtx['VEL(LIQ.)'][i],con_depth_m)
@@ -317,6 +269,29 @@ i = opt_idx[2] ; im17 = ax[19].plot(opt.tx_con_mtx['VEL(GAS)'][i],con_depth_m)
 i = opt_idx[3] ; im17 = ax[19].plot(opt.tx_con_mtx['VEL(GAS)'][i],con_depth_m)
 i = opt_idx[4] ; im17 = ax[19].plot(opt.tx_con_mtx['VEL(GAS)'][i],con_depth_m)
 i = opt_idx[5] ; im17 = ax[19].plot(opt.tx_con_mtx['VEL(GAS)'][i],con_depth_m)
+
+
+im20 = ax[20].plot(field_data['pH']['years'],field_data['pH'][1],':o',label='Meas. Col. 1')
+im20 = ax[20].plot(field_data['pH']['years'],field_data['pH'][2],':o',label='Meas. Col. 2')
+im20 = ax[20].plot(field_data['pH']['years'],field_data['pH'][3],':o',label='Meas. Col. 3')
+im20 = ax[20].plot(field_data['pH']['years'],field_data['pH'][3],':o',label='Meas. Col. 4')
+im20 = ax[20].plot(field_data['pH']['years'],field_data['pH'][4],':o',label='Meas. Col. 5')
+im20 = ax[20].plot(field_data['pH']['years'],field_data['pH'][5],':o',label='Meas. Col. 6')
+im20 = ax[20].plot( aqu.times,aqu.tx_mtx['pH'][:,-2],'-',label='Simulation' )
+
+
+#im21 = ax[21].plot(field_data['pH']['years'],field_data['pH'][1],':o',label='Meas. Col. 1')
+#im21 = ax[21].plot(field_data['pH']['years'],field_data['pH'][2],':o',label='Meas. Col. 2')
+#im21 = ax[21].plot(field_data['pH']['years'],field_data['pH'][3],':o',label='Meas. Col. 3')
+#im21 = ax[21].plot(field_data['pH']['years'],field_data['pH'][3],':o',label='Meas. Col. 4')
+#im21 = ax[21].plot(field_data['pH']['years'],field_data['pH'][4],':o',label='Meas. Col. 5')
+#im21 = ax[21].plot(field_data['pH']['years'],field_data['pH'][5],':o',label='Meas. Col. 6')
+im21 = ax[21].plot( aqu.times,aqu.tx_mtx['t_so4-2'][:,-2],'-',label='Simulation' )
+
+
+
+
+
 plt.show(block=False)
 
 #ax[0].scatter(aqu.element.DataFrame['X'],aqu.element.DataFrame['Y'])
@@ -348,45 +323,94 @@ plt.show(block=False)
 ##fig.colorbar(im27, ax=ax[27])
 ##fig.colorbar(im28, ax=ax[28])
 ##fig.colorbar(im29, ax=ax[29])
-ax[0 ].set_title('aqu_ pH'     ,fontweight='bold')
-ax[1 ].set_title('aqu_ t_h20'  ,fontweight='bold')
-ax[2 ].set_title('aqu_ t_h+'   ,fontweight='bold')
-ax[3 ].set_title('aqu_ t_ca+2' ,fontweight='bold')
-ax[4 ].set_title('aqu_ t_mg+2' ,fontweight='bold')
-ax[5 ].set_title('aqu_ t_na+'  ,fontweight='bold')
-ax[6 ].set_title('aqu_ t_k+'   ,fontweight='bold')
-ax[7 ].set_title('aqu_ t_hco3-',fontweight='bold')
-ax[8 ].set_title('aqu_ t_so4-2',fontweight='bold')
-ax[9 ].set_title('aqu_ t_cl-'  ,fontweight='bold')
-ax[10].set_title('aqu_ X_na+'  ,fontweight='bold')
-ax[11].set_title('aqu_ X_k+'   ,fontweight='bold')
-ax[12].set_title('aqu_ X_ca+2' ,fontweight='bold')
-ax[13].set_title('aqu_ X_mg+2' ,fontweight='bold')
-ax[14].set_title('aqu_ X_h+'   ,fontweight='bold')
-ax[15].set_title('sod_pyrite'  ,fontweight='bold')
-ax[16].set_title('opt_FLO(LIQ)',fontweight='bold')
-ax[17].set_title('opt_VEL(LIQ)',fontweight='bold')
+#ax[0 ].set_title('aqu_ pH'     ,fontweight='bold')
+#ax[1 ].set_title('aqu_ t_h20'  ,fontweight='bold')
+#ax[2 ].set_title('aqu_ t_h+'   ,fontweight='bold')
+#ax[3 ].set_title('aqu_ t_ca+2' ,fontweight='bold')
+#ax[4 ].set_title('aqu_ t_o2(aq)' ,fontweight='bold')
+#ax[5 ].set_title('gas_o2(g)*sg'  ,fontweight='bold')
+#ax[6 ].set_title('aqu_ Sg _ Sl'   ,fontweight='bold')
+#ax[7 ].set_title('aqu_ t_hco3-',fontweight='bold')
+#ax[8 ].set_title('aqu_ t_so4-2',fontweight='bold')
+#ax[9 ].set_title('aqu_ t_cl-'  ,fontweight='bold')
+#ax[10].set_title('aqu_ X_na+'  ,fontweight='bold')
+#ax[11].set_title('aqu_ X_k+'   ,fontweight='bold')
+#ax[12].set_title('aqu_ X_ca+2' ,fontweight='bold')
+#ax[13].set_title('aqu_ X_mg+2' ,fontweight='bold')
+#ax[14].set_title('aqu_ X_h+'   ,fontweight='bold')
+#ax[15].set_title('sod_pyrite'  ,fontweight='bold')
+#ax[16].set_title('opt_FLO(LIQ)',fontweight='bold')
+#ax[17].set_title('opt_VEL(LIQ)',fontweight='bold')
+#ax[18].set_title('opt_FLO(GAS)',fontweight='bold')
+#ax[19].set_title('opt_VEL(GAS)',fontweight='bold')
 
+ax[0 ].invert_yaxis()
+ax[1 ].invert_yaxis()
+ax[2 ].invert_yaxis()
+ax[3 ].invert_yaxis()
+ax[4 ].invert_yaxis()
+ax[5 ].invert_yaxis()
+ax[6 ].invert_yaxis()
+ax[7 ].invert_yaxis()
+ax[8 ].invert_yaxis()
+ax[9 ].invert_yaxis()
+ax[10].invert_yaxis()
+ax[11].invert_yaxis()
+ax[12].invert_yaxis()
+ax[13].invert_yaxis()
+ax[14].invert_yaxis()
+ax[15].invert_yaxis()
+ax[16].invert_yaxis()
+ax[17].invert_yaxis()
+ax[18].invert_yaxis()
+ax[19].invert_yaxis()
+
+ax[0 ].set_ylabel('Depth (m)' , fontweight='bold')
+ax[1 ].set_ylabel('Depth (m)' , fontweight='bold')
+ax[2 ].set_ylabel('Depth (m)' , fontweight='bold')
+ax[3 ].set_ylabel('Depth (m)' , fontweight='bold')
+ax[4 ].set_ylabel('Depth (m)' , fontweight='bold')
+ax[5 ].set_ylabel('Depth (m)' , fontweight='bold')
+ax[6 ].set_ylabel('Depth (m)' , fontweight='bold')
+ax[7 ].set_ylabel('Depth (m)' , fontweight='bold')
+ax[8 ].set_ylabel('Depth (m)' , fontweight='bold')
+ax[9 ].set_ylabel('Depth (m)' , fontweight='bold')
+ax[10].set_ylabel('Depth (m)' , fontweight='bold')
+ax[11].set_ylabel('Depth (m)' , fontweight='bold')
+ax[12].set_ylabel('Depth (m)' , fontweight='bold')
+ax[13].set_ylabel('Depth (m)' , fontweight='bold')
+ax[14].set_ylabel('Depth (m)' , fontweight='bold')
+ax[15].set_ylabel('Depth (m)' , fontweight='bold')
+ax[16].set_ylabel('Depth (m)' , fontweight='bold')
+ax[17].set_ylabel('Depth (m)' , fontweight='bold')
+ax[18].set_ylabel('Depth (m)' , fontweight='bold')
+ax[19].set_ylabel('Depth (m)' , fontweight='bold')
+ax[20].set_ylabel('pH' , fontweight='bold')
+ax[21].set_ylabel('t_so4-2 mol/L' , fontweight='bold')
 
 # unit is given from aqu.dat header
-ax[0 ].set_ylabel('pH'     ,fontweight='bold')
-ax[1 ].set_ylabel('t_h20  \n mol/L'  ,fontweight='bold')
-ax[2 ].set_ylabel('t_h+   \n mol/L'   ,fontweight='bold')
-ax[3 ].set_ylabel('t_ca+2 \n mol/L' ,fontweight='bold')
-ax[4 ].set_ylabel('t_mg+2 \n mol/L' ,fontweight='bold')
-ax[5 ].set_ylabel('t_na+  \n mol/L'  ,fontweight='bold')
-ax[6 ].set_ylabel('t_k+   \n mol/L'   ,fontweight='bold')
-ax[7 ].set_ylabel('t_hco3-\n mol/L',fontweight='bold')
-ax[8 ].set_ylabel('t_so4-2\n mol/L',fontweight='bold')
-ax[9 ].set_ylabel('t_cl-  \n mol/L'  ,fontweight='bold')
-ax[10].set_ylabel('aqu_\n X_na+'  ,fontweight='bold')
-ax[11].set_ylabel('aqu_\n X_k+'   ,fontweight='bold')
-ax[12].set_ylabel('aqu_\n X_ca+2' ,fontweight='bold')
-ax[13].set_ylabel('aqu_\n X_mg+2' ,fontweight='bold')
-ax[14].set_ylabel('aqu_\n X_h+'   ,fontweight='bold')
-ax[15].set_ylabel('sod_\n calcite',fontweight='bold')
-ax[16].set_ylabel('opt_FLO(LIQ)',fontweight='bold')
-ax[17].set_ylabel('opt_VEL(LIQ)',fontweight='bold')
+ax[0 ].set_xlabel('pH'     ,fontweight='bold')
+ax[1 ].set_xlabel('t_h20   mol/L'  ,fontweight='bold')
+ax[2 ].set_xlabel('t_h+    mol/L'   ,fontweight='bold')
+ax[3 ].set_xlabel('t_ca+2  mol/L' ,fontweight='bold')
+ax[4 ].set_xlabel('t_o2(aq)mol/L' ,fontweight='bold')
+ax[5 ].set_xlabel('gas_o2(g)*sgl'  ,fontweight='bold')
+ax[6 ].set_xlabel('Sg_Sl_Porosity'   ,fontweight='bold')
+ax[7 ].set_xlabel('t_hco3- mol/L',fontweight='bold')
+ax[8 ].set_xlabel('t_so4-2 mol/L',fontweight='bold')
+ax[9 ].set_xlabel('t_cl-   mol/L'  ,fontweight='bold')
+ax[10].set_xlabel('aqu_ X_na+'  ,fontweight='bold')
+ax[11].set_xlabel('aqu_ X_k+'   ,fontweight='bold')
+ax[12].set_xlabel('aqu_ X_ca+2' ,fontweight='bold')
+ax[13].set_xlabel('aqu_ X_mg+2' ,fontweight='bold')
+ax[14].set_xlabel('aqu_ X_h+'   ,fontweight='bold')
+ax[15].set_xlabel('sod_ pyrite',fontweight='bold')
+ax[16].set_xlabel('opt_FLO(LIQ)(mm/day)',fontweight='bold')
+ax[17].set_xlabel('opt_VEL(LIQ)',fontweight='bold')
+ax[18].set_xlabel('opt_FLO(GAS)(kg/s)',fontweight='bold')
+ax[19].set_xlabel('opt_VEL(GAS)',fontweight='bold')
+ax[20].set_xlabel('TIME (years)',fontweight='bold')
+ax[21].set_xlabel('TIME (years)',fontweight='bold')
 
 #
 #ax[27].set_title('flow.out \n FLO(LIQ.)_fra(kg/s)'     , fontweight='bold')
@@ -413,7 +437,7 @@ ax[17].set_ylabel('opt_VEL(LIQ)',fontweight='bold')
 output_name = 'figure/'+'chemcal'+'.jpg'
 fig.savefig(output_name, format='jpg', dpi=100)
 
-fig.close()
+#fig.close()
 #for i in np.arange(plot_every):
 #    opt.next()
 #    gas.next()

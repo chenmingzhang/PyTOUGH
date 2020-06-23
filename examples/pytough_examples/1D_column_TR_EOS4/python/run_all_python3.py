@@ -2,7 +2,6 @@ import os
 cwd = os.getcwd()
 
 
-
 path1=os.path.join('..','python','pre_process.py')
 exec(compile(open(path1).read(), path1, 'exec'))
 
@@ -14,8 +13,10 @@ exec(compile(open(path3).read(), path3, 'exec'))
 
 
 path_tr_opt=os.path.join('..','python','parsing_tr_output.py')
-exec(compile(open(path3).read(), path_tr_opt, 'exec'))
+exec(compile(open(path_tr_opt).read(), path_tr_opt, 'exec'))
 
+read_field_data=os.path.join('..','python','read_field_data.py')
+exec(compile(open(read_field_data).read(), read_field_data, 'exec'))
 
 #parsing_tr_output.py 
 
@@ -23,11 +24,11 @@ exec(compile(open(path3).read(), path_tr_opt, 'exec'))
 path4=os.path.join('..','python','post_process.py')
 exec(compile(open(path4).read(), path4, 'exec'))
 
-path5=os.path.join('..','python','check_balance.py')
-exec(compile(open(path5).read(), path5, 'exec'))
+#path5=os.path.join('..','python','check_balance.py')
+#exec(compile(open(path5).read(), path5, 'exec'))
 
-path5=os.path.join('..','python','plot_tr_output.py')
-exec(compile(open(path5).read(), path5, 'exec'))
+plot_tr_output=os.path.join('..','python','plot_tr_output.py')
+exec(compile(open(plot_tr_output).read(), plot_tr_output, 'exec'))
 
 
 
@@ -37,3 +38,4 @@ exec(compile(open(path6).read(), path6, 'exec'))
 
 path6=os.path.join('..','python','calc_swcc.py')
 exec(compile(open(path6).read(), path6, 'exec'))
+

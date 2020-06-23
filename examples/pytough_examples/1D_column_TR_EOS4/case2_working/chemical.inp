@@ -140,10 +140,7 @@
 # Index  Speciation T(C)  P(bar)
 1     25.0     		  1.0
 #'       icon        guess         ctot         ' 
-#
-#
-#
-'h+'      3      1.0e-7         1.0e-7    '    '     0.       #program failed when ctot is 1e-6
+'h+'      3      1.0e-7         1.0e-9    '    '     0.       #program failed when ctot is 1e-6
 'h2o'     1      1.0e-7         1.0e-7    '    '     0.
 'o2(aq)'  1      1.0e-7         1.0e-7    '    '     0.
 'fe+2'    1      1.0e-7         1.0e-7    '    '     0.

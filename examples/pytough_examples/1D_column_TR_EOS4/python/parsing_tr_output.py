@@ -243,6 +243,67 @@ opt=t2listing.t2listing(name_output)
 
 
 
+### create tx_mtx files for all the output for easy analysis
+opt.first(); gas.first(); sod.first(); aqu.first()
+plot_every=5
+array_length=len(volume)
+
+opt_idx= np.linspace(0,opt.num_times-1,6,dtype=int) 
+
+# opt element matrix
+opt.tx_ele_mtx={}
+for j in opt.element.column_name:
+    opt.tx_ele_mtx[j] =np.empty((0,array_length), float) 
+for i in opt.times:
+    for j in opt.element.column_name:
+        opt.tx_ele_mtx[j] =  np.append(opt.tx_ele_mtx[j] , np.array([opt.element.DataFrame[j]]), axis=0)
+    opt.next()
+
+# opt connection matrix
+opt.tx_con_mtx={}
+opt.first();
+for j in opt.connection.column_name:
+    opt.tx_con_mtx[j] =np.empty((0,array_length-1), float) 
+for i in opt.times:
+    for j in opt.connection.column_name:
+        opt.tx_con_mtx[j] =  np.append(opt.tx_con_mtx[j] , np.array([opt.connection.DataFrame[j]]), axis=0)
+    opt.next()
+
+
+# aquifer condition time x axis matrix  (useful when drawing contours)
+aqu.first()
+aqu.tx_mtx={}
+for j in aqu.element.column_name:
+    aqu.tx_mtx[j] =np.empty((0,array_length), float) 
+
+for i in aqu.times:
+    for j in aqu.element.column_name:
+        aqu.tx_mtx[j] =  np.append(aqu.tx_mtx[j] , np.array([aqu.element.DataFrame[j]]), axis=0)
+    aqu.next()
+    
+
+# aquifer mineral time x axis matrix
+sod.tx_mtx={}
+for j in sod.element.column_name:
+    sod.tx_mtx[j] =np.empty((0,array_length), float) 
+for i in sod.times:
+    for j in sod.element.column_name:
+        sod.tx_mtx[j] =  np.append(sod.tx_mtx[j] , np.array([sod.element.DataFrame[j]]), axis=0)
+    sod.next()
+
+# aquifer gas time x axis matrix
+gas.tx_mtx={}
+for j in gas.element.column_name:
+    gas.tx_mtx[j] =np.empty((0,array_length), float) 
+for i in gas.times:
+    for j in gas.element.column_name:
+        gas.tx_mtx[j] =  np.append(gas.tx_mtx[j] , np.array([gas.element.DataFrame[j]]), axis=0)
+    gas.next()
+
+
+#connection_x_location= np.vstack([sod.tx_mtx['X'][0][1:], sod.tx_mtx['X'][0][:-1]]).mean(axis=0)
+con_depth_m= -np.vstack([sod.tx_mtx['Z'][0][1:], sod.tx_mtx['Z'][0][:-1]]).mean(axis=0)
+
 
 
 
