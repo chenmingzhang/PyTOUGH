@@ -434,8 +434,8 @@ ax[21].set_xlabel('TIME (years)',fontweight='bold')
 ##ax[44].set_title('aqu \n ',  fontweight='bold') 
 #ax[45].set_title('aqu \n t_cl-'      ,  fontweight='bold') 
 
-output_name = 'figure/'+'chemcal'+'.jpg'
-fig.savefig(output_name, format='jpg', dpi=100)
+output_name = 'figure/'+'chemcal'+'.png'
+fig.savefig(output_name, format='png', dpi=100)
 
 #fig.close()
 #for i in np.arange(plot_every):

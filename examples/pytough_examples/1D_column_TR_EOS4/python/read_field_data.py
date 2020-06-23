@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 field_data={}
-field_data['pH']= pd.read_excel (r'../Document/200623_Water_Results_Column_Leach_Experiment.xlsx', sheet_name='ph')
+field_data['pH']= pd.read_excel (r'../Document/200623_Water_Results_Column_Leach_Experiment.xlsx', sheet_name='ph',parse_dates=True,index_col=0)
 field_data['pH']['days']= (field_data['pH'].index-field_data['pH'].index[0]).days
 field_data['pH']['years']= field_data['pH']['days']/365.25
 

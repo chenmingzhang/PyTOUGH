@@ -11,7 +11,7 @@ R_value                = 8.3145
 mPmm                   = 1.e-3
 dayPs                  = 1./(3600*24)
 sPday                  = 3600*24.
-T_init_c               = 25.0
+T_init_c               = 5.0
 p_atm_pa               = 101.3e3
 simulation_time_s      = 1000*86400.
 max_no_time_steps      = 9999 
@@ -43,6 +43,8 @@ geo    = mulgrid().rectangular(dx, dy, dz)
 #geo   = mulgrid().rectangular(dx, dy, dz, atmos_type = 0)
 #geo.write(inp.title+'.dat')
 
+print("Totaal cell number is " + str(nblks) +"\n")
+
 # #Create TOUGH2 input data file:
 inp.grid = t2grid().fromgeo(geo)
 inp.parameter.update(
@@ -57,11 +59,10 @@ inp.parameter.update(
      'default_incons' : [p_atm_pa, 10.99, T_init_c, None],
      'relative_error' : 1.e-6,
      'print_interval' : max_no_time_steps/20,
-     'max_timestep'   : 1000 #50000   #86400     # the maximum length of time step in second
+     'max_timestep'   : 8640   #5000 #50000   #86400     # the maximum length of time step in second
      })
 	 
-inp.parameter['print_interval'] = inp.parameter['max_timesteps']/20
-inp.parameter['max_timestep']   = inp.parameter['tstop']/inp.parameter['max_timesteps']
+#inp.parameter['max_timestep']   = inp.parameter['tstop']/inp.parameter['max_timesteps']
 
 inp.start = True
 inp.diffusion=[[2.13e-5,     0.e-8],   

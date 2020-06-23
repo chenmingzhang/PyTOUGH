@@ -1,10 +1,14 @@
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')  # disabled all the jumping out figures
 import matplotlib.pyplot as plt
 import csv
 import os
 from t2listing import *
 from t2data import *
 from mpl_toolkits.mplot3d import Axes3D
+# Turn interactive plotting off
+#plt.ioff()
 
 if not os.path.exists('figure'):
         os.makedirs('figure')
