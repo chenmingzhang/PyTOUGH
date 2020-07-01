@@ -138,10 +138,10 @@
 #'INITIAL AND BOUDARY WATER TYPES'
 1   1         !niwtype, nbwtype = number of initial and boundary waters
 # Index  Speciation T(C)  P(bar)
-1     5.0     		  1.0
+1     10.0     		  1.0
 #'       icon        guess         ctot         ' 
 'h+'      3      1.0e-7         1.0e-9    '    '     0.       #program failed when ctot is 1e-6
-'h2o'     1      1.0e-7         1.0e-7    '    '     0.
+'h2o'     1      1.0e+0         1.0e+0    '    '     0.
 'o2(aq)'  1      1.0e-7         1.0e-7    '    '     0.
 'fe+2'    1      1.0e-7         1.0e-7    '    '     0.
 'so4-2'   1      1.0e-7         1.0e-7    '    '     0.
@@ -185,10 +185,10 @@
 #'sio2(aq)' 3       1.934d-3     1.934d-3    '    '    0.       
 #'cl-'      1       1.000d-7     1.000d-7    '    '    0.       
 #'*'      
-1     5.0     		             !itype boundary, temp (C)
+1     10.0     		             !itype boundary, temp (C)
 #'       icon        guess         ctot      '
 'h+'      3      1.0e-7         1.0e-7    '    '     0.
-'h2o'     1      1.0e-7         1.0e-7    '    '     0.
+'h2o'     1      1.0e+0         1.0e+0    '    '     0.
 'o2(aq)'  1      1.0e-7         1.0e-7    '    '     0.
 'fe+2'    1      1.0e-7         1.0e-7    '    '     0.
 'so4-2'   1      1.0e-7         1.0e-7    '    '     0.
@@ -223,7 +223,7 @@
 1					!imtype   For rock matrix
 #'mineral         vol.frac.'    
 'pyrite'           0.02     1
-0.0e0                                108.0E-1     0               
+0.0e0                                108.0E-2     0               
 '*' 
 #'quartz'           0.17     1
 #0.0e0                                108.0E-1     0               
