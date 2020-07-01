@@ -15,6 +15,9 @@ T_init_c               = 10.0
 p_atm_pa               = 101.3e3
 simulation_time_s      = 1000*86400.
 max_no_time_steps      = 9999 
+dayPyear               = 365.25
+mmass_sulphate_kgPmol  = 0.096
+mgPkg                  = 1.e6
 
 
 inp       = t2data()

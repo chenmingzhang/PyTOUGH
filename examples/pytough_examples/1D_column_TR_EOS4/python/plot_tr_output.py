@@ -188,6 +188,9 @@ i = opt_idx[2] ; im8 = ax[8].plot( aqu.tx_mtx['t_so4-2'][i] , ele_depth_m )
 i = opt_idx[3] ; im8 = ax[8].plot( aqu.tx_mtx['t_so4-2'][i] , ele_depth_m )
 i = opt_idx[4] ; im8 = ax[8].plot( aqu.tx_mtx['t_so4-2'][i] , ele_depth_m )
 i = opt_idx[5] ; im8 = ax[8].plot( aqu.tx_mtx['t_so4-2'][i] , ele_depth_m )
+
+
+
 #im8 = ax[8].scatter(aqu.tx_mtx['X'][0][0],
 #        chem_inp.water['list']['boundary']['1']['so4-2']['ctot'] )
 
@@ -292,10 +295,22 @@ im20 = ax[20].plot( aqu.times,aqu.tx_mtx['pH'][:,-2],'-',label='Simulation' )
 #im21 = ax[21].plot(field_data['pH']['years'],field_data['pH'][3],':o',label='Meas. Col. 4')
 #im21 = ax[21].plot(field_data['pH']['years'],field_data['pH'][4],':o',label='Meas. Col. 5')
 #im21 = ax[21].plot(field_data['pH']['years'],field_data['pH'][5],':o',label='Meas. Col. 6')
-im21 = ax[21].plot( aqu.times,aqu.tx_mtx['t_so4-2'][:,-2],'-',label='Simulation' )
+im21 = ax[21].plot( aqu.times,aqu.tx_mtx['t_so4-2'][:,-2] * mmass_sulphate_kgPmol* mgPkg,'-',label='Simulation' )
+
+im21 = ax[21].plot(field_data['col1'].loc['years'],field_data['col1'].loc['Sulphate'] , ':o',label='Col 1')
+im21 = ax[21].plot(field_data['col2'].loc['years'],field_data['col2'].loc['Sulphate'] , ':o',label='Col 2')
+im21 = ax[21].plot(field_data['col3'].loc['years'],field_data['col3'].loc['Sulphate'] , ':o',label='Col 3')
+im21 = ax[21].plot(field_data['col4'].loc['years'],field_data['col4'].loc['Sulphate'] , ':o',label='Col 4')
+im21 = ax[21].plot(field_data['col5'].loc['years'],field_data['col5'].loc['Sulphate'] , ':o',label='Col 5')
+im21 = ax[21].plot(field_data['col6'].loc['years'],field_data['col6'].loc['Sulphate'] , ':o',label='Col 6')
 
 
-
+im22 = ax[22].plot(field_data['col1'].loc['years'],field_data['col1'].loc['Fe Total'] , ':o',label='Col 1')
+im22 = ax[22].plot(field_data['col2'].loc['years'],field_data['col2'].loc['Fe Total'] , ':o',label='Col 2')
+im22 = ax[22].plot(field_data['col3'].loc['years'],field_data['col3'].loc['Fe Total'] , ':o',label='Col 3')
+im22 = ax[22].plot(field_data['col4'].loc['years'],field_data['col4'].loc['Fe Total'] , ':o',label='Col 4')
+im22 = ax[22].plot(field_data['col5'].loc['years'],field_data['col5'].loc['Fe Total'] , ':o',label='Col 5')
+im22 = ax[22].plot(field_data['col6'].loc['years'],field_data['col6'].loc['Fe Total'] , ':o',label='Col 6')
 
 
 plt.show(block=False)
@@ -392,7 +407,8 @@ ax[17].set_ylabel('Depth (m)' , fontweight='bold')
 ax[18].set_ylabel('Depth (m)' , fontweight='bold')
 ax[19].set_ylabel('Depth (m)' , fontweight='bold')
 ax[20].set_ylabel('pH' , fontweight='bold')
-ax[21].set_ylabel('t_so4-2 mol/L' , fontweight='bold')
+ax[21].set_ylabel('t_so4-2 mg/L' , fontweight='bold')
+ax[22].set_ylabel('t_fe_+2 mg/L' , fontweight='bold')
 
 # unit is given from aqu.dat header
 ax[0 ].set_xlabel('pH'     ,fontweight='bold')
@@ -417,6 +433,7 @@ ax[18].set_xlabel('opt_FLO(GAS)(kg/s)',fontweight='bold')
 ax[19].set_xlabel('opt_VEL(GAS)',fontweight='bold')
 ax[20].set_xlabel('TIME (years)',fontweight='bold')
 ax[21].set_xlabel('TIME (years)',fontweight='bold')
+ax[22].set_xlabel('TIME (years)',fontweight='bold')
 
 #
 #ax[27].set_title('flow.out \n FLO(LIQ.)_fra(kg/s)'     , fontweight='bold')
