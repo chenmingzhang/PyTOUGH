@@ -305,6 +305,7 @@ im21 = ax[21].plot(field_data['col5'].loc['years'],field_data['col5'].loc['Sulph
 im21 = ax[21].plot(field_data['col6'].loc['years'],field_data['col6'].loc['Sulphate'] , ':o',label='Col 6')
 
 
+im21 = ax[22].plot( aqu.times,aqu.tx_mtx['t_fe+2'][:,-2] * mmass_iron2_kgPmol* mgPkg,'-',label='Simulation' )
 im22 = ax[22].plot(field_data['col1'].loc['years'],field_data['col1'].loc['Fe Total'] , ':o',label='Col 1')
 im22 = ax[22].plot(field_data['col2'].loc['years'],field_data['col2'].loc['Fe Total'] , ':o',label='Col 2')
 im22 = ax[22].plot(field_data['col3'].loc['years'],field_data['col3'].loc['Fe Total'] , ':o',label='Col 3')

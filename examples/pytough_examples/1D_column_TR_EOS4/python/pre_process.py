@@ -18,6 +18,7 @@ max_no_time_steps      = 9999
 dayPyear               = 365.25
 mmass_sulphate_kgPmol  = 0.096
 mgPkg                  = 1.e6
+mmass_iron2_kgPmol     = 0.056
 
 
 inp       = t2data()
