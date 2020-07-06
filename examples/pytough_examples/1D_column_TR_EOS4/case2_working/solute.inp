@@ -3,7 +3,7 @@
 #options for reactive chemical transport: ISPIA,INIBOUND,ISOLVC,ngamm,NGAS1,ichdump,kcpl,Ico2h2o,iTDS_REACT 
     2    1    5    2    1    0    2    0    0   
 #constraints for reactive chemical transport: sl1min, rcour, stimax, cnfact
-   1.00e-2       0.9       4.0       1.0       
+   1.00e-2       0.1       4.0       1.0       
 #Read output file names:
 therakin10.dat             ! thermodynamic database
 iter.dat                   ! iteration information

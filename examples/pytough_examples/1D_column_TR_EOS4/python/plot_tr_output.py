@@ -125,12 +125,12 @@ i = opt_idx[5] ; im3 = ax[3].plot( aqu.tx_mtx['pH'][i] , ele_depth_m ,label="%.1
 #        chem_inp.water['list']['boundary']['1']['pH']['ctot'] )
 
 
-i = opt_idx[0] ; im4 = ax[4].plot(aqu.tx_mtx['t_o2(aq)'][i] , ele_depth_m )
-i = opt_idx[1] ; im4 = ax[4].plot(aqu.tx_mtx['t_o2(aq)'][i] , ele_depth_m )
-i = opt_idx[2] ; im4 = ax[4].plot(aqu.tx_mtx['t_o2(aq)'][i] , ele_depth_m )
-i = opt_idx[3] ; im4 = ax[4].plot(aqu.tx_mtx['t_o2(aq)'][i] , ele_depth_m )
-i = opt_idx[4] ; im4 = ax[4].plot(aqu.tx_mtx['t_o2(aq)'][i] , ele_depth_m )
-i = opt_idx[5] ; im4 = ax[4].plot(aqu.tx_mtx['t_o2(aq)'][i] , ele_depth_m )
+i = opt_idx[0] ; im4 = ax[4].plot(aqu.tx_mtx['t_o2(aq)'][i] , ele_depth_m ,label="%.1e" % aqu.times[i]+'yrs')
+i = opt_idx[1] ; im4 = ax[4].plot(aqu.tx_mtx['t_o2(aq)'][i] , ele_depth_m ,label="%.1e" % aqu.times[i]+'yrs')
+i = opt_idx[2] ; im4 = ax[4].plot(aqu.tx_mtx['t_o2(aq)'][i] , ele_depth_m ,label="%.1e" % aqu.times[i]+'yrs')
+i = opt_idx[3] ; im4 = ax[4].plot(aqu.tx_mtx['t_o2(aq)'][i] , ele_depth_m ,label="%.1e" % aqu.times[i]+'yrs')
+i = opt_idx[4] ; im4 = ax[4].plot(aqu.tx_mtx['t_o2(aq)'][i] , ele_depth_m ,label="%.1e" % aqu.times[i]+'yrs')
+i = opt_idx[5] ; im4 = ax[4].plot(aqu.tx_mtx['t_o2(aq)'][i] , ele_depth_m ,label="%.1e" % aqu.times[i]+'yrs')
 #im4 = ax[4].scatter(aqu.tx_mtx['X'][0][0],
 #        chem_inp.water['list']['boundary']['1']['mg+2']['ctot'] )
 ax[4].legend(bbox_to_anchor=(1.02, 1.), loc=2, borderaxespad=0.)
