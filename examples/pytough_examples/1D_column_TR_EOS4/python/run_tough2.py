@@ -13,11 +13,19 @@ from mpl_toolkits.mplot3d import Axes3D
 # delete exisiting input file
 cwd=os.getcwd()
 out_path=os.path.join(os.getcwd(),'flow.out')
+chemical_out_path=os.path.join(os.getcwd(),'chemical.out')
+runlog_path=os.path.join(os.getcwd(),'runlog.out')
+chdump_path=os.path.join(os.getcwd(),'chdump.out')
+solute_path=os.path.join(os.getcwd(),'solute.out')
 
 
 if os.path.exists(out_path):
     os.remove(out_path)
-    print("Existing "+ "flow.out" + " deleted\n")
+    os.remove(chemical_out_path)
+    os.remove(runlog_path)
+    os.remove(chdump_path)
+    os.remove(solute_path)
+    print("Existing "+ "flow.out, "+"chemical.out, "+ "runlog.out, "+"chdump.out, "+"solute.out,"  + " deleted\n")
 else:
     print("Can not delete "+ "flow.out" + "  as it doesn't exists\n")
 

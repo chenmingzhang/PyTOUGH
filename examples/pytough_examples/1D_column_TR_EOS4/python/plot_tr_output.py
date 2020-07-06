@@ -167,12 +167,13 @@ i = opt_idx[5] ; im6 = ax[6].plot(aqu.tx_mtx['Sl'][i]*sod.tx_mtx['Porosity'][i] 
 #im6 = ax[6].scatter(aqu.tx_mtx['X'][0][0],
 #        chem_inp.water['list']['boundary']['1']['k+']['ctot'] )
 #
-i = opt_idx[0] ; im7 = ax[7].plot( aqu.tx_mtx['t_fe+2'][i] , ele_depth_m )
-i = opt_idx[1] ; im7 = ax[7].plot( aqu.tx_mtx['t_fe+2'][i] , ele_depth_m )
-i = opt_idx[2] ; im7 = ax[7].plot( aqu.tx_mtx['t_fe+2'][i] , ele_depth_m )
-i = opt_idx[3] ; im7 = ax[7].plot( aqu.tx_mtx['t_fe+2'][i] , ele_depth_m )
-i = opt_idx[4] ; im7 = ax[7].plot( aqu.tx_mtx['t_fe+2'][i] , ele_depth_m )
-i = opt_idx[5] ; im7 = ax[7].plot( aqu.tx_mtx['t_fe+2'][i] , ele_depth_m )
+if any("t_fe+2" in s for s in aqu.element.column_name):
+    i = opt_idx[0] ; im7 = ax[7].plot( aqu.tx_mtx['t_fe+2'][i] , ele_depth_m )
+    i = opt_idx[1] ; im7 = ax[7].plot( aqu.tx_mtx['t_fe+2'][i] , ele_depth_m )
+    i = opt_idx[2] ; im7 = ax[7].plot( aqu.tx_mtx['t_fe+2'][i] , ele_depth_m )
+    i = opt_idx[3] ; im7 = ax[7].plot( aqu.tx_mtx['t_fe+2'][i] , ele_depth_m )
+    i = opt_idx[4] ; im7 = ax[7].plot( aqu.tx_mtx['t_fe+2'][i] , ele_depth_m )
+    i = opt_idx[5] ; im7 = ax[7].plot( aqu.tx_mtx['t_fe+2'][i] , ele_depth_m )
 #im7 = ax[7].plot(aqu.tx_mtx['X'][0] , aqu.tx_mtx['t_hco3-'][0])
 #im7 = ax[7].plot(aqu.tx_mtx['X'][1] , aqu.tx_mtx['t_hco3-'][1])
 #im7 = ax[7].plot(aqu.tx_mtx['X'][2] , aqu.tx_mtx['t_hco3-'][2])
@@ -182,12 +183,13 @@ i = opt_idx[5] ; im7 = ax[7].plot( aqu.tx_mtx['t_fe+2'][i] , ele_depth_m )
 #im7 = ax[7].scatter(aqu.tx_mtx['X'][0][0],
 #        chem_inp.water['list']['boundary']['1']['hco3-']['ctot'] )
 
-i = opt_idx[0] ; im8 = ax[8].plot( aqu.tx_mtx['t_so4-2'][i] , ele_depth_m )
-i = opt_idx[1] ; im8 = ax[8].plot( aqu.tx_mtx['t_so4-2'][i] , ele_depth_m )
-i = opt_idx[2] ; im8 = ax[8].plot( aqu.tx_mtx['t_so4-2'][i] , ele_depth_m )
-i = opt_idx[3] ; im8 = ax[8].plot( aqu.tx_mtx['t_so4-2'][i] , ele_depth_m )
-i = opt_idx[4] ; im8 = ax[8].plot( aqu.tx_mtx['t_so4-2'][i] , ele_depth_m )
-i = opt_idx[5] ; im8 = ax[8].plot( aqu.tx_mtx['t_so4-2'][i] , ele_depth_m )
+if any("t_so4-2" in s for s in aqu.element.column_name):
+    i = opt_idx[0] ; im8 = ax[8].plot( aqu.tx_mtx['t_so4-2'][i] , ele_depth_m )
+    i = opt_idx[1] ; im8 = ax[8].plot( aqu.tx_mtx['t_so4-2'][i] , ele_depth_m )
+    i = opt_idx[2] ; im8 = ax[8].plot( aqu.tx_mtx['t_so4-2'][i] , ele_depth_m )
+    i = opt_idx[3] ; im8 = ax[8].plot( aqu.tx_mtx['t_so4-2'][i] , ele_depth_m )
+    i = opt_idx[4] ; im8 = ax[8].plot( aqu.tx_mtx['t_so4-2'][i] , ele_depth_m )
+    i = opt_idx[5] ; im8 = ax[8].plot( aqu.tx_mtx['t_so4-2'][i] , ele_depth_m )
 
 
 
@@ -295,7 +297,8 @@ im20 = ax[20].plot( aqu.times,aqu.tx_mtx['pH'][:,-2],'-',label='Simulation' )
 #im21 = ax[21].plot(field_data['pH']['years'],field_data['pH'][3],':o',label='Meas. Col. 4')
 #im21 = ax[21].plot(field_data['pH']['years'],field_data['pH'][4],':o',label='Meas. Col. 5')
 #im21 = ax[21].plot(field_data['pH']['years'],field_data['pH'][5],':o',label='Meas. Col. 6')
-im21 = ax[21].plot( aqu.times,aqu.tx_mtx['t_so4-2'][:,-2] * mmass_sulphate_kgPmol* mgPkg,'-',label='Simulation' )
+if any("t_so4-2" in s for s in aqu.element.column_name):
+    im21 = ax[21].plot( aqu.times,aqu.tx_mtx['t_so4-2'][:,-2] * mmass_sulphate_kgPmol* mgPkg,'-',label='Simulation' )
 
 im21 = ax[21].plot(field_data['col1'].loc['years'],field_data['col1'].loc['Sulphate'] , ':o',label='Col 1')
 im21 = ax[21].plot(field_data['col2'].loc['years'],field_data['col2'].loc['Sulphate'] , ':o',label='Col 2')
@@ -305,7 +308,8 @@ im21 = ax[21].plot(field_data['col5'].loc['years'],field_data['col5'].loc['Sulph
 im21 = ax[21].plot(field_data['col6'].loc['years'],field_data['col6'].loc['Sulphate'] , ':o',label='Col 6')
 
 
-im21 = ax[22].plot( aqu.times,aqu.tx_mtx['t_fe+2'][:,-2] * mmass_iron2_kgPmol* mgPkg,'-',label='Simulation' )
+if any("t_fe+2" in s for s in aqu.element.column_name):
+    im21 = ax[22].plot( aqu.times,aqu.tx_mtx['t_fe+2'][:,-2] * mmass_iron2_kgPmol* mgPkg,'-',label='Simulation' )
 im22 = ax[22].plot(field_data['col1'].loc['years'],field_data['col1'].loc['Fe Total'] , ':o',label='Col 1')
 im22 = ax[22].plot(field_data['col2'].loc['years'],field_data['col2'].loc['Fe Total'] , ':o',label='Col 2')
 im22 = ax[22].plot(field_data['col3'].loc['years'],field_data['col3'].loc['Fe Total'] , ':o',label='Col 3')

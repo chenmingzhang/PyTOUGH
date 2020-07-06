@@ -40,7 +40,7 @@ else:
 # ---- set up the model ---------------------------------
 length = 4  #400.
 #length = 400  #400.
-nblks  = 50
+nblks  = 25
 dz     = [length / nblks] * nblks
 dy     = dx  = [0.1]
 geo    = mulgrid().rectangular(dx, dy, dz)
@@ -191,7 +191,7 @@ bdy02 = t2block('bdy02', bvol, r2,
 
 inp.grid.blocklist.insert( len(inp.grid.block)+1 ,bdy02)      #lenlen(inp.grid.block)+1 puts the element to the end
 
-con2 = t2connection([bdy02,inp.grid.block['  a50']  ],
+con2 = t2connection([bdy02,inp.grid.block['  a25']  ],
                     distance  = [condist , 0.5*dz[0]],
                     #distance  = [0.5*dz[0],condist],
                     area      = conarea, 
