@@ -192,18 +192,21 @@ if any("t_so4-2" in s for s in aqu.element.column_name):
     i = opt_idx[5] ; im8 = ax[8].plot( aqu.tx_mtx['t_so4-2'][i] , ele_depth_m )
 
 
+if any("t_ca+2" in s for s in aqu.element.column_name):
+    i = opt_idx[0] ; im9 = ax[9].plot( aqu.tx_mtx['t_ca+2'][i] , ele_depth_m )
+    i = opt_idx[1] ; im9 = ax[9].plot( aqu.tx_mtx['t_ca+2'][i] , ele_depth_m )
+    i = opt_idx[2] ; im9 = ax[9].plot( aqu.tx_mtx['t_ca+2'][i] , ele_depth_m )
+    i = opt_idx[3] ; im9 = ax[9].plot( aqu.tx_mtx['t_ca+2'][i] , ele_depth_m )
+    i = opt_idx[4] ; im9 = ax[9].plot( aqu.tx_mtx['t_ca+2'][i] , ele_depth_m )
+    i = opt_idx[5] ; im9 = ax[9].plot( aqu.tx_mtx['t_ca+2'][i] , ele_depth_m )
 
-#im8 = ax[8].scatter(aqu.tx_mtx['X'][0][0],
-#        chem_inp.water['list']['boundary']['1']['so4-2']['ctot'] )
-
-#im9 = ax[9].plot(aqu.tx_mtx['X'][0],aqu.tx_mtx['t_cl-'][0])
-#im9 = ax[9].plot(aqu.tx_mtx['X'][1],aqu.tx_mtx['t_cl-'][1])
-#im9 = ax[9].plot(aqu.tx_mtx['X'][2],aqu.tx_mtx['t_cl-'][2])
-#im9 = ax[9].plot(aqu.tx_mtx['X'][3],aqu.tx_mtx['t_cl-'][3])
-#im9 = ax[9].plot(aqu.tx_mtx['X'][4],aqu.tx_mtx['t_cl-'][4])
-#im9 = ax[9].plot(aqu.tx_mtx['X'][5],aqu.tx_mtx['t_cl-'][5])
-#im9 = ax[9].scatter(aqu.tx_mtx['X'][0][0],
-#        chem_inp.water['list']['boundary']['1']['cl-']['ctot'] )
+if any("t_hco3-" in s for s in aqu.element.column_name):
+    i = opt_idx[0] ; im10 = ax[10].plot( aqu.tx_mtx['t_hco3-'][i] , ele_depth_m )
+    i = opt_idx[1] ; im10 = ax[10].plot( aqu.tx_mtx['t_hco3-'][i] , ele_depth_m )
+    i = opt_idx[2] ; im10 = ax[10].plot( aqu.tx_mtx['t_hco3-'][i] , ele_depth_m )
+    i = opt_idx[3] ; im10 = ax[10].plot( aqu.tx_mtx['t_hco3-'][i] , ele_depth_m )
+    i = opt_idx[4] ; im10 = ax[10].plot( aqu.tx_mtx['t_hco3-'][i] , ele_depth_m )
+    i = opt_idx[5] ; im10 = ax[10].plot( aqu.tx_mtx['t_hco3-'][i] , ele_depth_m )
 
 #im10 = ax[10].plot(aqu.tx_mtx['X'][0],aqu.tx_mtx['X_na+'][0])
 #im10 = ax[10].plot(aqu.tx_mtx['X'][1],aqu.tx_mtx['X_na+'][1])
@@ -242,13 +245,38 @@ if any("t_so4-2" in s for s in aqu.element.column_name):
 
 ##sod.element.column_name
 ##['X', 'Y', 'Z', 'T(C)', 'Porosity', 'Poros_Chg', 'Permx(m^2)', 'Kx/Kx0', 'Permz(m^2)', 'Kz/Kz0', 'calcite']
+if any("dolomite" in s for s in sod.element.column_name):
+    i = opt_idx[0] ; im12 = ax[12].plot(sod.tx_mtx['dolomite'][i] , ele_depth_m)
+    i = opt_idx[1] ; im12 = ax[12].plot(sod.tx_mtx['dolomite'][i] , ele_depth_m)
+    i = opt_idx[2] ; im12 = ax[12].plot(sod.tx_mtx['dolomite'][i] , ele_depth_m)
+    i = opt_idx[3] ; im12 = ax[12].plot(sod.tx_mtx['dolomite'][i] , ele_depth_m)
+    i = opt_idx[4] ; im12 = ax[12].plot(sod.tx_mtx['dolomite'][i] , ele_depth_m)
+    i = opt_idx[5] ; im12 = ax[12].plot(sod.tx_mtx['dolomite'][i] , ele_depth_m)
 
-i = opt_idx[0] ; im15 = ax[15].plot(sod.tx_mtx['pyrite'][i] , ele_depth_m)
-i = opt_idx[1] ; im15 = ax[15].plot(sod.tx_mtx['pyrite'][i] , ele_depth_m)
-i = opt_idx[2] ; im15 = ax[15].plot(sod.tx_mtx['pyrite'][i] , ele_depth_m)
-i = opt_idx[3] ; im15 = ax[15].plot(sod.tx_mtx['pyrite'][i] , ele_depth_m)
-i = opt_idx[4] ; im15 = ax[15].plot(sod.tx_mtx['pyrite'][i] , ele_depth_m)
-i = opt_idx[5] ; im15 = ax[15].plot(sod.tx_mtx['pyrite'][i] , ele_depth_m)
+if any("calcite" in s for s in sod.element.column_name):
+    i = opt_idx[0] ; im13 = ax[13].plot(sod.tx_mtx['calcite'][i] , ele_depth_m)
+    i = opt_idx[1] ; im13 = ax[13].plot(sod.tx_mtx['calcite'][i] , ele_depth_m)
+    i = opt_idx[2] ; im13 = ax[13].plot(sod.tx_mtx['calcite'][i] , ele_depth_m)
+    i = opt_idx[3] ; im13 = ax[13].plot(sod.tx_mtx['calcite'][i] , ele_depth_m)
+    i = opt_idx[4] ; im13 = ax[13].plot(sod.tx_mtx['calcite'][i] , ele_depth_m)
+    i = opt_idx[5] ; im13 = ax[13].plot(sod.tx_mtx['calcite'][i] , ele_depth_m)
+
+if any("gypsum" in s for s in sod.element.column_name):
+    i = opt_idx[0] ; im14 = ax[14].plot(sod.tx_mtx['gypsum'][i] , ele_depth_m)
+    i = opt_idx[1] ; im14 = ax[14].plot(sod.tx_mtx['gypsum'][i] , ele_depth_m)
+    i = opt_idx[2] ; im14 = ax[14].plot(sod.tx_mtx['gypsum'][i] , ele_depth_m)
+    i = opt_idx[3] ; im14 = ax[14].plot(sod.tx_mtx['gypsum'][i] , ele_depth_m)
+    i = opt_idx[4] ; im14 = ax[14].plot(sod.tx_mtx['gypsum'][i] , ele_depth_m)
+    i = opt_idx[5] ; im14 = ax[14].plot(sod.tx_mtx['gypsum'][i] , ele_depth_m)
+
+
+if any("pyrite" in s for s in sod.element.column_name):
+    i = opt_idx[0] ; im15 = ax[15].plot(sod.tx_mtx['pyrite'][i] , ele_depth_m)
+    i = opt_idx[1] ; im15 = ax[15].plot(sod.tx_mtx['pyrite'][i] , ele_depth_m)
+    i = opt_idx[2] ; im15 = ax[15].plot(sod.tx_mtx['pyrite'][i] , ele_depth_m)
+    i = opt_idx[3] ; im15 = ax[15].plot(sod.tx_mtx['pyrite'][i] , ele_depth_m)
+    i = opt_idx[4] ; im15 = ax[15].plot(sod.tx_mtx['pyrite'][i] , ele_depth_m)
+    i = opt_idx[5] ; im15 = ax[15].plot(sod.tx_mtx['pyrite'][i] , ele_depth_m)
 
 #list(opt.tx_con_mtx)
 #['FLOH', 'FLOH/FLOF', 'FLOF', 'FLO(GAS)', 'VAPDIF', 'FLO(LIQ.)', 'VEL(GAS)', 'VEL(LIQ.)']
@@ -317,6 +345,23 @@ im22 = ax[22].plot(field_data['col4'].loc['years'],field_data['col4'].loc['Fe To
 im22 = ax[22].plot(field_data['col5'].loc['years'],field_data['col5'].loc['Fe Total'] , ':o',label='Col 5')
 im22 = ax[22].plot(field_data['col6'].loc['years'],field_data['col6'].loc['Fe Total'] , ':o',label='Col 6')
 
+if any("t_ca+2" in s for s in aqu.element.column_name):
+    im23 = ax[23].plot( aqu.times,aqu.tx_mtx['t_ca+2'][:,-2] * mmass_iron2_kgPmol* mgPkg,'-',label='Simulation' )
+im23 = ax[23].plot(field_data['col1'].loc['years'],field_data['col1'].loc['Ca Total'] , ':o',label='Col 1')
+im23 = ax[23].plot(field_data['col2'].loc['years'],field_data['col2'].loc['Ca Total'] , ':o',label='Col 2')
+im23 = ax[23].plot(field_data['col3'].loc['years'],field_data['col3'].loc['Ca Total'] , ':o',label='Col 3')
+im23 = ax[23].plot(field_data['col4'].loc['years'],field_data['col4'].loc['Ca Total'] , ':o',label='Col 4')
+im23 = ax[23].plot(field_data['col5'].loc['years'],field_data['col5'].loc['Ca Total'] , ':o',label='Col 5')
+im23 = ax[23].plot(field_data['col6'].loc['years'],field_data['col6'].loc['Ca Total'] , ':o',label='Col 6')
+
+if any("t_mg+2" in s for s in aqu.element.column_name):
+    im24 = ax[24].plot( aqu.times,aqu.tx_mtx['t_mg+2'][:,-2] * mmass_iron2_kgPmol* mgPkg,'-',label='Simulation' )
+im24 = ax[24].plot(field_data['col1'].loc['years'],field_data['col1'].loc['Mg Total'] , ':o',label='Col 1')
+im24 = ax[24].plot(field_data['col2'].loc['years'],field_data['col2'].loc['Mg Total'] , ':o',label='Col 2')
+im24 = ax[24].plot(field_data['col3'].loc['years'],field_data['col3'].loc['Mg Total'] , ':o',label='Col 3')
+im24 = ax[24].plot(field_data['col4'].loc['years'],field_data['col4'].loc['Mg Total'] , ':o',label='Col 4')
+im24 = ax[24].plot(field_data['col5'].loc['years'],field_data['col5'].loc['Mg Total'] , ':o',label='Col 5')
+im24 = ax[24].plot(field_data['col6'].loc['years'],field_data['col6'].loc['Mg Total'] , ':o',label='Col 6')
 
 plt.show(block=False)
 
@@ -413,7 +458,10 @@ ax[18].set_ylabel('Depth (m)' , fontweight='bold')
 ax[19].set_ylabel('Depth (m)' , fontweight='bold')
 ax[20].set_ylabel('pH' , fontweight='bold')
 ax[21].set_ylabel('t_so4-2 mg/L' , fontweight='bold')
-ax[22].set_ylabel('t_fe_+2 mg/L' , fontweight='bold')
+ax[22].set_ylabel('t_fe+2 mg/L' , fontweight='bold')
+ax[23].set_ylabel('t_ca+2 mg/L' , fontweight='bold')
+ax[24].set_ylabel('t_mg+2 mg/L' , fontweight='bold')
+ax[25].set_ylabel('t_hco3- mg/L' , fontweight='bold')
 
 # unit is given from aqu.dat header
 ax[0 ].set_xlabel('pH'     ,fontweight='bold')
@@ -425,12 +473,12 @@ ax[5 ].set_xlabel('gas_o2(g)*sgl'  ,fontweight='bold')
 ax[6 ].set_xlabel('Sg_Sl_Porosity'   ,fontweight='bold')
 ax[7 ].set_xlabel('t_fe+2 mol/L',fontweight='bold')
 ax[8 ].set_xlabel('t_so4-2 mol/L',fontweight='bold')
-ax[9 ].set_xlabel('t_cl-   mol/L'  ,fontweight='bold')
-ax[10].set_xlabel('aqu_ X_na+'  ,fontweight='bold')
+ax[9 ].set_xlabel('t_ca+2  mol/L',fontweight='bold')
+ax[10].set_xlabel('t_hco3- mol/L'  ,fontweight='bold')
 ax[11].set_xlabel('aqu_ X_k+'   ,fontweight='bold')
-ax[12].set_xlabel('aqu_ X_ca+2' ,fontweight='bold')
-ax[13].set_xlabel('aqu_ X_mg+2' ,fontweight='bold')
-ax[14].set_xlabel('aqu_ X_h+'   ,fontweight='bold')
+ax[12].set_xlabel('sod_dolomite' ,fontweight='bold')
+ax[13].set_xlabel('sod_calcite' ,fontweight='bold')
+ax[14].set_xlabel('sod_gypsum'   ,fontweight='bold')
 ax[15].set_xlabel('sod_ pyrite',fontweight='bold')
 ax[16].set_xlabel('opt_FLO(LIQ)(mm/day)',fontweight='bold')
 ax[17].set_xlabel('opt_VEL(LIQ)',fontweight='bold')
@@ -439,6 +487,9 @@ ax[19].set_xlabel('opt_VEL(GAS)',fontweight='bold')
 ax[20].set_xlabel('TIME (years)',fontweight='bold')
 ax[21].set_xlabel('TIME (years)',fontweight='bold')
 ax[22].set_xlabel('TIME (years)',fontweight='bold')
+ax[23].set_xlabel('TIME (years)',fontweight='bold')
+ax[24].set_xlabel('TIME (years)',fontweight='bold')
+ax[25].set_xlabel('TIME (years)',fontweight='bold')
 
 #
 #ax[27].set_title('flow.out \n FLO(LIQ.)_fra(kg/s)'     , fontweight='bold')
