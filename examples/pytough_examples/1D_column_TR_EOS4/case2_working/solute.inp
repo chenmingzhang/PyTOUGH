@@ -3,7 +3,7 @@
 #options for reactive chemical transport: ISPIA,INIBOUND,ISOLVC,ngamm,NGAS1,ichdump,kcpl,Ico2h2o,iTDS_REACT 
     2    1    5    2    1    0    2    0    0   
 #constraints for reactive chemical transport: sl1min, rcour, stimax, cnfact
-   1.00e-2       0.6       4.0       1.0       
+   1.00e-2       0.8       4.0       1.0       
 #Read output file names:
 therakin10.dat             ! thermodynamic database
 iter.dat                   ! iteration information
@@ -16,14 +16,14 @@ tim.dat                    ! time evolution at specified blocks
 #data to convergence criteria:
    200 1.00E-06  200 1.000E-06   30 0.100E-02 0.000E-03 0.000E-03     ! ....TOLDC,TOLDR
 #writing control varibles: NWTI NWNOD NWCOM NWMIN NWAQ NWADS NWEXC iconflag(=1:mol/l) minflag(=1:Vf)
-10000    1    8   4    0    0    0    1    1 
+10000    1    10   5    0    0    0    1    1 
 #pointer of nodes for writing in time:
   a 1
 #pointer of components for writing:
-1   2   3    4    5    6     7   8   
+1   2   3    4    5    6     7   8   9  10
 #7    8    9   10   11   12
 #pointer of minerals for writing:
-1    2   3   4
+1    2   3   4    5
 # 2    3    4    5    6    7    8    9   10   11   12   13   14   15   
 #Individual aqueous species for which to output concentrations in time and plot files:
    

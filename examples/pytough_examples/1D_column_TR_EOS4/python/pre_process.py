@@ -19,6 +19,9 @@ dayPyear               = 365.25
 mmass_sulphate_kgPmol  = 0.096
 mgPkg                  = 1.e6
 mmass_iron2_kgPmol     = 0.056
+mmass_mg_kgPmol     = 0.024
+mmass_ca_kgPmol     = 0.040
+
 
 
 inp       = t2data()
@@ -63,7 +66,7 @@ inp.parameter.update(
      'default_incons' : [p_atm_pa, 10.99, T_init_c, None],
      'relative_error' : 1.e-6,
      'print_interval' : max_no_time_steps/20,
-     'max_timestep'   : 8640   #5000 #50000   #86400     # the maximum length of time step in second
+     'max_timestep'   : 8640*5   #5000 #50000   #86400     # the maximum length of time step in second
      })
 	 
 #inp.parameter['max_timestep']   = inp.parameter['tstop']/inp.parameter['max_timesteps']

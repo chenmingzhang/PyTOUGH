@@ -21,13 +21,37 @@ solute_path=os.path.join(os.getcwd(),'solute.out')
 
 if os.path.exists(out_path):
     os.remove(out_path)
+    print("Existing "+ "flow.out, "+"chemical.out, "+ "runlog.out, "+"chdump.out, "+"solute.out,"  + " deleted\n")
+else:
+    print("Can not delete "+ "flow.out" + "  as it doesn't exists\n")
+
+if os.path.exists(chemical_out_path):
     os.remove(chemical_out_path)
+    print("Existing "+ "flow.out, "+"chemical.out, "+ "runlog.out, "+"chdump.out, "+"solute.out,"  + " deleted\n")
+else:
+    print("Can not delete "+ "flow.out" + "  as it doesn't exists\n")
+
+if os.path.exists(runlog_path):
     os.remove(runlog_path)
+    print("Existing "+ "flow.out, "+"chemical.out, "+ "runlog.out, "+"chdump.out, "+"solute.out,"  + " deleted\n")
+else:
+    print("Can not delete "+ "flow.out" + "  as it doesn't exists\n")
+
+if os.path.exists(chdump_path):
     os.remove(chdump_path)
+    print("Existing "+ "flow.out, "+"chemical.out, "+ "runlog.out, "+"chdump.out, "+"solute.out,"  + " deleted\n")
+else:
+    print("Can not delete "+ "flow.out" + "  as it doesn't exists\n")
+
+if os.path.exists(chdump_path):
     os.remove(solute_path)
     print("Existing "+ "flow.out, "+"chemical.out, "+ "runlog.out, "+"chdump.out, "+"solute.out,"  + " deleted\n")
 else:
     print("Can not delete "+ "flow.out" + "  as it doesn't exists\n")
+
+
+
+
 
 t = time.time()
 #os.system(" tough2 -to sam6_0.listing sam6 4")
