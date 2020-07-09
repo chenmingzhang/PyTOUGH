@@ -21,6 +21,7 @@ mgPkg                  = 1.e6
 mmass_iron2_kgPmol     = 0.056
 mmass_mg_kgPmol     = 0.024
 mmass_ca_kgPmol     = 0.040
+mmass_hco3_kgPmol   = 0.061
 
 
 

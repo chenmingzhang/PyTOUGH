@@ -342,6 +342,8 @@ if any("t_sio2(aq)" in s for s in aqu.element.column_name):
     i = opt_idx[4] ; im25 = ax[25].plot( aqu.tx_mtx['t_sio2(aq)'][i] , ele_depth_m )
     i = opt_idx[5] ; im25 = ax[25].plot( aqu.tx_mtx['t_sio2(aq)'][i] , ele_depth_m )
 
+
+
 im26 = ax[26].plot(field_data['col1'].loc['Ca Total'] , field_data['col1'].loc['Sulphate'] , 'o',label='Col 1' , color='blue'  ,markersize=2)
 im26 = ax[26].plot(field_data['col2'].loc['Ca Total'] , field_data['col2'].loc['Sulphate'] , 'o',label='Col 2' , color='red'   ,markersize=2)
 im26 = ax[26].plot(field_data['col3'].loc['Ca Total'] , field_data['col3'].loc['Sulphate'] , 'o',label='Col 3' , color='green' ,markersize=2)
@@ -349,7 +351,7 @@ im26 = ax[26].plot(field_data['col4'].loc['Ca Total'] , field_data['col4'].loc['
 im26 = ax[26].plot(field_data['col5'].loc['Ca Total'] , field_data['col5'].loc['Sulphate'] , 'o',label='Col 5' , color='cyan'  ,markersize=2)
 im26 = ax[26].plot(field_data['col6'].loc['Ca Total'] , field_data['col6'].loc['Sulphate'] , 'o',label='Col 6' , color='orange',markersize=2)
 ca_ay=np.linspace(ax[26].get_xlim()[0], ax[26].get_xlim()[1],10)
-sulphate_ay=np.linspace(ax[26].get_xlim()[0], ax[26].get_xlim()[1],10)/mmass_ca_kgPmol*mmass_sulphate_kgPmol 
+sulphate_ay=ca_ay/mmass_ca_kgPmol*mmass_sulphate_kgPmol 
 im26 = ax[26].plot(ca_ay,sulphate_ay, '-',label='CaSo4' , color='orange')
 
 if (any("t_ca+2" in s for s in aqu.element.column_name) and any("t_so4-2" in s for s in aqu.element.column_name)  )  :
@@ -358,6 +360,38 @@ if (any("t_ca+2" in s for s in aqu.element.column_name) and any("t_so4-2" in s f
     i = opt_idx[5] ; im26 = ax[26].plot( aqu.tx_mtx['t_ca+2'][i][::5]*mmass_ca_kgPmol*mgPkg , aqu.tx_mtx['t_so4-2'][i][::5]*mmass_sulphate_kgPmol*mgPkg , '*' , markersize=6, color = 'brown')
 
 
+# Mgso4
+im27 = ax[27].plot(field_data['col1'].loc['Mg Total'] , field_data['col1'].loc['Sulphate'] , 'o',label = 'Col 1' , color = 'blue'  ,markersize = 2)
+im27 = ax[27].plot(field_data['col2'].loc['Mg Total'] , field_data['col2'].loc['Sulphate'] , 'o',label = 'Col 2' , color = 'red'   ,markersize = 2)
+im27 = ax[27].plot(field_data['col3'].loc['Mg Total'] , field_data['col3'].loc['Sulphate'] , 'o',label = 'Col 3' , color = 'green' ,markersize = 2)
+im27 = ax[27].plot(field_data['col4'].loc['Mg Total'] , field_data['col4'].loc['Sulphate'] , 'o',label = 'Col 4' , color = 'purple',markersize = 2)
+im27 = ax[27].plot(field_data['col5'].loc['Mg Total'] , field_data['col5'].loc['Sulphate'] , 'o',label = 'Col 5' , color = 'cyan'  ,markersize = 2)
+im27 = ax[27].plot(field_data['col6'].loc['Mg Total'] , field_data['col6'].loc['Sulphate'] , 'o',label = 'Col 6' , color = 'orange',markersize = 2)
+mg_ay       = np.linspace(ax[27].get_xlim()[0], ax[27].get_xlim()[1],10)
+sulphate_ay = mg_ay/mmass_mg_kgPmol*mmass_sulphate_kgPmol
+im27 = ax[27].plot(mg_ay,sulphate_ay, '-',label = 'MgSo4' , color = 'orange')
+
+if (any("t_ca+2" in s for s in aqu.element.column_name) and any("t_so4-2" in s for s in aqu.element.column_name)  )  :
+    i = opt_idx[1] ; im26 = ax[27].plot( aqu.tx_mtx['t_mg+2'][i][::5]*mmass_ca_kgPmol*mgPkg , aqu.tx_mtx['t_so4-2'][i][::5]*mmass_sulphate_kgPmol*mgPkg , 'x' , markersize=6, color = 'brown')
+    i = opt_idx[3] ; im26 = ax[27].plot( aqu.tx_mtx['t_mg+2'][i][::5]*mmass_ca_kgPmol*mgPkg , aqu.tx_mtx['t_so4-2'][i][::5]*mmass_sulphate_kgPmol*mgPkg , '+' , markersize=6, color = 'brown')
+    i = opt_idx[5] ; im26 = ax[27].plot( aqu.tx_mtx['t_mg+2'][i][::5]*mmass_ca_kgPmol*mgPkg , aqu.tx_mtx['t_so4-2'][i][::5]*mmass_sulphate_kgPmol*mgPkg , '*' , markersize=6, color = 'brown')
+
+
+#calcite
+#im28 = ax[28].plot(field_data['col1'].loc['Ca Total'] , field_data['col1'].loc['Sulphate'] , 'o',label = 'Col 1' , color = 'blue'  ,markersize = 2)
+#im28 = ax[28].plot(field_data['col2'].loc['Ca Total'] , field_data['col2'].loc['Sulphate'] , 'o',label = 'Col 2' , color = 'red'   ,markersize = 2)
+#im28 = ax[28].plot(field_data['col3'].loc['Ca Total'] , field_data['col3'].loc['Sulphate'] , 'o',label = 'Col 3' , color = 'green' ,markersize = 2)
+#im28 = ax[28].plot(field_data['col4'].loc['Ca Total'] , field_data['col4'].loc['Sulphate'] , 'o',label = 'Col 4' , color = 'purple',markersize = 2)
+#im28 = ax[28].plot(field_data['col5'].loc['Ca Total'] , field_data['col5'].loc['Sulphate'] , 'o',label = 'Col 5' , color = 'cyan'  ,markersize = 2)
+#im28 = ax[28].plot(field_data['col6'].loc['Ca Total'] , field_data['col6'].loc['Sulphate'] , 'o',label = 'Col 6' , color = 'orange',markersize = 2)
+
+if (any("t_ca+2" in s for s in aqu.element.column_name) and any("t_hco3-" in s for s in aqu.element.column_name)  )  :
+    i = opt_idx[1] ; im26 = ax[28].plot( aqu.tx_mtx['t_ca+2'][i][::5]*mmass_ca_kgPmol*mgPkg , aqu.tx_mtx['t_hco3-'][i][::5]*mmass_sulphate_kgPmol*mgPkg , 'x' , markersize=6, color = 'brown')
+    i = opt_idx[3] ; im26 = ax[28].plot( aqu.tx_mtx['t_ca+2'][i][::5]*mmass_ca_kgPmol*mgPkg , aqu.tx_mtx['t_hco3-'][i][::5]*mmass_sulphate_kgPmol*mgPkg , '+' , markersize=6, color = 'brown')
+    i = opt_idx[5] ; im26 = ax[28].plot( aqu.tx_mtx['t_ca+2'][i][::5]*mmass_ca_kgPmol*mgPkg , aqu.tx_mtx['t_hco3-'][i][::5]*mmass_sulphate_kgPmol*mgPkg , '*' , markersize=6, color = 'brown')
+ca_ay       = np.linspace(ax[28].get_xlim()[0], ax[28].get_xlim()[1],10)
+hco3_ay = mg_ay/mmass_ca_kgPmol*mmass_hco3_kgPmol
+im28 = ax[28].plot(ca_ay,hco3_ay, '-',label = 'Ca(HCO3)2' , color = 'orange')
 
 
 
@@ -371,13 +405,8 @@ plt.show(block=False)
 
 #flow_first_column_ay=opt.connection.DataFrame.loc[mask_first_column_index_ay]
 
-
-
-
 ##aqu.element.column_name
 ##conclusion  aqu_sg_mtx + aqu_sl_mtx  ==1 
-##['X', 'Y', 'Z', 'P(bar)', 'Sg', 'Sl', 'T(C)', 'aH2O', 'pH', 't_h2o', 't_h+', 't_ca+2', 't_mg+2', 't_na+', 't_k+', 't_hco3-', 't_so4-2', 't_cl-', 'X_na+', 'X_k+', 'X_ca+2', 'X_mg+2', 'X_h+']
-
 
 ##  a confirmation flow_first_column_ay['FLO(LIQ.)']/sat_liquid_mtx[:-1,0]/flow_first_column_ay['VEL(LIQ.)'] 
 ## essentially 
@@ -387,10 +416,6 @@ plt.show(block=False)
 
 
 
-##fig.colorbar(im44, ax=ax[44], format='%.1e')
-##fig.colorbar(im27, ax=ax[27])
-##fig.colorbar(im28, ax=ax[28])
-##fig.colorbar(im29, ax=ax[29])
 #ax[0 ].set_title('aqu_ pH'     ,fontweight='bold')
 #ax[1 ].set_title('aqu_ t_h20'  ,fontweight='bold')
 #ax[2 ].set_title('aqu_ t_h+'   ,fontweight='bold')
@@ -432,7 +457,6 @@ ax[16].invert_yaxis()
 ax[17].invert_yaxis()
 ax[18].invert_yaxis()
 ax[19].invert_yaxis()
-
 ax[25].invert_yaxis()
 #ax[26].invert_yaxis()
 
@@ -464,7 +488,8 @@ ax[24].set_ylabel('t_mg+2 mg/L' , fontweight='bold')
 #ax[25].set_ylabel('t_hco3- mg/L' , fontweight='bold')
 ax[25].set_ylabel('Depth (m)' , fontweight='bold')
 ax[26].set_ylabel('t_ca+2 mg/L' , fontweight='bold')
-#ax[27].set_ylabel('t_sio2(aq) mg/L' , fontweight='bold')
+ax[27].set_ylabel('t_mg+2 mg/L' , fontweight='bold')
+ax[28].set_ylabel('t_ca+2 mg/L' , fontweight='bold')
 
 # unit is given from aqu.dat header
 ax[0 ].set_xlabel('pH'     ,fontweight='bold')
@@ -494,34 +519,11 @@ ax[23].set_xlabel('TIME (years)',fontweight='bold')
 ax[24].set_xlabel('TIME (years)',fontweight='bold')
 ax[25].set_xlabel('t_sio2(aq) mol/L'  ,fontweight='bold')
 ax[26].set_xlabel('t_so4-2 mg/L'  ,fontweight='bold')
+ax[27].set_xlabel('t_so4-2 mg/L'  ,fontweight='bold')
+ax[28].set_xlabel('t_hco3- mg/L'  ,fontweight='bold')
 
-ax[0 ].grid()
-ax[1 ].grid()
-ax[2 ].grid()
-ax[3 ].grid()
-ax[4 ].grid()
-ax[5 ].grid()
-ax[6 ].grid()
-ax[7 ].grid()
-ax[8 ].grid()
-ax[9 ].grid()
-ax[10].grid()
-ax[11].grid()
-ax[12].grid()
-ax[13].grid()
-ax[14].grid()
-ax[15].grid()
-ax[16].grid()
-ax[17].grid()
-ax[18].grid()
-ax[19].grid()
-ax[20].grid()
-ax[21].grid()
-ax[22].grid()
-ax[23].grid()
-ax[24].grid()
-ax[25].grid()
-ax[26].grid()
+for a in ax:
+    a.grid()
 #
 #ax[27].set_title('flow.out \n FLO(LIQ.)_fra(kg/s)'     , fontweight='bold')
 #ax[28].set_title('flow.out \n VEL(LIQ.)_fra(m3/s)'     , fontweight='bold')

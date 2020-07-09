@@ -23,7 +23,11 @@ import tr2data
 importlib.reload(tr2data)
 
 
+#
 chem_inp  = tr2data.tr2data('chemical.inp')
+#chem_inp.prim
+#chem_inp.water
+#
 
 # print (inp.grid.rocktype)
 
