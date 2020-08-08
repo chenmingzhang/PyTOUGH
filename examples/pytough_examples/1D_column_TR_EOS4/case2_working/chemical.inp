@@ -66,8 +66,11 @@
 #'h2s(aq)'
 #'oh-'
 #'co3-2'
+#'mgso4(aq)'
 '*'
 #'MINERALS'  mica is absent
+'magnesite' 0  0  0          0
+0. 0. 0.
 'calcite' 0  0  0          0
 0. 0. 0.
 'gypsum' 0  0  0          0
@@ -267,6 +270,7 @@
 0.0e0                                108.0E-1     0               
 'chlorite'         0.31     1
 0.0e0                                108.0E-1     0               
+'magnesite'           0.005     1
 '*' 
 #'talc'             0.1      1
 #'gypsum'           0.01     1
