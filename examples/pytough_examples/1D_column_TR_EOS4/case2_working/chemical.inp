@@ -14,66 +14,14 @@
 'sio2(aq)'     0
 'alo2-'        0
 '*'
-#'al+3'         0
-#'ba+2'         0
-#'ca+2'         0 
-#'cl-'          0
-#'cu+2'         0
-#'k+'           0
-#'na+'          0 
-#'fe+3'         0                               #fe+3 is a compexity
-#'fe+2'         0
-#'cu+2'         0
-#'na+'          0
-#'k+'           0
-#'ca+2'         0
-#'alo2-'        0
 #'AQUEOUS KINETICS'
 '*'
 #'AQUEOUS COMPLEXES'
-#'hso4-'
-#'naso4-'
-#'kso4-'
-#'caso4(aq)'
-#'feso4(aq)'
-#'fe(so4)2-'
-#'feso4+'
-#'fecl+'
-#'also4+'
-#'al(so4)2-'
-#'aloh+2'
-#'al(oh)2+'
-#'al2(oh)2+4'
-#'al3(oh)4(5+)'
-#'halo2(aq)'
-#'al+3'
-#'fecl+2'
-#'fecl2+'
-#'feoh+'
-#'feoh+2'
-#'fe(oh)2+'
-#'fe2(oh)2+4'
-#'fe(oh)2(aq)'
-#'fe(oh)3(aq)'
-#'fe3(oh)4(5+)'
-#'cu+'
-#'cuoh+'
-#'cucl2(aq)'        
-#'cucl2-'
-#'cucl4-2'
-#'fe+3'
-#'hs-'
-#'h2s(aq)'
-#'oh-'
-#'co3-2'
-#'mgso4(aq)'
 '*'
 #'MINERALS'  mica is absent
-#'magnesite'          1      1     0    0
-#              6.0E-9    0   1.0  1.0  0.0  0.0  0.0  0.0
-'calcite' 0  0  0          0
+'calcite' 0  0  0   0
 0. 0. 0.
-'gypsum' 0  0  0          0
+'gypsum'  0  0  0   0
 0. 0. 0.
 'siderite'         1      3     0    0
               4.0E-10    0   1.0  1.0  0.0  0.0  0.0  0.0
@@ -83,29 +31,73 @@
               6.0E-9    0   1.0  1.0  0.0  0.0  0.0  0.0
 'dolomite'        1      1     0    0
               4.0E-9    0   1.0  1.0  0.0  0.0  0.0  0.0
-'chlorite'     1      3     0    0
+'chlorite'     1      3     0    0                                 !P4_eos4_bentonite P5_eco2n_1D-radial_co2seq  P6_eco2n_co2seq 
              3.0200e-13  2  1.0  1.0  88.00  0.0  0.0  0.0
                           1
                           7.7624e-12   88.0    1   'h+'   0.5      ! acid mechanism
              3.0200e-13  0  1.0  1.0  88.00  0.0  0.0  0.0  1.e-6   0
 0.0   0.    000.00
+'muscovite'       1      1     0    0                              !P7_eos9_copper
+              2.4E-16    0   1.0  1.0  0.0  0.0  0.0  0.0
 '*'        #'*' has to follow 
-#'talc' 0  0  0          0
-#0. 0. 0.
-#----------------- chlorite working solution below--------------
+#----below------below------- chlorite example solution below----below----below------
+# below is my version that give a clean results
 #'chlorite'        1      1     0    0
 #              8.0E-09    0   1.0  1.0  0.0  0.0  0.0  0.0
-#----------------- chlorite working solution above--------------
 #
-#
-#----------------- chlorite with acid below--------------
-#'chlorite'     1      3     0    0
+#P4_eos4_bentonite P5_eco2n_1D-radial_co2seq P6_eco2n_co2seq   
+#'chlorite'     1      3     0    0    !P4_eos4_bentonite P5_eco2n_1D-radial_co2seq P6_eco2n_co2seq   
 #             3.0200e-13  2  1.0  1.0  88.00  0.0  0.0  0.0
 #                          1
 #                          7.7624e-12   88.0    1   'h+'   0.5      ! acid mechanism
 #             3.0200e-13  0  1.0  1.0  88.00  0.0  0.0  0.0  1.e-6   0
 #0.0   0.    000.00
-#----------------- chlorite with acid above--------------
+#------above-----above---- chlorite with acid above----above----------above-----
+#
+#
+#----------------- muscovite example solution below--------------
+#P7_eos9_copper   
+#'muscovite'       1      1     0    0       !P8_eos1_tiwi-new
+#              2.4E-16    0   1.0  1.0  0.0  0.0  0.0  0.0
+#P8_eos1_tiwi-new
+#'muscovite'    1 3 0 0
+#3.16e-13 0 1.0 1.0 58.6 0.0 0.0 0.0
+#3.16e-13 0 1.0 1.0 58.6 0.0 0.0 0.0 1.0e-5  0
+#0.0 0.0 0.0
+#----------------- muscovite example solution above--------------
+#
+#
+#
+#----------------- siderate example solution below--------------
+#P6_eco2n_co2seq
+#'siderite-2'        1      3     0    0
+#             1.2598e-09    2   1.0  1.0  62.76  0.0  0.0  0.0
+#                          1
+#                          6.4565e-04  36.1    1   'h+'   0.5
+#             1.2589e-09    0   1.0  1.0  62.76  0.0  0.0  0.0  1.e-6   0
+#
+#P10_eos1_Metal-cycly
+#'siderite'   1 3 0  0
+#1.00e-15 0 1.0 1.0 48.1  0.0 0.0 0.0                  !lowered to get FeS ppt
+#1.00e-15 0 1.0 1.0 48.1  0.0 0.0 0.0  1.e-6   0       !lowered to get FeS ppt
+#TO200813 i do not need to consider activation energy (62.76 above) because it is in effect only when temperature is changing.
+#----------------- siderate example solution above--------------
+#
+#
+#----below------below------- dolomite example solution below----below----below------
+# P5_eco2n_1D-radial_co2seq   P4_eos4_bentonite/chemical.inp  P6_eco2n_co2seq  all the same
+#'dolomite-2'        1      3     0    0
+#             2.9512e-08    2   1.0  1.0  52.20  0.0  0.0  0.0
+#                          1
+#                          6.4565e-04  36.1    1   'h+'   0.5
+#             2.9512e-08    0   1.0  1.0  52.20  0.0  0.0  0.0  1.e-6   0
+#0.0   0.    000.00
+#------above-----above---- dolomite with acid above----above----------above-----
+#
+#
+#
+#
+#
 #
 #
 #'siderite' 0  0  0          0
@@ -164,8 +156,6 @@
 #'anorthite'       1      1     0    0
 #              1.5E-14    0   1.0  1.0  0.0  0.0  0.0  0.0
 #'annite'          1      1     0    0
-#              2.4E-16    0   1.0  1.0  0.0  0.0  0.0  0.0
-#'muscovite'       1      1     0    0
 #              2.4E-16    0   1.0  1.0  0.0  0.0  0.0  0.0
 #'anhydrite'       1      1     0    0
 #              1.5E-14    0   1.0  1.0  0.0  0.0  0.0  0.0
@@ -292,15 +282,17 @@
 1                                       !nmtype= number of mineral zones 
 1					!imtype   For rock matrix
 #'mineral         vol.frac.'    
-'pyrite'           0.1     1
+'gypsum'           0.01     0        ! calcite and gypsum usually precipiate fast so they are under equilibrium, also the ikin needs to be consistent with the mineral defination
+'calcite'          0.01     0
+'pyrite'           0.1      1
 0.0e0                                108.0E-1     0               
-'gypsum'           0.01     1
-'calcite'          0.01     1
-'siderite'         0.001     1
+'siderite'         0.001    1
 0.0e0                                108.0E-1     0               
 'dolomite'         0.02     1
 0.0e0                                108.0E-1     0               
 'chlorite'         0.31     1
+0.0e0                                108.0E-1     0               
+'muscovite'        0.01     1
 0.0e0                                108.0E-1     0               
 '*' 
 #'chlorite'   0.04556            1
