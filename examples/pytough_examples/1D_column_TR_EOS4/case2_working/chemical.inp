@@ -11,8 +11,9 @@
 'ca+2'         0
 'hco3-'        0
 'mg+2'         0
-'sio2(aq)'     0
-'alo2-'        0
+'sio2(aq)'     0         #muscovite
+'alo2-'        0         #muscovite
+'k+'           0         #muscovite
 '*'
 #'AQUEOUS KINETICS'
 '*'
@@ -29,6 +30,8 @@
 0.0   0.    000.00
 'pyrite'          1      1     0    0
               6.0E-9    0   1.0  1.0  0.0  0.0  0.0  0.0
+'muscovite'       1      1     0    0                              !P7_eos9_copper
+              2.4E-16    0   1.0  1.0  0.0  0.0  0.0  0.0
 'dolomite'        1      1     0    0
               4.0E-9    0   1.0  1.0  0.0  0.0  0.0  0.0
 'chlorite'     1      3     0    0                                 !P4_eos4_bentonite P5_eco2n_1D-radial_co2seq  P6_eco2n_co2seq 
@@ -37,8 +40,6 @@
                           7.7624e-12   88.0    1   'h+'   0.5      ! acid mechanism
              3.0200e-13  0  1.0  1.0  88.00  0.0  0.0  0.0  1.e-6   0
 0.0   0.    000.00
-'muscovite'       1      1     0    0                              !P7_eos9_copper
-              2.4E-16    0   1.0  1.0  0.0  0.0  0.0  0.0
 '*'        #'*' has to follow 
 #----below------below------- chlorite example solution below----below----below------
 # below is my version that give a clean results
@@ -205,6 +206,7 @@
 'mg+2'    1      1.0e-7         1.0e-7    '    '     0.
 'sio2(aq)'    1      1.0e-7         1.0e-7    '    '     0.
 'alo2-'    1      1.0e-7         1.0e-7    '    '     0.
+'k+'       1      1.0e-7         1.0e-7    '    '     0.        # muscovite
 '*'      
 #'al+3'    1      1.0e-7         1.0e-7    '    '     0.
 #'ba+2'    1      1.0e-7         1.0e-7    '    '     0.
@@ -251,6 +253,7 @@
 'mg+2'    1      1.0e-7         1.0e-7    '    '     0.
 'sio2(aq)'    1      1.0e-7         1.0e-7    '    '     0.
 'alo2-'    1      1.0e-7         1.0e-7    '    '     0.
+'k+'       1      1.0e-7         1.0e-7    '    '     0.        #muscovite 
 '*'      
 #'sio2(aq)'    1      1.0e-7         1.0e-7    '    '     0.
 #'mg+2'    1      1.0e-7         1.0e-7    '    '     0.
@@ -279,7 +282,7 @@
 #'*'      
 #'----------------------------------------------------------------------------'
 #'INITIAL MINERAL ZONES'
-1                                       !nmtype= number of mineral zones 
+1                   !nmtype= number of mineral zones 
 1					!imtype   For rock matrix
 #'mineral         vol.frac.'    
 'gypsum'           0.01     0        ! calcite and gypsum usually precipiate fast so they are under equilibrium, also the ikin needs to be consistent with the mineral defination
