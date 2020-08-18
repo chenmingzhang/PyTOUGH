@@ -62,12 +62,12 @@ inp.parameter.update(
      'gravity'        : 9.81,
      'print_level'    : 2,      #-3 SO far TR can not handle print level >2
      'texp'           : 2.41e-05,   # default vapour diffusion coefficient. note this is not 1e-9m2/s for solute
-     'timestep'       : [0.01],
+     'timestep'       : [0.0001],
      'be'             : 2.334,
      'default_incons' : [p_atm_pa, 10.99, T_init_c, None],
      'relative_error' : 1.e-6,
      'print_interval' : max_no_time_steps/20,
-     'max_timestep'   : 8640*5   #5000 #50000   #86400     # the maximum length of time step in second
+     'max_timestep'   : 8640*5  # 8640*0.01 seems working  #8640*0.05 #5000 #50000   #86400     # the maximum length of time step in second
      })
 	 
 #inp.parameter['max_timestep']   = inp.parameter['tstop']/inp.parameter['max_timesteps']

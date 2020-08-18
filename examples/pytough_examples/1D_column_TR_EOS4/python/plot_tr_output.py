@@ -1,59 +1,14 @@
-import os # this script plots the output times.  #for ii in opt.times[-1]: plt.rcParams["axes.labelweight"] = "bold"
+import os # this script plots the output times.  #for ii in opt.times[-1]: 
 import pandas as pd
 if not os.path.exists('figure'):
         os.makedirs('figure')
 #reshape_format=[11,7]
 #y_mtx=aqu.element.DataFrame['Y'][1:].values.reshape(reshape_format)
+plt.rcParams["axes.labelweight"] = "bold"
 x_ay=aqu.element.DataFrame['X'].values
 y_ay=aqu.element.DataFrame['Y'].values
 
 opt.first(); gas.first(); aqu.first(); sod.first()
-## ignore the first initial value.
-#a=opt.next()
-#gas.next()
-#sod.next()
-#aqu.next()
-#opt_pd_max=opt.element.DataFrame.max()
-#gas_pd_max=gas.element.DataFrame.max()
-#sod_pd_max=sod.element.DataFrame.max()
-#aqu_pd_max=aqu.element.DataFrame.max()
-#opt_pd_min=opt.element.DataFrame.min()
-#gas_pd_min=gas.element.DataFrame.min()
-#sod_pd_min=sod.element.DataFrame.min()
-#aqu_pd_min=aqu.element.DataFrame.min()
-
-
-#while a==True:
-#    a=opt.element.DataFrame.max()
-#    opt_pd_max=pd.concat([opt_pd_max,a],axis=1)
-#    a=opt.element.DataFrame.min()
-#    opt_pd_min=pd.concat([opt_pd_min,a],axis=1)
-#
-#    a=gas.element.DataFrame.max()
-#    gas_pd_max=pd.concat([gas_pd_max,a],axis=1)
-#    a=gas.element.DataFrame.min()
-#    gas_pd_min=pd.concat([gas_pd_min,a],axis=1)
-#
-#    a=sod.element.DataFrame.max()
-#    sod_pd_max=pd.concat([sod_pd_max,a],axis=1)
-#    a=sod.element.DataFrame.min()
-#    sod_pd_min=pd.concat([sod_pd_min,a],axis=1)
-#
-#    a=aqu.element.DataFrame.max()
-#    aqu_pd_max=pd.concat([aqu_pd_max,a],axis=1)
-#    a=aqu.element.DataFrame.min()
-#    aqu_pd_min=pd.concat([aqu_pd_min,a],axis=1)
-#    a=opt.next()
-#    gas.next()
-#    sod.next()
-#    aqu.next()
-#    
-#
-#opt_max_ay=opt_pd_max.max(axis=1);opt_min_ay=opt_pd_min.min(axis=1)
-#gas_max_ay=gas_pd_max.max(axis=1);gas_min_ay=gas_pd_min.min(axis=1)
-#aqu_max_ay=aqu_pd_max.max(axis=1);aqu_min_ay=aqu_pd_min.min(axis=1)
-#sod_max_ay=sod_pd_max.max(axis=1);sod_min_ay=sod_pd_min.min(axis=1)
-
 
 
 
@@ -68,7 +23,7 @@ tlt =('opt.time='  "%0.2f" % (opt.time/86400/365)   +' years'
     ', aqu.time='  "%0.2f" % (gas.time   ) +' years')
 #fig.suptitle(   tlt     , fontsize=16,fontweight="bold")
 print(tlt)
-no_row=6
+no_row=7
 no_col=5
 ax = [[] for i in range(no_row*no_col)]
 
@@ -76,10 +31,39 @@ k=0
 for i in np.arange(no_row):
     for j in np.arange(no_col):
         ax[k]= plt.subplot2grid((no_row, no_col), (i, j), colspan=1)
-        ax[k].xaxis.set_tick_params(labelsize=10)
-        ax[k].yaxis.set_tick_params(labelsize=10)
+        ax[k].xaxis.set_tick_params(labelsize=6)
+        ax[k].yaxis.set_tick_params(labelsize=6)
+        
         k+=1
         
+def plot_mineral_profile(ax_idx=ax[15], mineral_name='siderite',sod_input=sod,ele_depth_m=ele_depth_m,opt_idx=opt_idx ):
+    if any(mineral_name == s for s in sod_input.element.column_name):
+        i = opt_idx[0] ; im15 = ax_idx.plot(sod_input.tx_mtx[mineral_name][i] , ele_depth_m)
+        i = opt_idx[1] ; im15 = ax_idx.plot(sod_input.tx_mtx[mineral_name][i] , ele_depth_m)
+        i = opt_idx[2] ; im15 = ax_idx.plot(sod_input.tx_mtx[mineral_name][i] , ele_depth_m)
+        i = opt_idx[3] ; im15 = ax_idx.plot(sod_input.tx_mtx[mineral_name][i] , ele_depth_m)
+        i = opt_idx[4] ; im15 = ax_idx.plot(sod_input.tx_mtx[mineral_name][i] , ele_depth_m)
+        i = opt_idx[5] ; im15 = ax_idx.plot(sod_input.tx_mtx[mineral_name][i] , ele_depth_m)
+
+        ax_idx.set_xlabel('sod_'+ mineral_name ,fontweight='bold',fontsize=8)
+        ax_idx.invert_yaxis()
+        ax_idx.set_ylabel('Depth (m)' , fontweight='bold')
+
+
+def plot_aqua_profile(ax_idx=ax[25], aqu_name='t_sio2(aq)',aqu_input=aqu,ele_depth_m=ele_depth_m,opt_idx=opt_idx ):
+    if any("t_sio2(aq)" in s for s in aqu.element.column_name):
+        i = opt_idx[0] ; im25 = ax_idx.plot( aqu_input.tx_mtx[aqu_name][i] , ele_depth_m )
+        i = opt_idx[1] ; im25 = ax_idx.plot( aqu_input.tx_mtx[aqu_name][i] , ele_depth_m )
+        i = opt_idx[2] ; im25 = ax_idx.plot( aqu_input.tx_mtx[aqu_name][i] , ele_depth_m )
+        i = opt_idx[3] ; im25 = ax_idx.plot( aqu_input.tx_mtx[aqu_name][i] , ele_depth_m )
+        i = opt_idx[4] ; im25 = ax_idx.plot( aqu_input.tx_mtx[aqu_name][i] , ele_depth_m )
+        i = opt_idx[5] ; im25 = ax_idx.plot( aqu_input.tx_mtx[aqu_name][i] , ele_depth_m )
+        ax_idx.set_xlabel('aqu_'+ aqu_name ,fontweight='bold',fontsize=8)
+        ax_idx.invert_yaxis()
+        ax_idx.set_ylabel('Depth (m)' , fontweight='bold',fontsize=8)
+
+
+
 
 fig.subplots_adjust(hspace=.50,wspace=.5)
 fig.subplots_adjust(left=0.05, right=0.90, top=0.92, bottom=0.05)
@@ -103,7 +87,6 @@ i = opt_idx[2] ; im1 = ax[1].plot( aqu.tx_mtx['t_h2o'][i] , ele_depth_m )
 i = opt_idx[3] ; im1 = ax[1].plot( aqu.tx_mtx['t_h2o'][i] , ele_depth_m )
 i = opt_idx[4] ; im1 = ax[1].plot( aqu.tx_mtx['t_h2o'][i] , ele_depth_m )
 i = opt_idx[5] ; im1 = ax[1].plot( aqu.tx_mtx['t_h2o'][i] , ele_depth_m )
-
 
 
 i = opt_idx[0] ; im2 = ax[2].plot( aqu.tx_mtx['t_h+'][i] , ele_depth_m )
@@ -193,65 +176,65 @@ if any("t_so4-2" in s for s in aqu.element.column_name):
     i = opt_idx[5] ; im8 = ax[8].plot( aqu.tx_mtx['t_so4-2'][i] , ele_depth_m )
 
 
-if any("t_ca+2" in s for s in aqu.element.column_name):
-    i = opt_idx[0] ; im9 = ax[9].plot( aqu.tx_mtx['t_ca+2'][i] , ele_depth_m )
-    i = opt_idx[1] ; im9 = ax[9].plot( aqu.tx_mtx['t_ca+2'][i] , ele_depth_m )
-    i = opt_idx[2] ; im9 = ax[9].plot( aqu.tx_mtx['t_ca+2'][i] , ele_depth_m )
-    i = opt_idx[3] ; im9 = ax[9].plot( aqu.tx_mtx['t_ca+2'][i] , ele_depth_m )
-    i = opt_idx[4] ; im9 = ax[9].plot( aqu.tx_mtx['t_ca+2'][i] , ele_depth_m )
-    i = opt_idx[5] ; im9 = ax[9].plot( aqu.tx_mtx['t_ca+2'][i] , ele_depth_m )
+#if any("t_ca+2" in s for s in aqu.element.column_name):
+#    i = opt_idx[0] ; im9 = ax[9].plot( aqu.tx_mtx['t_ca+2'][i] , ele_depth_m )
+#    i = opt_idx[1] ; im9 = ax[9].plot( aqu.tx_mtx['t_ca+2'][i] , ele_depth_m )
+#    i = opt_idx[2] ; im9 = ax[9].plot( aqu.tx_mtx['t_ca+2'][i] , ele_depth_m )
+#    i = opt_idx[3] ; im9 = ax[9].plot( aqu.tx_mtx['t_ca+2'][i] , ele_depth_m )
+#    i = opt_idx[4] ; im9 = ax[9].plot( aqu.tx_mtx['t_ca+2'][i] , ele_depth_m )
+#    i = opt_idx[5] ; im9 = ax[9].plot( aqu.tx_mtx['t_ca+2'][i] , ele_depth_m )
 
-if any("t_hco3-" in s for s in aqu.element.column_name):
-    i = opt_idx[0] ; im10 = ax[10].plot( aqu.tx_mtx['t_hco3-'][i] , ele_depth_m )
-    i = opt_idx[1] ; im10 = ax[10].plot( aqu.tx_mtx['t_hco3-'][i] , ele_depth_m )
-    i = opt_idx[2] ; im10 = ax[10].plot( aqu.tx_mtx['t_hco3-'][i] , ele_depth_m )
-    i = opt_idx[3] ; im10 = ax[10].plot( aqu.tx_mtx['t_hco3-'][i] , ele_depth_m )
-    i = opt_idx[4] ; im10 = ax[10].plot( aqu.tx_mtx['t_hco3-'][i] , ele_depth_m )
-    i = opt_idx[5] ; im10 = ax[10].plot( aqu.tx_mtx['t_hco3-'][i] , ele_depth_m )
+#if any("t_hco3-" in s for s in aqu.element.column_name):
+#    i = opt_idx[0] ; im10 = ax[10].plot( aqu.tx_mtx['t_hco3-'][i] , ele_depth_m )
+#    i = opt_idx[1] ; im10 = ax[10].plot( aqu.tx_mtx['t_hco3-'][i] , ele_depth_m )
+#    i = opt_idx[2] ; im10 = ax[10].plot( aqu.tx_mtx['t_hco3-'][i] , ele_depth_m )
+#    i = opt_idx[3] ; im10 = ax[10].plot( aqu.tx_mtx['t_hco3-'][i] , ele_depth_m )
+#    i = opt_idx[4] ; im10 = ax[10].plot( aqu.tx_mtx['t_hco3-'][i] , ele_depth_m )
+#    i = opt_idx[5] ; im10 = ax[10].plot( aqu.tx_mtx['t_hco3-'][i] , ele_depth_m )
 
 
 ##sod.element.column_name
 ##['X', 'Y', 'Z', 'T(C)', 'Porosity', 'Poros_Chg', 'Permx(m^2)', 'Kx/Kx0', 'Permz(m^2)', 'Kz/Kz0', 'calcite']
-if any("chlorite" in s for s in sod.element.column_name):
-    i = opt_idx[0] ; im11 = ax[11].plot(sod.tx_mtx['chlorite'][i] , ele_depth_m)
-    i = opt_idx[1] ; im11 = ax[11].plot(sod.tx_mtx['chlorite'][i] , ele_depth_m)
-    i = opt_idx[2] ; im11 = ax[11].plot(sod.tx_mtx['chlorite'][i] , ele_depth_m)
-    i = opt_idx[3] ; im11 = ax[11].plot(sod.tx_mtx['chlorite'][i] , ele_depth_m)
-    i = opt_idx[4] ; im11 = ax[11].plot(sod.tx_mtx['chlorite'][i] , ele_depth_m)
-    i = opt_idx[5] ; im11 = ax[11].plot(sod.tx_mtx['chlorite'][i] , ele_depth_m)
+#if any("chlorite" in s for s in sod.element.column_name):
+#    i = opt_idx[0] ; im11 = ax[11].plot(sod.tx_mtx['chlorite'][i] , ele_depth_m)
+#    i = opt_idx[1] ; im11 = ax[11].plot(sod.tx_mtx['chlorite'][i] , ele_depth_m)
+#    i = opt_idx[2] ; im11 = ax[11].plot(sod.tx_mtx['chlorite'][i] , ele_depth_m)
+#    i = opt_idx[3] ; im11 = ax[11].plot(sod.tx_mtx['chlorite'][i] , ele_depth_m)
+#    i = opt_idx[4] ; im11 = ax[11].plot(sod.tx_mtx['chlorite'][i] , ele_depth_m)
+#    i = opt_idx[5] ; im11 = ax[11].plot(sod.tx_mtx['chlorite'][i] , ele_depth_m)
 
-if any("dolomite" in s for s in sod.element.column_name):
-    i = opt_idx[0] ; im12 = ax[12].plot(sod.tx_mtx['dolomite'][i] , ele_depth_m)
-    i = opt_idx[1] ; im12 = ax[12].plot(sod.tx_mtx['dolomite'][i] , ele_depth_m)
-    i = opt_idx[2] ; im12 = ax[12].plot(sod.tx_mtx['dolomite'][i] , ele_depth_m)
-    i = opt_idx[3] ; im12 = ax[12].plot(sod.tx_mtx['dolomite'][i] , ele_depth_m)
-    i = opt_idx[4] ; im12 = ax[12].plot(sod.tx_mtx['dolomite'][i] , ele_depth_m)
-    i = opt_idx[5] ; im12 = ax[12].plot(sod.tx_mtx['dolomite'][i] , ele_depth_m)
+#if any("dolomite" in s for s in sod.element.column_name):
+#    i = opt_idx[0] ; im12 = ax[12].plot(sod.tx_mtx['dolomite'][i] , ele_depth_m)
+#    i = opt_idx[1] ; im12 = ax[12].plot(sod.tx_mtx['dolomite'][i] , ele_depth_m)
+#    i = opt_idx[2] ; im12 = ax[12].plot(sod.tx_mtx['dolomite'][i] , ele_depth_m)
+#    i = opt_idx[3] ; im12 = ax[12].plot(sod.tx_mtx['dolomite'][i] , ele_depth_m)
+#    i = opt_idx[4] ; im12 = ax[12].plot(sod.tx_mtx['dolomite'][i] , ele_depth_m)
+#    i = opt_idx[5] ; im12 = ax[12].plot(sod.tx_mtx['dolomite'][i] , ele_depth_m)
 
-if any("calcite" in s for s in sod.element.column_name):
-    i = opt_idx[0] ; im13 = ax[13].plot(sod.tx_mtx['calcite'][i] , ele_depth_m)
-    i = opt_idx[1] ; im13 = ax[13].plot(sod.tx_mtx['calcite'][i] , ele_depth_m)
-    i = opt_idx[2] ; im13 = ax[13].plot(sod.tx_mtx['calcite'][i] , ele_depth_m)
-    i = opt_idx[3] ; im13 = ax[13].plot(sod.tx_mtx['calcite'][i] , ele_depth_m)
-    i = opt_idx[4] ; im13 = ax[13].plot(sod.tx_mtx['calcite'][i] , ele_depth_m)
-    i = opt_idx[5] ; im13 = ax[13].plot(sod.tx_mtx['calcite'][i] , ele_depth_m)
+#if any("calcite" in s for s in sod.element.column_name):
+#    i = opt_idx[0] ; im13 = ax[13].plot(sod.tx_mtx['calcite'][i] , ele_depth_m)
+#    i = opt_idx[1] ; im13 = ax[13].plot(sod.tx_mtx['calcite'][i] , ele_depth_m)
+#    i = opt_idx[2] ; im13 = ax[13].plot(sod.tx_mtx['calcite'][i] , ele_depth_m)
+#    i = opt_idx[3] ; im13 = ax[13].plot(sod.tx_mtx['calcite'][i] , ele_depth_m)
+#    i = opt_idx[4] ; im13 = ax[13].plot(sod.tx_mtx['calcite'][i] , ele_depth_m)
+#    i = opt_idx[5] ; im13 = ax[13].plot(sod.tx_mtx['calcite'][i] , ele_depth_m)
 
-if any("gypsum" in s for s in sod.element.column_name):
-    i = opt_idx[0] ; im14 = ax[14].plot(sod.tx_mtx['gypsum'][i] , ele_depth_m)
-    i = opt_idx[1] ; im14 = ax[14].plot(sod.tx_mtx['gypsum'][i] , ele_depth_m)
-    i = opt_idx[2] ; im14 = ax[14].plot(sod.tx_mtx['gypsum'][i] , ele_depth_m)
-    i = opt_idx[3] ; im14 = ax[14].plot(sod.tx_mtx['gypsum'][i] , ele_depth_m)
-    i = opt_idx[4] ; im14 = ax[14].plot(sod.tx_mtx['gypsum'][i] , ele_depth_m)
-    i = opt_idx[5] ; im14 = ax[14].plot(sod.tx_mtx['gypsum'][i] , ele_depth_m)
+#if any("gypsum" in s for s in sod.element.column_name):
+#    i = opt_idx[0] ; im14 = ax[14].plot(sod.tx_mtx['gypsum'][i] , ele_depth_m)
+#    i = opt_idx[1] ; im14 = ax[14].plot(sod.tx_mtx['gypsum'][i] , ele_depth_m)
+#    i = opt_idx[2] ; im14 = ax[14].plot(sod.tx_mtx['gypsum'][i] , ele_depth_m)
+#    i = opt_idx[3] ; im14 = ax[14].plot(sod.tx_mtx['gypsum'][i] , ele_depth_m)
+#    i = opt_idx[4] ; im14 = ax[14].plot(sod.tx_mtx['gypsum'][i] , ele_depth_m)
+#    i = opt_idx[5] ; im14 = ax[14].plot(sod.tx_mtx['gypsum'][i] , ele_depth_m)
 
 
-if any("pyrite" in s for s in sod.element.column_name):
-    i = opt_idx[0] ; im15 = ax[15].plot(sod.tx_mtx['pyrite'][i] , ele_depth_m)
-    i = opt_idx[1] ; im15 = ax[15].plot(sod.tx_mtx['pyrite'][i] , ele_depth_m)
-    i = opt_idx[2] ; im15 = ax[15].plot(sod.tx_mtx['pyrite'][i] , ele_depth_m)
-    i = opt_idx[3] ; im15 = ax[15].plot(sod.tx_mtx['pyrite'][i] , ele_depth_m)
-    i = opt_idx[4] ; im15 = ax[15].plot(sod.tx_mtx['pyrite'][i] , ele_depth_m)
-    i = opt_idx[5] ; im15 = ax[15].plot(sod.tx_mtx['pyrite'][i] , ele_depth_m)
+#if any("pyrite" in s for s in sod.element.column_name):
+#    i = opt_idx[0] ; im15 = ax[15].plot(sod.tx_mtx['pyrite'][i] , ele_depth_m)
+#    i = opt_idx[1] ; im15 = ax[15].plot(sod.tx_mtx['pyrite'][i] , ele_depth_m)
+#    i = opt_idx[2] ; im15 = ax[15].plot(sod.tx_mtx['pyrite'][i] , ele_depth_m)
+#    i = opt_idx[3] ; im15 = ax[15].plot(sod.tx_mtx['pyrite'][i] , ele_depth_m)
+#    i = opt_idx[4] ; im15 = ax[15].plot(sod.tx_mtx['pyrite'][i] , ele_depth_m)
+#    i = opt_idx[5] ; im15 = ax[15].plot(sod.tx_mtx['pyrite'][i] , ele_depth_m)
 
 #list(opt.tx_con_mtx)
 #['FLOH', 'FLOH/FLOF', 'FLOF', 'FLO(GAS)', 'VAPDIF', 'FLO(LIQ.)', 'VEL(GAS)', 'VEL(LIQ.)']
@@ -334,14 +317,19 @@ im24 = ax[24].plot(field_data['col6'].loc['years'],field_data['col6'].loc['Mg To
 ax[24].legend(bbox_to_anchor=(1.02, 1.), loc=2, borderaxespad=0.)
 
 
-if any("t_sio2(aq)" in s for s in aqu.element.column_name):
-    i = opt_idx[0] ; im25 = ax[25].plot( aqu.tx_mtx['t_sio2(aq)'][i] , ele_depth_m )
-    i = opt_idx[1] ; im25 = ax[25].plot( aqu.tx_mtx['t_sio2(aq)'][i] , ele_depth_m )
-    i = opt_idx[2] ; im25 = ax[25].plot( aqu.tx_mtx['t_sio2(aq)'][i] , ele_depth_m )
-    i = opt_idx[3] ; im25 = ax[25].plot( aqu.tx_mtx['t_sio2(aq)'][i] , ele_depth_m )
-    i = opt_idx[4] ; im25 = ax[25].plot( aqu.tx_mtx['t_sio2(aq)'][i] , ele_depth_m )
-    i = opt_idx[5] ; im25 = ax[25].plot( aqu.tx_mtx['t_sio2(aq)'][i] , ele_depth_m )
+#if any("t_sio2(aq)" in s for s in aqu.element.column_name):
+#    i = opt_idx[0] ; im25 = ax[25].plot( aqu.tx_mtx['t_sio2(aq)'][i] , ele_depth_m )
+#    i = opt_idx[1] ; im25 = ax[25].plot( aqu.tx_mtx['t_sio2(aq)'][i] , ele_depth_m )
+#    i = opt_idx[2] ; im25 = ax[25].plot( aqu.tx_mtx['t_sio2(aq)'][i] , ele_depth_m )
+#    i = opt_idx[3] ; im25 = ax[25].plot( aqu.tx_mtx['t_sio2(aq)'][i] , ele_depth_m )
+#    i = opt_idx[4] ; im25 = ax[25].plot( aqu.tx_mtx['t_sio2(aq)'][i] , ele_depth_m )
+#    i = opt_idx[5] ; im25 = ax[25].plot( aqu.tx_mtx['t_sio2(aq)'][i] , ele_depth_m )
 
+plot_aqua_profile(ax_idx=ax[ 9], aqu_name='t_ca+2'    ,aqu_input=aqu,ele_depth_m=ele_depth_m,opt_idx=opt_idx )
+plot_aqua_profile(ax_idx=ax[10], aqu_name='t_hco3-'    ,aqu_input=aqu,ele_depth_m=ele_depth_m,opt_idx=opt_idx )
+#plot_aqua_profile(ax_idx=ax[20], aqu_name='pH'    ,aqu_input=aqu,ele_depth_m=ele_depth_m,opt_idx=opt_idx )
+plot_aqua_profile(ax_idx=ax[25], aqu_name='t_sio2(aq)',aqu_input=aqu,ele_depth_m=ele_depth_m,opt_idx=opt_idx )
+plot_aqua_profile(ax_idx=ax[33], aqu_name='P(bar)',aqu_input=aqu,ele_depth_m=ele_depth_m,opt_idx=opt_idx )
 
 
 im26 = ax[26].plot(field_data['col1'].loc['Ca Total'] , field_data['col1'].loc['Sulphate'] , 'o',label='Col 1' , color='blue'  ,markersize=2)
@@ -387,6 +375,13 @@ hco3_ay = mg_ay/mmass_ca_kgPmol*mmass_hco3_kgPmol
 im28 = ax[28].plot(ca_ay,hco3_ay, '-',label = 'Ca(HCO3)2' , color = 'orange')
 
 
+plot_mineral_profile(ax_idx=ax[11], mineral_name='chlorite',sod_input=sod,ele_depth_m=ele_depth_m,opt_idx=opt_idx)
+plot_mineral_profile(ax_idx=ax[12], mineral_name='dolomite',sod_input=sod,ele_depth_m=ele_depth_m,opt_idx=opt_idx)
+plot_mineral_profile(ax_idx=ax[13], mineral_name='calcite' ,sod_input=sod,ele_depth_m=ele_depth_m,opt_idx=opt_idx)
+plot_mineral_profile(ax_idx=ax[14], mineral_name='gypsum'  ,sod_input=sod,ele_depth_m=ele_depth_m,opt_idx=opt_idx)
+plot_mineral_profile(ax_idx=ax[15], mineral_name='pyrite'  ,sod_input=sod,ele_depth_m=ele_depth_m,opt_idx=opt_idx)
+plot_mineral_profile(ax_idx=ax[29], mineral_name='siderite',sod_input=sod,ele_depth_m=ele_depth_m,opt_idx=opt_idx)
+plot_mineral_profile(ax_idx=ax[30], mineral_name='magnesite-2',sod_input=sod,ele_depth_m=ele_depth_m,opt_idx=opt_idx)
 
 plt.show(block=False)
 #ax[0].scatter(aqu.element.DataFrame['X'],aqu.element.DataFrame['Y'])
@@ -424,7 +419,6 @@ plt.show(block=False)
 #ax[12].set_title('aqu_ X_ca+2' ,fontweight='bold')
 #ax[13].set_title('aqu_ X_mg+2' ,fontweight='bold')
 #ax[14].set_title('aqu_ X_h+'   ,fontweight='bold')
-#ax[15].set_title('sod_pyrite'  ,fontweight='bold')
 #ax[16].set_title('opt_FLO(LIQ)',fontweight='bold')
 #ax[17].set_title('opt_VEL(LIQ)',fontweight='bold')
 #ax[18].set_title('opt_FLO(GAS)',fontweight='bold')
@@ -439,19 +433,10 @@ ax[5 ].invert_yaxis()
 ax[6 ].invert_yaxis()
 ax[7 ].invert_yaxis()
 ax[8 ].invert_yaxis()
-ax[9 ].invert_yaxis()
-ax[10].invert_yaxis()
-ax[11].invert_yaxis()
-ax[12].invert_yaxis()
-ax[13].invert_yaxis()
-ax[14].invert_yaxis()
-ax[15].invert_yaxis()
 ax[16].invert_yaxis()
 ax[17].invert_yaxis()
 ax[18].invert_yaxis()
 ax[19].invert_yaxis()
-ax[25].invert_yaxis()
-#ax[26].invert_yaxis()
 
 ax[0 ].set_ylabel('Depth (m)' , fontweight='bold')
 ax[1 ].set_ylabel('Depth (m)' , fontweight='bold')
