@@ -23,6 +23,7 @@ import tr2data
 importlib.reload(tr2data)
 
 
+print('Start parsing TOUGHREACT output file\n')
 #
 chem_inp  = tr2data.tr2data('chemical.inp')
 #chem_inp.prim
@@ -130,6 +131,7 @@ blk_name = np.array([j.name for j in inp.grid.blocklist])
 # 
 # from example of 3d in pytough, geom.dat has keyword VERTICES and GRID
 
+print('Start parsing aqu file...\n')
 aqu=t2listing.toughreact_tecplot('aqu.dat',inp.grid.blocklist)
 #cc=Amic_aqu.history((inp.grid.block['TOP 0'],'Sg'))
 #cc=Amic_aqu.history([(inp.grid.block['TOP 0'],'Sg'),    (inp.grid.block['    1'],'Sg')])
@@ -139,7 +141,9 @@ aqu=t2listing.toughreact_tecplot('aqu.dat',inp.grid.blocklist)
 #Amic_aqu.element.DataFrame
 
 # below are successful
+print('Start parsing sod file...\n')
 sod = t2listing.toughreact_tecplot('sod.dat',inp.grid.blocklist)
+print('Start parsing gas file...\n')
 gas   = t2listing.toughreact_tecplot('gas.dat',inp.grid.blocklist)
 
 
@@ -161,6 +165,7 @@ gas   = t2listing.toughreact_tecplot('gas.dat',inp.grid.blocklist)
 #fig=plt.figure()
 #ax3=plt.subplot(211)
 
+print('Start parsing flow.out...\n')
 name_output='flow.out'
 opt=t2listing.t2listing(name_output)
 

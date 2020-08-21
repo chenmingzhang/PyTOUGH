@@ -51,7 +51,7 @@ geo    = mulgrid().rectangular(dx, dy, dz)
 #geo   = mulgrid().rectangular(dx, dy, dz, atmos_type = 0)
 #geo.write(inp.title+'.dat')
 
-print("Totaal cell number is " + str(nblks) +"\n")
+print("Total cell number is " + str(nblks) +"\n")
 
 # #Create TOUGH2 input data file:
 inp.grid = t2grid().fromgeo(geo)
@@ -67,7 +67,7 @@ inp.parameter.update(
      'default_incons' : [p_atm_pa, 10.99, T_init_c, None],
      'relative_error' : 1.e-6,
      'print_interval' : max_no_time_steps/20,
-     'max_timestep'   : 8640*5  # 8640*0.01 seems working  #8640*0.05 #5000 #50000   #86400     # the maximum length of time step in second
+     'max_timestep'   : 8640*0.001   #8640*5  # 8640*0.01 seems working  #8640*0.05 #5000 #50000   #86400     # the maximum length of time step in second
      })
 	 
 #inp.parameter['max_timestep']   = inp.parameter['tstop']/inp.parameter['max_timesteps']
