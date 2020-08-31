@@ -1,5 +1,6 @@
 #!/bin/bash
-## 
+## the right one we got is siD4.0e-10, siP5.0e-09, chD8.0e-10,  and pyD in 1.0e-06 
+
 fn=Nature
 ne="ne"
 for siD in 4.0e-10 4.0e-08 4.0e-12 #siderite dissolution
