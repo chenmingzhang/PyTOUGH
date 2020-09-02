@@ -21,16 +21,17 @@ if not os.path.exists('figure'):
 #        ax_idx.set_ylabel('Depth (m)' , fontweight='bold')
 
 
-def plot_aqua_profile(ax_idx=ax[1 ], aqu_name='pH',aqu_input=aqui_con,xlim=None,ylim=None):  #,ele_depth_m=ele_depth_m,opt_idx=opt_idx ):
-    if any(aqu_name == s for s in aqui_con.element.column_name):
-        im0 = ax_idx.plot(aqu_input.tx_mtx['X'][0],aqu_input.tx_mtx[aqu_name][0],label="%.1e" % aqu_input.times[0]+'yrs')
-        im0 = ax_idx.plot(aqu_input.tx_mtx['X'][1],aqu_input.tx_mtx[aqu_name][1],label="%.1e" % aqu_input.times[1]+'yrs')
-        im0 = ax_idx.plot(aqu_input.tx_mtx['X'][2],aqu_input.tx_mtx[aqu_name][2],label="%.1e" % aqu_input.times[2]+'yrs')
-        im0 = ax_idx.plot(aqu_input.tx_mtx['X'][3],aqu_input.tx_mtx[aqu_name][3],label="%.1e" % aqu_input.times[3]+'yrs')
-        im0 = ax_idx.plot(aqu_input.tx_mtx['X'][4],aqu_input.tx_mtx[aqu_name][4],label="%.1e" % aqu_input.times[4]+'yrs')
-        im0 = ax_idx.plot(aqu_input.tx_mtx['X'][5],aqu_input.tx_mtx[aqu_name][5],label="%.1e" % aqu_input.times[5]+'yrs')
-        im0 = ax_idx.plot(aqu_input.tx_mtx['X'][6],aqu_input.tx_mtx[aqu_name][6],label="%.1e" % aqu_input.times[6]+'yrs')
+opt_idx= np.linspace(0,opt.num_times-1,7,dtype=int)
 
+def plot_aqua_profile(ax_idx=None, aqu_name='pH',aqu_input=aqui_con,xlim=None,ylim=None,opt_idx=opt_idx):  #,ele_depth_m=ele_depth_m,opt_idx=opt_idx ):
+    if any(aqu_name == s for s in aqui_con.element.column_name):
+        i=opt_idx[0] ; im0 = ax_idx.plot(aqu_input.tx_mtx['X'][i],aqu_input.tx_mtx[aqu_name][i],label="%.1e" % aqu_input.times[i]+'yrs')
+        i=opt_idx[1] ; im0 = ax_idx.plot(aqu_input.tx_mtx['X'][i],aqu_input.tx_mtx[aqu_name][i],label="%.1e" % aqu_input.times[i]+'yrs')
+        i=opt_idx[2] ; im0 = ax_idx.plot(aqu_input.tx_mtx['X'][i],aqu_input.tx_mtx[aqu_name][i],label="%.1e" % aqu_input.times[i]+'yrs')
+        i=opt_idx[3] ; im0 = ax_idx.plot(aqu_input.tx_mtx['X'][i],aqu_input.tx_mtx[aqu_name][i],label="%.1e" % aqu_input.times[i]+'yrs')
+        i=opt_idx[4] ; im0 = ax_idx.plot(aqu_input.tx_mtx['X'][i],aqu_input.tx_mtx[aqu_name][i],label="%.1e" % aqu_input.times[i]+'yrs')
+        i=opt_idx[5] ; im0 = ax_idx.plot(aqu_input.tx_mtx['X'][i],aqu_input.tx_mtx[aqu_name][i],label="%.1e" % aqu_input.times[i]+'yrs')
+        i=opt_idx[6] ; im0 = ax_idx.plot(aqu_input.tx_mtx['X'][i],aqu_input.tx_mtx[aqu_name][i],label="%.1e" % aqu_input.times[i]+'yrs')
         ax_idx.set_ylabel('aqu_'+ aqu_name ,fontweight='bold',fontsize=8)
         #ax_idx.invert_yaxis()
         ax_idx.set_xlabel('X (m)' , fontweight='bold',fontsize=8)
@@ -40,15 +41,15 @@ def plot_aqua_profile(ax_idx=ax[1 ], aqu_name='pH',aqu_input=aqui_con,xlim=None,
         if ylim !=None:
             ax_idx.set_ylim(ylim)
 
-def plot_mineral_profile(ax_idx=ax[1 ], min_name='pH',min_input=aqui_min,xlim=None,ylim=None):  #,ele_depth_m=ele_depth_m,opt_idx=opt_idx ):
+def plot_mineral_profile(ax_idx=None, min_name='pH',min_input=aqui_min,xlim=None,ylim=None):  #,ele_depth_m=ele_depth_m,opt_idx=opt_idx ):
     if any(min_name == s for s in aqui_min.element.column_name):
-        im0 = ax_idx.plot(min_input.tx_mtx['X'][0],min_input.tx_mtx[min_name][0],label="%.1e" % min_input.times[0]+'yrs')
-        im0 = ax_idx.plot(min_input.tx_mtx['X'][1],min_input.tx_mtx[min_name][1],label="%.1e" % min_input.times[1]+'yrs')
-        im0 = ax_idx.plot(min_input.tx_mtx['X'][2],min_input.tx_mtx[min_name][2],label="%.1e" % min_input.times[2]+'yrs')
-        im0 = ax_idx.plot(min_input.tx_mtx['X'][3],min_input.tx_mtx[min_name][3],label="%.1e" % min_input.times[3]+'yrs')
-        im0 = ax_idx.plot(min_input.tx_mtx['X'][4],min_input.tx_mtx[min_name][4],label="%.1e" % min_input.times[4]+'yrs')
-        im0 = ax_idx.plot(min_input.tx_mtx['X'][5],min_input.tx_mtx[min_name][5],label="%.1e" % min_input.times[5]+'yrs')
-        im0 = ax_idx.plot(min_input.tx_mtx['X'][6],min_input.tx_mtx[min_name][6],label="%.1e" % min_input.times[6]+'yrs')
+        i=opt_idx[0] ; im0 = ax_idx.plot(min_input.tx_mtx['X'][i],min_input.tx_mtx[min_name][i],label="%.1e" % min_input.times[i]+'yrs')
+        i=opt_idx[1] ; im0 = ax_idx.plot(min_input.tx_mtx['X'][i],min_input.tx_mtx[min_name][i],label="%.1e" % min_input.times[i]+'yrs')
+        i=opt_idx[2] ; im0 = ax_idx.plot(min_input.tx_mtx['X'][i],min_input.tx_mtx[min_name][i],label="%.1e" % min_input.times[i]+'yrs')
+        i=opt_idx[3] ; im0 = ax_idx.plot(min_input.tx_mtx['X'][i],min_input.tx_mtx[min_name][i],label="%.1e" % min_input.times[i]+'yrs')
+        i=opt_idx[4] ; im0 = ax_idx.plot(min_input.tx_mtx['X'][i],min_input.tx_mtx[min_name][i],label="%.1e" % min_input.times[i]+'yrs')
+        i=opt_idx[5] ; im0 = ax_idx.plot(min_input.tx_mtx['X'][i],min_input.tx_mtx[min_name][i],label="%.1e" % min_input.times[i]+'yrs')
+        i=opt_idx[6] ; im0 = ax_idx.plot(min_input.tx_mtx['X'][i],min_input.tx_mtx[min_name][i],label="%.1e" % min_input.times[i]+'yrs')
 
         ax_idx.set_ylabel('min_'+ min_name ,fontweight='bold',fontsize=8)
         ax_idx.set_xlabel('X (m)' , fontweight='bold',fontsize=8)
@@ -59,53 +60,6 @@ def plot_mineral_profile(ax_idx=ax[1 ], min_name='pH',min_input=aqui_min,xlim=No
             ax_idx.set_ylim(ylim)
 
 opt.first(); aqui_gas.first(); aqui_min.first(); aqui_con.first()
-## ignore the first initial value.
-#a=opt.next()
-#aqui_gas.next()
-#aqui_min.next()
-#aqui_con.next()
-#opt_pd_max=opt.element.DataFrame.max()
-#gas_pd_max=aqui_gas.element.DataFrame.max()
-#sod_pd_max=aqui_min.element.DataFrame.max()
-#aqu_pd_max=aqui_con.element.DataFrame.max()
-#opt_pd_min=opt.element.DataFrame.min()
-#gas_pd_min=aqui_gas.element.DataFrame.min()
-#sod_pd_min=aqui_min.element.DataFrame.min()
-#aqu_pd_min=aqui_con.element.DataFrame.min()
-
-
-#while a==True:
-#    a=opt.element.DataFrame.max()
-#    opt_pd_max=pd.concat([opt_pd_max,a],axis=1)
-#    a=opt.element.DataFrame.min()
-#    opt_pd_min=pd.concat([opt_pd_min,a],axis=1)
-#
-#    a=aqui_gas.element.DataFrame.max()
-#    gas_pd_max=pd.concat([gas_pd_max,a],axis=1)
-#    a=aqui_gas.element.DataFrame.min()
-#    gas_pd_min=pd.concat([gas_pd_min,a],axis=1)
-#
-#    a=aqui_min.element.DataFrame.max()
-#    sod_pd_max=pd.concat([sod_pd_max,a],axis=1)
-#    a=aqui_min.element.DataFrame.min()
-#    sod_pd_min=pd.concat([sod_pd_min,a],axis=1)
-#
-#    a=aqui_con.element.DataFrame.max()
-#    aqu_pd_max=pd.concat([aqu_pd_max,a],axis=1)
-#    a=aqui_con.element.DataFrame.min()
-#    aqu_pd_min=pd.concat([aqu_pd_min,a],axis=1)
-#    a=opt.next()
-#    aqui_gas.next()
-#    aqui_min.next()
-#    aqui_con.next()
-#    
-#
-#opt_max_ay=opt_pd_max.max(axis=1);opt_min_ay=opt_pd_min.min(axis=1)
-#gas_max_ay=gas_pd_max.max(axis=1);gas_min_ay=gas_pd_min.min(axis=1)
-#aqu_max_ay=aqu_pd_max.max(axis=1);aqu_min_ay=aqu_pd_min.min(axis=1)
-#sod_max_ay=sod_pd_max.max(axis=1);sod_min_ay=sod_pd_min.min(axis=1)
-
-
 
 
 opt.first();
@@ -178,7 +132,7 @@ tlt =('opt.time='  "%0.2f" % (opt.time/86400/365)   +' years'
     ', aqu.time='  "%0.2f" % (aqui_gas.time   ) +' years')
 #fig.suptitle(   tlt     , fontsize=16,fontweight="bold")
 print(tlt)
-no_row=6
+no_row=7
 no_col=4
 ax = [[] for i in range(no_row*no_col)]
 
@@ -230,17 +184,10 @@ ax[3].legend(bbox_to_anchor=(1.02, 0.9), loc=2, borderaxespad=0.)
 
 
 ##aqui_min.element.column_name
-##['X', 'Y', 'Z', 'T(C)', 'Porosity', 'Poros_Chg', 'Permx(m^2)', 'Kx/Kx0', 'Permz(m^2)', 'Kz/Kz0', 'calcite']
 #['X', 'Y', 'Z', 'T(C)', 'Porosity', 'Poros_Chg', 'Permx(m^2)', 'Kx/Kx0', 'Permz(m^2)', 'Kz/Kz0', 'calcite', 'anhydrite', 'k-feldspar', 'quartz', 'annite', 'montmorillonite-na',
 # 'montmorillonite-ca', 'sio2(am)_g', 'kaolinite', 'illite', 'chlorite', 'dolomite-2', 'siderite-2']
 
 
-#im15 = ax[15].plot(aqui_min.tx_mtx['X'][0],aqui_min.tx_mtx['calcite'][0])
-#im15 = ax[15].plot(aqui_min.tx_mtx['X'][1],aqui_min.tx_mtx['calcite'][1])
-#im15 = ax[15].plot(aqui_min.tx_mtx['X'][2],aqui_min.tx_mtx['calcite'][2])
-#im15 = ax[15].plot(aqui_min.tx_mtx['X'][3],aqui_min.tx_mtx['calcite'][3])
-#im15 = ax[15].plot(aqui_min.tx_mtx['X'][4],aqui_min.tx_mtx['calcite'][4])
-#im15 = ax[15].plot(aqui_min.tx_mtx['X'][5],aqui_min.tx_mtx['calcite'][5])
 
 
 plot_mineral_profile(ax_idx=ax[11], min_name='quartz'               , min_input=aqui_min,xlim=[0.5,1.2])
@@ -254,6 +201,8 @@ plot_mineral_profile(ax_idx=ax[20], min_name='annite'               , min_input=
 plot_mineral_profile(ax_idx=ax[21], min_name='calcite'              , min_input=aqui_min,xlim=[0.5,1.2],ylim=[-6e-2,4e-2])
 plot_mineral_profile(ax_idx=ax[22], min_name='kaolinite'            , min_input=aqui_min,xlim=[0.5,1.2],ylim=[-5e-2,2.5e-1])
 plot_mineral_profile(ax_idx=ax[23], min_name='chlorite'             , min_input=aqui_min,xlim=[0.5,1.2],ylim=[-1e-2,4e-2])
+plot_mineral_profile(ax_idx=ax[24], min_name='Poros_Chg'               , min_input=aqui_min,xlim=[0.5,1.2])
+plot_mineral_profile(ax_idx=ax[25], min_name='Porosity'               , min_input=aqui_min,xlim=[0.5,1.2],ylim=[0.4735,0.4750])
 
 
 
