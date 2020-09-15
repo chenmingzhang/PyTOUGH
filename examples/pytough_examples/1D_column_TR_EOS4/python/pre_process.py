@@ -13,7 +13,7 @@ dayPs                  = 1./(3600*24)
 sPday                  = 3600*24.
 T_init_c               = 10.0
 p_atm_pa               = 101.3e3
-simulation_time_s      = 1000*86400.
+simulation_time_s      = 1000*86400*15.
 max_no_time_steps      = 9999 
 dayPyear               = 365.25
 mmass_sulphate_kgPmol  = 0.096
@@ -33,6 +33,11 @@ inp.title = 'flow.inp'
 cwd=os.getcwd()
 inp_path=os.path.join(os.getcwd(),inp.title)
 
+directory_name = os.path.basename(cwd)
+
+
+print("Current directory is " + cwd + "\n")
+
 if os.path.exists(inp_path):
     os.remove(inp_path)
     print("Existing " + inp.title + " deleted\n")
@@ -44,7 +49,7 @@ else:
 # ---- set up the model ---------------------------------
 length = 4  #400.
 #length = 400  #400.
-nblks  = 25
+nblks  = 15
 dz     = [length / nblks] * nblks
 dy     = dx  = [0.1]
 geo    = mulgrid().rectangular(dx, dy, dz)
@@ -67,7 +72,7 @@ inp.parameter.update(
      'default_incons' : [p_atm_pa, 10.99, T_init_c, None],
      'relative_error' : 1.e-6,
      'print_interval' : max_no_time_steps/20,
-     'max_timestep'   : 8640*0.001   #8640*5  # 8640*0.01 seems working  #8640*0.05 #5000 #50000   #86400     # the maximum length of time step in second
+     'max_timestep'   : 8640*50  # 0  #h*5 #8640*0.001   #8640*5  # 8640*0.01 seems working  #8640*0.05 #5000 #50000   #86400     # the maximum length of time step in second
      })
 	 
 #inp.parameter['max_timestep']   = inp.parameter['tstop']/inp.parameter['max_timesteps']
@@ -81,18 +86,17 @@ inp.multi={ 'num_components'           : 2,   # warning, the key needs to be exa
             'num_secondary_parameters' : 8}
 
 # #Set MOPs:
-inp.parameter['option'][1]  = 1
-inp.parameter['option'][7]  = 1
-inp.parameter['option'][9]  = 1
-inp.parameter['option'][11] = 0
-inp.parameter['option'][16] = 4
-inp.parameter['option'][19] = 2
-inp.parameter['option'][21] = 3
-
+inp.parameter['option'][1]  = 1       # mop(1) if unequal 0, a short printout for non-convergent iterations will be generated.
+inp.parameter['option'][7]  = 1       # mop(7) if unequal 0, a printout of input data will be provided.
+inp.parameter['option'][9]  = 1       # mop(9) determines the composition of produced fluid with the MASS option (see GENER, below). The relative amounts of phases are determined as follows: 1: produced source fluid has the same phase composition as the producing element
+inp.parameter['option'][11] = 0       # mop(11)  = 0: MOBILITIES ARE UPSTREAM WEIGHTED WITH WUP. (DEFAULT IS WUP = 1.0). PERMEABILITY IS UPSTREAM WEIGHTED.
+inp.parameter['option'][16] = 4       # mop(16) > 0: INCREASE TIME STEP BY AT LEAST A FACTOR 2, IF CONVERGENCE OCCURS IN .LE. MOP(16) ITERATIONS.
+inp.parameter['option'][19] = 2       # 2 *** is used in some EOS-modules for selecting different options 
+inp.parameter['option'][21] = 3       # 3: SUBROUTINE DSLUCS: BI-CONJUGATE GRADIENT SOLVER - LANCZOS TYPE; PRECONDITIONER: INCOMPLETE LU FACTORIZATION
 
 
 # TIMES 
-output_interval_days = 30
+output_interval_days = 30    # output result for every 30 days.
 inp.output_times = {'num_times_specified': int(simulation_time_s*dayPs/output_interval_days),
                     'time': list( np.arange(int(simulation_time_s*dayPs)) *sPday*output_interval_days   )}
 
@@ -158,7 +162,7 @@ inp.grid.add_rocktype(r2)
 
 bvol    = 1.e50
 conarea = dx[0] * dy[0]
-condist = 1.e-10
+condist = 1.e-10      # distance between the large cell and 
   
 # #assign rocktype and parameter values:
 for blk in inp.grid.blocklist:
@@ -195,7 +199,7 @@ bdy02 = t2block('bdy02', bvol, r2,
 
 inp.grid.blocklist.insert( len(inp.grid.block)+1 ,bdy02)      #lenlen(inp.grid.block)+1 puts the element to the end
 
-con2 = t2connection([bdy02,inp.grid.block['  a25']  ],
+con2 = t2connection([bdy02,inp.grid.block['  a15']  ],
                     distance  = [condist , 0.5*dz[0]],
                     #distance  = [0.5*dz[0],condist],
                     area      = conarea, 
@@ -215,11 +219,8 @@ for num,key in enumerate(inp.grid.blocklist):
                 #[None, [p_atm_pa , 10.0001, T_init_c]]
                 #[None, [p_atm_pa - inp.grid.block[str(key)].centre[2]*liquid_density_kgPm3*inp.parameter['gravity'], 10.01, T_init_c]]
 
-inp.incon['bdy01'] = [None, [p_atm_pa, 10.999, T_init_c]]   # what does 0.99 mean?, meaning air saturation on the top is 99 %
-inp.incon['bdy02'] = [None, [p_atm_pa, 10.0001, T_init_c]]   # what does 0.01 mean? meaning air satuation at the bottom is 1%, liquid is 99%
-#inp.incon['bdy02'] = [None, [p_atm_pa, 0.99, T_init_c]]   # what does 0.99 mean?
-#inp.incon['bdy02'] = [None, [p_atm_pa, 0.01, T_init_c]]   # what does 0.99 mean?
-#inp.incon['bdy02'] = [None, [p_atm_pa, 10.999999, T_init_c]]   # what does 0.99 mean?
+inp.incon['bdy01'] = [None, [p_atm_pa, 10.999, T_init_c]]   # what does 0.999 mean?, meaning air saturation on the top is 99 %
+inp.incon['bdy02'] = [None, [p_atm_pa, 10.0001, T_init_c]]   # what does 0.0001 mean? meaning air satuation at the bottom is 0.01%, liquid is 99.99%
 
 # #add generator:
 #recharge_rate_mmPday = 5.47 #1e-30 #5.47   # 2000mm /  365  days = 5.47mm/day mm1e-30

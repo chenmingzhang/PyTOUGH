@@ -21,7 +21,7 @@ if not os.path.exists('figure'):
 #        ax_idx.set_ylabel('Depth (m)' , fontweight='bold')
 
 
-opt_idx= np.linspace(0,opt.num_times-1,7,dtype=int)
+opt_idx= np.linspace(0,opt.num_times-1,5,dtype=int)
 
 def plot_aqua_profile(ax_idx=None, aqu_name='pH',aqu_input=aqui_con,xlim=None,ylim=None,opt_idx=opt_idx):  #,ele_depth_m=ele_depth_m,opt_idx=opt_idx ):
     if any(aqu_name == s for s in aqui_con.element.column_name):
@@ -30,8 +30,8 @@ def plot_aqua_profile(ax_idx=None, aqu_name='pH',aqu_input=aqui_con,xlim=None,yl
         i=opt_idx[2] ; im0 = ax_idx.plot(aqu_input.tx_mtx['X'][i],aqu_input.tx_mtx[aqu_name][i],label="%.1e" % aqu_input.times[i]+'yrs')
         i=opt_idx[3] ; im0 = ax_idx.plot(aqu_input.tx_mtx['X'][i],aqu_input.tx_mtx[aqu_name][i],label="%.1e" % aqu_input.times[i]+'yrs')
         i=opt_idx[4] ; im0 = ax_idx.plot(aqu_input.tx_mtx['X'][i],aqu_input.tx_mtx[aqu_name][i],label="%.1e" % aqu_input.times[i]+'yrs')
-        i=opt_idx[5] ; im0 = ax_idx.plot(aqu_input.tx_mtx['X'][i],aqu_input.tx_mtx[aqu_name][i],label="%.1e" % aqu_input.times[i]+'yrs')
-        i=opt_idx[6] ; im0 = ax_idx.plot(aqu_input.tx_mtx['X'][i],aqu_input.tx_mtx[aqu_name][i],label="%.1e" % aqu_input.times[i]+'yrs')
+        #i=opt_idx[5] ; im0 = ax_idx.plot(aqu_input.tx_mtx['X'][i],aqu_input.tx_mtx[aqu_name][i],label="%.1e" % aqu_input.times[i]+'yrs')
+        #i=opt_idx[6] ; im0 = ax_idx.plot(aqu_input.tx_mtx['X'][i],aqu_input.tx_mtx[aqu_name][i],label="%.1e" % aqu_input.times[i]+'yrs')
         ax_idx.set_ylabel('aqu_'+ aqu_name ,fontweight='bold',fontsize=8)
         #ax_idx.invert_yaxis()
         ax_idx.set_xlabel('X (m)' , fontweight='bold',fontsize=8)
@@ -48,8 +48,8 @@ def plot_mineral_profile(ax_idx=None, min_name='pH',min_input=aqui_min,xlim=None
         i=opt_idx[2] ; im0 = ax_idx.plot(min_input.tx_mtx['X'][i],min_input.tx_mtx[min_name][i],label="%.1e" % min_input.times[i]+'yrs')
         i=opt_idx[3] ; im0 = ax_idx.plot(min_input.tx_mtx['X'][i],min_input.tx_mtx[min_name][i],label="%.1e" % min_input.times[i]+'yrs')
         i=opt_idx[4] ; im0 = ax_idx.plot(min_input.tx_mtx['X'][i],min_input.tx_mtx[min_name][i],label="%.1e" % min_input.times[i]+'yrs')
-        i=opt_idx[5] ; im0 = ax_idx.plot(min_input.tx_mtx['X'][i],min_input.tx_mtx[min_name][i],label="%.1e" % min_input.times[i]+'yrs')
-        i=opt_idx[6] ; im0 = ax_idx.plot(min_input.tx_mtx['X'][i],min_input.tx_mtx[min_name][i],label="%.1e" % min_input.times[i]+'yrs')
+        #i=opt_idx[5] ; im0 = ax_idx.plot(min_input.tx_mtx['X'][i],min_input.tx_mtx[min_name][i],label="%.1e" % min_input.times[i]+'yrs')
+        #i=opt_idx[6] ; im0 = ax_idx.plot(min_input.tx_mtx['X'][i],min_input.tx_mtx[min_name][i],label="%.1e" % min_input.times[i]+'yrs')
 
         ax_idx.set_ylabel('min_'+ min_name ,fontweight='bold',fontsize=8)
         ax_idx.set_xlabel('X (m)' , fontweight='bold',fontsize=8)

@@ -297,7 +297,8 @@ for j in sod.element.column_name:
     sod.tx_mtx[j] =np.empty((0,array_length), float) 
 for i in sod.times:
     for j in sod.element.column_name:
-        sod.tx_mtx[j] =  np.append(sod.tx_mtx[j] , np.array([sod.element.DataFrame[j]]), axis=0)
+        if '\x00' not in j:
+            sod.tx_mtx[j] =  np.append(sod.tx_mtx[j] , np.array([sod.element.DataFrame[j]]), axis=0)
     sod.next()
 
 # aquifer gas time x axis matrix

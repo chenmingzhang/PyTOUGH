@@ -21,7 +21,8 @@ tlt =('opt.time='  "%0.2f" % (opt.time/86400/365)   +' years'
     + ', sod.time='  "%0.2f" % (sod.time   ) +' years'
     ', aqu.time='  "%0.2f" % (aqu.time   ) +' years'
     ', aqu.time='  "%0.2f" % (gas.time   ) +' years')
-#fig.suptitle(   tlt     , fontsize=16,fontweight="bold")
+##fig.suptitle(   tlt     , fontsize=16,fontweight="bold")
+fig.suptitle(   cwd     , fontsize=8,fontweight="bold")
 print(tlt)
 no_row=7
 no_col=5
@@ -268,7 +269,8 @@ i = opt_idx[4] ; im17 = ax[19].plot(opt.tx_con_mtx['VEL(GAS)'][i],con_depth_m)
 i = opt_idx[5] ; im17 = ax[19].plot(opt.tx_con_mtx['VEL(GAS)'][i],con_depth_m)
 
 
-im20 = ax[20].plot( aqu.times,aqu.tx_mtx['pH'][:,-2],'-',label='Simulation' )
+im20 = ax[20].plot( aqu.times,aqu.tx_mtx['pH'][:,-2],'-',label='Simulation-2' )
+im20 = ax[20].plot( aqu.times,aqu.tx_mtx['pH'][:,-3],'-',label='Simulation-3' )
 im20 = ax[20].plot(field_data['pH']['years'],field_data['pH'][1],':o',label='Col. 1',color='blue'  )
 im20 = ax[20].plot(field_data['pH']['years'],field_data['pH'][2],':o',label='Col. 2',color='red'   )
 im20 = ax[20].plot(field_data['pH']['years'],field_data['pH'][3],':o',label='Col. 3',color='green' )
@@ -278,7 +280,8 @@ im20 = ax[20].plot(field_data['pH']['years'],field_data['pH'][5],':o',label='Col
 
 
 if any("t_so4-2" in s for s in aqu.element.column_name):
-    im21 = ax[21].plot( aqu.times,aqu.tx_mtx['t_so4-2'][:,-2] * mmass_sulphate_kgPmol* mgPkg,'-',label='Simulation' )
+    im21 = ax[21].plot( aqu.times,aqu.tx_mtx['t_so4-2'][:,-2] * mmass_sulphate_kgPmol* mgPkg,'-',label='Simulation-2' )
+    im21 = ax[21].plot( aqu.times,aqu.tx_mtx['t_so4-2'][:,-3] * mmass_sulphate_kgPmol* mgPkg,'-',label='Simulation-3' )
 
 im21 = ax[21].plot(field_data['col1'].loc['years'],field_data['col1'].loc['Sulphate'] , ':o',label='Col 1',color='blue'  )
 im21 = ax[21].plot(field_data['col2'].loc['years'],field_data['col2'].loc['Sulphate'] , ':o',label='Col 2',color='red'   )
@@ -289,7 +292,8 @@ im21 = ax[21].plot(field_data['col6'].loc['years'],field_data['col6'].loc['Sulph
 
 
 if any("t_fe+2" in s for s in aqu.element.column_name):
-    im21 = ax[22].plot( aqu.times,aqu.tx_mtx['t_fe+2'][:,-2] * mmass_iron2_kgPmol* mgPkg,'-',label='Simulation' )
+    im21 = ax[22].plot( aqu.times,aqu.tx_mtx['t_fe+2'][:,-2] * mmass_iron2_kgPmol* mgPkg,'-',label='Simulation-2' )
+    im21 = ax[22].plot( aqu.times,aqu.tx_mtx['t_fe+2'][:,-3] * mmass_iron2_kgPmol* mgPkg,'-',label='Simulation-3' )
 im22 = ax[22].plot(field_data['col1'].loc['years'],field_data['col1'].loc['Fe Total'] , ':o',label='Col 1',color='blue'  )
 im22 = ax[22].plot(field_data['col2'].loc['years'],field_data['col2'].loc['Fe Total'] , ':o',label='Col 2',color='red'   )
 im22 = ax[22].plot(field_data['col3'].loc['years'],field_data['col3'].loc['Fe Total'] , ':o',label='Col 3',color='green' )
@@ -298,7 +302,8 @@ im22 = ax[22].plot(field_data['col5'].loc['years'],field_data['col5'].loc['Fe To
 im22 = ax[22].plot(field_data['col6'].loc['years'],field_data['col6'].loc['Fe Total'] , ':o',label='Col 6',color='orange')
 
 if any("t_ca+2" in s for s in aqu.element.column_name):
-    im23 = ax[23].plot( aqu.times,aqu.tx_mtx['t_ca+2'][:,-2] * mmass_ca_kgPmol* mgPkg,'-',label='Simulation' )
+    im23 = ax[23].plot( aqu.times,aqu.tx_mtx['t_ca+2'][:,-2] * mmass_ca_kgPmol* mgPkg,'-',label='Simulation-2' )
+    im23 = ax[23].plot( aqu.times,aqu.tx_mtx['t_ca+2'][:,-3] * mmass_ca_kgPmol* mgPkg,'-',label='Simulation-3' )
 im23 = ax[23].plot(field_data['col1'].loc['years'],field_data['col1'].loc['Ca Total'] , ':o',label='Col 1' , color='blue'  )
 im23 = ax[23].plot(field_data['col2'].loc['years'],field_data['col2'].loc['Ca Total'] , ':o',label='Col 2' , color='red'   )
 im23 = ax[23].plot(field_data['col3'].loc['years'],field_data['col3'].loc['Ca Total'] , ':o',label='Col 3' , color='green' )
@@ -308,6 +313,7 @@ im23 = ax[23].plot(field_data['col6'].loc['years'],field_data['col6'].loc['Ca To
 
 if any("t_mg+2" in s for s in aqu.element.column_name):
     im24 = ax[24].plot( aqu.times,aqu.tx_mtx['t_mg+2'][:,-2] * mmass_mg_kgPmol* mgPkg,'-',label='Simulation' )
+    im24 = ax[24].plot( aqu.times,aqu.tx_mtx['t_mg+2'][:,-3] * mmass_mg_kgPmol* mgPkg,'-',label='Simulation' )
 im24 = ax[24].plot(field_data['col1'].loc['years'],field_data['col1'].loc['Mg Total'] , ':o',label='Col 1' , color='blue'  )
 im24 = ax[24].plot(field_data['col2'].loc['years'],field_data['col2'].loc['Mg Total'] , ':o',label='Col 2' , color='red'   )
 im24 = ax[24].plot(field_data['col3'].loc['years'],field_data['col3'].loc['Mg Total'] , ':o',label='Col 3' , color='green' )
@@ -524,7 +530,8 @@ for a in ax:
 ##ax[44].set_title('aqu \n ',  fontweight='bold') 
 #ax[45].set_title('aqu \n t_cl-'      ,  fontweight='bold') 
 
-output_name = 'figure/'+'chemcal'+'.png'
+#output_name = 'figure/'+'chemcal'+'.png'
+output_name = 'figure/'+'chemcal_'+directory_name+'.png'
 fig.savefig(output_name, format='png', dpi=100)
 
 #fig.close()
