@@ -8,8 +8,8 @@ exec(compile(open(path1).read(), path1, 'exec'))
 path2=os.path.join('..','python','run_tough2.py')
 exec(compile(open(path2).read(), path2, 'exec'))
 
-path3=os.path.join('..','python','parsing_outputfile.py')
-exec(compile(open(path3).read(), path3, 'exec'))
+#path3=os.path.join('..','python','parsing_outputfile.py')     # this seems to be the same as parsing_tr_output.py
+#exec(compile(open(path3).read(), path3, 'exec'))
 
 
 path_tr_opt=os.path.join('..','python','parsing_tr_output.py')

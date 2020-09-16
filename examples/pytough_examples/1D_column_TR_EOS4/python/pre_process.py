@@ -219,8 +219,8 @@ for num,key in enumerate(inp.grid.blocklist):
                 #[None, [p_atm_pa , 10.0001, T_init_c]]
                 #[None, [p_atm_pa - inp.grid.block[str(key)].centre[2]*liquid_density_kgPm3*inp.parameter['gravity'], 10.01, T_init_c]]
 
-inp.incon['bdy01'] = [None, [p_atm_pa, 10.999, T_init_c]]   # what does 0.999 mean?, meaning air saturation on the top is 99 %
-inp.incon['bdy02'] = [None, [p_atm_pa, 10.0001, T_init_c]]   # what does 0.0001 mean? meaning air satuation at the bottom is 0.01%, liquid is 99.99%
+inp.incon['bdy01'] = [None, [p_atm_pa, 10.999, T_init_c]]    # initial condition on the surface . what does 0.999 mean?, meaning air saturation on the top is 0.99 , water saturation is 0.01
+inp.incon['bdy02'] = [None, [p_atm_pa, 10.0001, T_init_c]]   #  initial condition at the bottom what does 0.0001 mean? meaning air satuation at the bottom is 0.01%, liquid is 99.99%
 
 # #add generator:
 #recharge_rate_mmPday = 5.47 #1e-30 #5.47   # 2000mm /  365  days = 5.47mm/day mm1e-30

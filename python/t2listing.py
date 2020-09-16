@@ -1708,9 +1708,12 @@ class toughreact_tecplot(object):
         elif isinstance(blocks, t2g.t2grid): blocks = [blk.name for blk in  blocks.blocklist]
         #pdb.set_trace()
         if len(blocks) != self._num_blocks:
+            #ad=0
             #pdb.set_trace()
             raise Exception("Specified block name list is the wrong length for " +
-                            "TOUGHREACT Tecplot file "+ self.filename)
+                                            "TOUGHREACT Tecplot file "+ self.filename)
+            #return
+
         self._file.seek(0)
         line = self.skipto('VARIABLES')
         if line is not None:
