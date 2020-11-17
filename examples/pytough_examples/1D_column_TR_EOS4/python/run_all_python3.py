@@ -1,6 +1,8 @@
 import os
 cwd = os.getcwd()
 
+path_del=os.path.join('..','python','delete_prexisting_files.py')
+exec(compile(open(path_del).read(), path_del, 'exec'))
 
 path1=os.path.join('..','python','pre_process.py')
 exec(compile(open(path1).read(), path1, 'exec'))
@@ -32,10 +34,10 @@ exec(compile(open(plot_tr_output).read(), plot_tr_output, 'exec'))
 
 
 
-path6=os.path.join('..','python','validate_swcc.py')
-exec(compile(open(path6).read(), path6, 'exec'))
-
-
-path6=os.path.join('..','python','calc_swcc.py')
-exec(compile(open(path6).read(), path6, 'exec'))
+#path6=os.path.join('..','python','validate_swcc.py')
+#exec(compile(open(path6).read(), path6, 'exec'))
+#
+#
+#path6=os.path.join('..','python','calc_swcc.py')
+#exec(compile(open(path6).read(), path6, 'exec'))
 

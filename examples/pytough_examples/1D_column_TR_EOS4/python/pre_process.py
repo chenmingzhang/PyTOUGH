@@ -13,15 +13,16 @@ dayPs                  = 1./(3600*24)
 sPday                  = 3600*24.
 T_init_c               = 10.0
 p_atm_pa               = 101.3e3
-simulation_time_s      = 1000*86400*15.
+simulation_time_s      = 1000*86400*10
 max_no_time_steps      = 9999 
 dayPyear               = 365.25
-mmass_sulphate_kgPmol  = 0.096
+mmass_sulphate_kgPmol  = 0.096   #so4-2
 mgPkg                  = 1.e6
 mmass_iron2_kgPmol     = 0.056
 mmass_mg_kgPmol     = 0.024
 mmass_ca_kgPmol     = 0.040
 mmass_hco3_kgPmol   = 0.061
+mmass_o2_kgPmol   = 0.032
 
 
 
@@ -36,13 +37,8 @@ inp_path=os.path.join(os.getcwd(),inp.title)
 directory_name = os.path.basename(cwd)
 
 
-print("Current directory is " + cwd + "\n")
 
-if os.path.exists(inp_path):
-    os.remove(inp_path)
-    print("Existing " + inp.title + " deleted\n")
-else:
-    print("Can not delete " + inp.title + "  as it doesn't exists\n")
+
 
 
 
@@ -72,7 +68,7 @@ inp.parameter.update(
      'default_incons' : [p_atm_pa, 10.99, T_init_c, None],
      'relative_error' : 1.e-6,
      'print_interval' : max_no_time_steps/20,
-     'max_timestep'   : 8640*50  # 0  #h*5 #8640*0.001   #8640*5  # 8640*0.01 seems working  #8640*0.05 #5000 #50000   #86400     # the maximum length of time step in second
+     'max_timestep'   : 8640*500  # 0  #h*5 #8640*0.001   #8640*5  # 8640*0.01 seems working  #8640*0.05 #5000 #50000   #86400     # the maximum length of time step in second
      })
 	 
 #inp.parameter['max_timestep']   = inp.parameter['tstop']/inp.parameter['max_timesteps']
@@ -96,7 +92,7 @@ inp.parameter['option'][21] = 3       # 3: SUBROUTINE DSLUCS: BI-CONJUGATE GRADI
 
 
 # TIMES 
-output_interval_days = 30    # output result for every 30 days.
+output_interval_days = 300    # output result for every 30 days.
 inp.output_times = {'num_times_specified': int(simulation_time_s*dayPs/output_interval_days),
                     'time': list( np.arange(int(simulation_time_s*dayPs)) *sPday*output_interval_days   )}
 
@@ -107,7 +103,7 @@ r1 = rocktype('SAND ',
         nad           = 2,
         porosity      = 0.45,
         density       = 2650.,
-        permeability  = [2.e-11, 2.e-11, 2.e-11],
+        permeability  = [2.e-10, 2.e-10, 2.e-10],
         conductivity  = 2.51,
         specific_heat = 920)
 
@@ -155,8 +151,11 @@ r2 = rocktype('BOUND',
         permeability  = [1.e-11, 1.e-11, 1.e-11],
         conductivity  = 2.51,
         specific_heat = 1.e5)
-r2.capillarity           = {'type': 1, 'parameters': [0. , 0., 1.0,sl_sat ]}
-r2.relative_permeability = {'type': 1, 'parameters': [0.1,0.0, 1.0,0.1,]}
+#r2.capillarity           = {'type': 7, 'parameters': [lam, slr, inv_p0, pmax, sl_sat]}
+#r2.relative_permeability = {'type': 7, 'parameters': [lam, slr, 1. , 0.054]}
+#r2.capillarity           = {'type': 1, 'parameters': [0. , 0., 1.0,sl_sat ]}    # should cp(1) be the  atmospheric pressure or zero?
+r2.capillarity           = {'type': 1, 'parameters': [0 , 0., 1.0,sl_sat ]}    # should cp(1) be the  atmospheric pressure or zero?
+r2.relative_permeability = {'type': 1, 'parameters': [0.1,0.0, 1.0,0.1,]}   #linear function for liquid water, rp(1)<sl<rp(3)  kl increaes from 0 to 1 ,  for gas, rp(2)<sg<rp(4) kg increase from 0 to 1
 inp.grid.add_rocktype(r2)
 
 
@@ -219,7 +218,8 @@ for num,key in enumerate(inp.grid.blocklist):
                 #[None, [p_atm_pa , 10.0001, T_init_c]]
                 #[None, [p_atm_pa - inp.grid.block[str(key)].centre[2]*liquid_density_kgPm3*inp.parameter['gravity'], 10.01, T_init_c]]
 
-inp.incon['bdy01'] = [None, [p_atm_pa, 10.999, T_init_c]]    # initial condition on the surface . what does 0.999 mean?, meaning air saturation on the top is 0.99 , water saturation is 0.01
+#inp.incon['bdy01'] = [None, [p_atm_pa, 10.999, T_init_c]]    # initial condition on the surface . what does 0.999 mean?, meaning air saturation on the top is 0.99 , water saturation is 0.01
+inp.incon['bdy01'] = [None, [p_atm_pa, 10.9999, T_init_c]]    # initial condition on the surface . what does 0.999 mean?, meaning air saturation on the top is 0.99 , water saturation is 0.01
 inp.incon['bdy02'] = [None, [p_atm_pa, 10.0001, T_init_c]]   #  initial condition at the bottom what does 0.0001 mean? meaning air satuation at the bottom is 0.01%, liquid is 99.99%
 
 # #add generator:
@@ -239,3 +239,4 @@ inp.add_react(mopr=[None,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1])
 
 inp.write(inp.title)
 print("file " + inp.title +" generated\n")
+
